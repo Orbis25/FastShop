@@ -1,0 +1,55 @@
+﻿@page
+@model LoginModel
+
+    <!--================Login Box Area =================-->
+    <section class="login_box_area section-margin">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="login_box_img">
+                        <div class="hover">
+                            <h4>¿Nuevo en el sitio?</h4>
+                            <p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+                            <a class="button button-account" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Crear cuenta</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="login_form_inner">
+                        <h3>Login</h3>
+                        <form class="row login_form" method="post" id="account">
+
+                            <div class="col-md-12 form-group">
+                                <input class="form-control" asp-for="Input.Email" placeholder="Correo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Correo'">
+                                <span class="text-danger" asp-validation-for="Input.Email"></span>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <input class="form-control" asp-for="Input.Password" placeholder="Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
+                                <span class="text-danger" asp-validation-for="Input.Password"></span>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="creat_account">
+                                    <input asp-for="Input.RememberMe">
+                                    <label for="f-option2">Mantenerme logueado?</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="button button-login w-100">Entrar</button>
+                                <p>
+                                    <a id="forgot-password" asp-page="./ForgotPassword">¿Olvide mi contraseña?</a>
+                                </p>
+                            </div>
+                            <div asp-validation-summary="All" class="text-danger" />
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Login Box Area =================-->
+
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
