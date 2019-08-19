@@ -41,3 +41,12 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Online
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Category\Index.g.cshtml.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_SuscribePartial.g.cshtml.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\Car.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Home\Contact.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_LayoutAdmin.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Users.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Products.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Categories.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Offerts.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Cupons.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Sales.g.cshtml.cs

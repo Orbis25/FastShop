@@ -15,6 +15,8 @@ namespace OnlineShop.Controllers
             return View();
         }
 
+        public IActionResult Contact() => View();
+
         public IActionResult Privacy()
         {
             return View();
