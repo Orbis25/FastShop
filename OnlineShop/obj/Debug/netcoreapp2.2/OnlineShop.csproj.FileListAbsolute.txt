@@ -50,3 +50,7 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Offerts.g.cshtml.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Cupons.g.cshtml.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Sales.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\bin\Debug\netcoreapp2.2\Service.dll
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\bin\Debug\netcoreapp2.2\Service.pdb
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\Create.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\_CategoryListPartial.g.cshtml.cs

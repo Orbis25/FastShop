@@ -49,22 +49,19 @@
                                     <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Car">Carrito</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">Cuenta</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link"asp-area="Identity" asp-page="/Account/Register">Registro</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="tracking-order.html">Traking</a></li>
-                                </ul>
-                            </li>
                             <li class="nav-item"><a class="nav-link" asp-action="Contact">Contacto</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <partial name="_LoginPartial" />
+                            </li>
                         </ul>
 
                         <ul class="nav-shop">
                             <li class="nav-item"><button><i class="ti-search"></i></button></li>
                             <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-                            <li class="nav-item ml-2" ><a asp-action="Index" asp-controller="Admin"><i class="fas fa-tachometer-alt"></i></a> </li>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                            {
+                                <li class="nav-item"><a asp-action="Index" asp-controller="Admin"><i class="fas fa-tachometer-alt"></i></a> </li>
+                            }
                             <li class="nav-item"><a class="button button-header" asp-controller="Category" asp-action="Index">Comprar ahora</a></li>
                         </ul>
                     </div>

@@ -7,3 +7,6 @@ C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.A
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.AssemblyInfo.cs
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.dll
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.pdb
+C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Model.dll
+C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Model.pdb
+C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.csproj.CopyComplete

@@ -18,13 +18,24 @@
                     <h3>Crear cuenta</h3>
                     <form asp-route-returnUrl="@Model.ReturnUrl" class="row login_form" id="register_form" method="post">
 
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="email" asp-for="Input.FullName" placeholder="Nombre Completo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre completo'">
+                            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="email" asp-for="Input.PhoneNumber" placeholder="Numero" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'">
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <textarea class="form-control" id="email" asp-for="Input.Address" placeholder="Dirreccion"></textarea>
+                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                        </div>
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="email" asp-for="Input.Email" placeholder="Correo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Correo'">
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input class="form-control" asp-for="Input.Password"  placeholder="Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
+                            <input class="form-control" asp-for="Input.Password" placeholder="Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
                         </div>
                         <div class="col-md-12 form-group">
                             <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirma la Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirma la Contraseña'">

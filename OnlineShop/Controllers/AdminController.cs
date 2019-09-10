@@ -3,22 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Model.Models;
+using Service.Interface;
 
 namespace OnlineShop.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IAdminService _service;
+        private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
+        private readonly IProductService _productService;
+
+        public AdminController(ICategoryService categoryService ,
+            IAdminService adminService ,
+            IUserService userService,
+            IProductService productService)
+        {
+            _categoryService = categoryService;
+            _service = adminService;
+            _userService = userService;
+            _productService = productService;
+        }
+
         [HttpGet]
         public IActionResult Index() => View();
 
         [HttpGet]
-        public IActionResult Users() => View();
+        public async Task<IActionResult> Users() => View(await _userService.GetUsers());
 
         [HttpGet]
-        public IActionResult Products() => View();
+        public async Task<IActionResult> Products() => View(await _productService.GetAll());
 
         [HttpGet]
-        public IActionResult Categories() => View();
+        public async Task<IActionResult> Categories() => View(await _categoryService.GetAll());
 
         [HttpGet]
         public IActionResult Offerts() => View();
