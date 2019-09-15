@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
 using OnlineShop.Data;
+using Service.Commons;
 using Service.Interface;
 using Service.Svc;
 using System;
@@ -57,6 +58,9 @@ namespace OnlineShop.ExtensionMethods
             service.AddTransient<IAdminService, AdminService>();
             service.AddTransient<IUserService, UserService>();
             service.AddTransient<IProductService, ProductService>();
+            service.AddTransient<ICommon, Commons>();
+            service.AddTransient<IAccountService, AccountService>();
+
         }
     }
 }

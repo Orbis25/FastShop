@@ -54,3 +54,5 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\bin\Debug\netcoreapp2.2\Servic
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\bin\Debug\netcoreapp2.2\Service.pdb
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\Create.g.cshtml.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\_CategoryListPartial.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\Edit.g.cshtml.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\ProductDetail.g.cshtml.cs

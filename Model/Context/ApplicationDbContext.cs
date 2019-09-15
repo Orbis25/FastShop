@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
 using Model.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineShop.Data
 {
@@ -20,7 +21,7 @@ namespace OnlineShop.Data
             modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.deleted);
             modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.deleted);
         }
-
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Cupon> Cupons { get; set; }
         public DbSet<Product> Products { get; set; }

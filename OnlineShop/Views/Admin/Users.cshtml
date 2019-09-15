@@ -48,12 +48,16 @@
                             <td>
                                 @if (item.LockoutEnabled)
                                 {
+                                <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
                                     <b class="text-success">Desbloquear</b>
+                                </a>
                                 }
                                 else
                                 {
 
-                                    <b class="text-danger">Bloquear</b>
+                            <a href="#" asp-route-Id="@item.Id">
+                                <b class="text-danger">Bloquear</b>
+                            </a>
 
 
                                 }

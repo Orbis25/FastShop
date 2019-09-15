@@ -4,6 +4,7 @@ using OnlineShop.Data;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,9 +30,9 @@ namespace Service.Svc
 
         }
 
-        public async Task<IEnumerable<Product>> GetAll() => await _context.Products.ToListAsync();
+        public async Task<IEnumerable<Product>> GetAll() => await _context.Products.Include(x => x.Category).ToListAsync();
 
-        public async Task<Product> GetById(Guid id) => await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<Product> GetById(Guid id) => await _context.Products.Include(x => x.Category).Include(x => x.ProductPics).FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<bool> Remove(Guid id)
         {
@@ -57,6 +58,7 @@ namespace Service.Svc
                 var product = await GetById(model.Id);
                 product.Price = model.Price;
                 product.Model = model.Model;
+                product.Brand = model.Brand;
                 product.ProductName = model.ProductName;
                 product.UpdatedAt = DateTime.Now;
                 _context.Update(product);
@@ -68,5 +70,22 @@ namespace Service.Svc
                 return false;
             }
         }
+
+        public async Task<bool> UplodadPic(ProductPic model)
+        {
+            try
+            {
+                _context.ProductPics.Add(model);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<IEnumerable<ProductPic>> ProductPics(Guid Id)
+            => await _context.ProductPics.Where(x => x.ProductId.Equals(Id)).ToListAsync();
     }
 }
