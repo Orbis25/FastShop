@@ -226,6 +226,8 @@ namespace OnlineShop.Data.Migrations
 
                     b.Property<int>("State");
 
+                    b.Property<int>("StateOfCuppon");
+
                     b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
@@ -265,8 +267,7 @@ namespace OnlineShop.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ImageName")
-                        .IsRequired();
+                    b.Property<string>("ImageName");
 
                     b.Property<int>("OffertId");
 

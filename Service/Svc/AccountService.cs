@@ -1,4 +1,6 @@
-﻿using OnlineShop.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Model.Models;
+using OnlineShop.Data;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,16 +19,23 @@ namespace Service.Svc
         {
             try
             {
-                var model = _context.ApplicationUsers.FirstOrDefault(x => x.Id.Equals(id));
-                model.LockoutEnabled = false;// model.LockoutEnabled == (false) ? true : false;
+                var model = _context.ApplicationUsers.SingleOrDefault(x => x.Id == id.ToString());
+                model.LockoutEnabled = (model.LockoutEnabled == (false)) ? true : false;
                 _context.Update(model);
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
+        }
+
+        public async Task<ApplicationUser> GetByEmail(string email)
+        {
+            var model = await _context.ApplicationUsers.SingleOrDefaultAsync(x => x.Email.Equals(email));
+            if (model != null) return model;
+            return null;
         }
     }
 }

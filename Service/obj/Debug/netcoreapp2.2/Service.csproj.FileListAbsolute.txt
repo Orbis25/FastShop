@@ -1,12 +1,12 @@
 C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Service.deps.json
 C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Service.dll
 C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Service.pdb
+C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Model.dll
+C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Model.pdb
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.csprojAssemblyReference.cache
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.csproj.CoreCompileInputs.cache
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.AssemblyInfoInputs.cache
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.AssemblyInfo.cs
+C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.csproj.CopyComplete
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.dll
 C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.pdb
-C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Model.dll
-C:\Users\Orbis\source\repos\OnlineShop\Service\bin\Debug\netcoreapp2.2\Model.pdb
-C:\Users\Orbis\source\repos\OnlineShop\Service\obj\Debug\netcoreapp2.2\Service.csproj.CopyComplete

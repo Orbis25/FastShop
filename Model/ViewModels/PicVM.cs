@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Model.ViewModels
 {
-    public class ProductPicVM
+    public class PicVM<T> where T : struct
     {
         [Required]
         public IFormFile Img { get; set; }
         [Required]
-        public Guid Id { get; set; }
+        public T Id { get; set; }
     }
 }

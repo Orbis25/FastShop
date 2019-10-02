@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace OnlineShop.Controllers
         }
 
         #region To AddUser to Role 
+        [Authorize(Roles = "admin")]
         public async Task AddUserToRole()
         {
             //var roles = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -48,7 +50,6 @@ namespace OnlineShop.Controllers
 
         public IActionResult Index()
         {
-
             return View();
         }
 

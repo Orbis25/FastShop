@@ -12,7 +12,6 @@ namespace Model.Models
         [ForeignKey("OffertId")]
         public int OffertId { get; set; }
         public Offert Offert { get; set; }
-        [Required]
         public string ImageName { get; set; }
     }
 }

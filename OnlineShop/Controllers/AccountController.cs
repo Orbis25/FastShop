@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 
 namespace OnlineShop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AccountController : Controller
     {
         private readonly IAccountService _account;
@@ -16,7 +18,7 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> BlockOrUnlockAccount(Guid id)
         {
            await _account.BlockAndUnlockAccount(id);   
-            return RedirectToAction("Admin", "Users");
+            return RedirectToAction("Users","Admin");
         }
     }
 }

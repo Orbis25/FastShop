@@ -11,12 +11,11 @@ namespace Model.Models
         [Required]
         public string Concept { get; set; }
 
-        [Required]
         public string Code { get; set; }
 
         [Required]
         public double Amount { get; set; }
         [Required]
-        public StateCuppon State { get; set; }
+        public StateCuppon StateOfCuppon { get; set; }
     }
 }

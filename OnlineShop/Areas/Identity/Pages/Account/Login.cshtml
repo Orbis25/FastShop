@@ -17,6 +17,8 @@
                 <div class="col-lg-6">
                     <div class="login_form_inner">
                         <h3>Login</h3>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
                         <form class="row login_form" method="post" id="account">
 
                             <div class="col-md-12 form-group">
@@ -39,8 +41,6 @@
                                     <a id="forgot-password" asp-page="./ForgotPassword">¿Olvide mi contraseña?</a>
                                 </p>
                             </div>
-                            <div asp-validation-summary="All" class="text-danger" />
-
                         </form>
                     </div>
                 </div>

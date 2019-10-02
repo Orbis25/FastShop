@@ -20,6 +20,9 @@ namespace OnlineShop.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.deleted);
             modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.deleted);
+            modelBuilder.Entity<Offert>().HasQueryFilter(x => x.State != State.deleted);
+            modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.deleted);
+
         }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }

@@ -10,7 +10,9 @@ namespace Service.Commons
     public interface ICommon
     {
         Task<string> UploadPic(IFormFile file);
+        string GenerateCodeString(int length);
     }
+
     public class Commons : ICommon
     {
         private bool CheckImg(string file)
@@ -38,5 +40,7 @@ namespace Service.Commons
             }
             return null;
         }
+
+        public string GenerateCodeString(int length) => Guid.NewGuid().ToString().Substring(0, length).ToUpper();
     }
 }

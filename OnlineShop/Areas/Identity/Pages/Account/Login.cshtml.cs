@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Model.Models;
+using Service.Interface;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
 {
@@ -18,11 +19,13 @@ namespace OnlineShop.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IAccountService _account;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger , IAccountService accountService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _account = accountService;
         }
 
         [BindProperty]
@@ -69,12 +72,14 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-
-            if (ModelState.IsValid)
+            var account = await _account.GetByEmail(Input.Email);
+            if (ModelState.IsValid && (account != null && account.LockoutEnabled == false))
             {
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -95,7 +100,13 @@ namespace OnlineShop.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
-
+            else if (account != null) {
+                ModelState.AddModelError(string.Empty, "User account locked out.");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "User account not exist");
+            }
             // If we got this far, something failed, redisplay form
             return Page();
         }

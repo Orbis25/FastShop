@@ -19,7 +19,7 @@
                         <th>Estado</th>
                         <th>Numero</th>
                         <th>Correo</th>
-                        <th>Dirrecion</th>
+                        <th>Dirreción</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -29,16 +29,17 @@
                         <th>Estado</th>
                         <th>Numero</th>
                         <th>Correo</th>
-                        <th>Dirrecion</th>
+                        <th>Dirreción</th>
                         <th>Acciones</th>
                     </tr>
                 </tfoot>
+
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
                             <td>@item.FullName</td>
-                            @{ 
+                            @{
                                 string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
                             }
                             <td>@state</td>
@@ -48,18 +49,15 @@
                             <td>
                                 @if (item.LockoutEnabled)
                                 {
-                                <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                    <b class="text-success">Desbloquear</b>
-                                </a>
+                                    <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                        <b class="text-success">Desbloquear</b>
+                                    </a>
                                 }
                                 else
                                 {
-
-                            <a href="#" asp-route-Id="@item.Id">
-                                <b class="text-danger">Bloquear</b>
-                            </a>
-
-
+                                    <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                        <b class="text-danger">Bloquear</b>
+                                    </a>
                                 }
                             </td>
                         </tr>
@@ -68,5 +66,4 @@
             </table>
         </div>
     </div>
-    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 </div>

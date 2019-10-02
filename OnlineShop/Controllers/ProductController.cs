@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
@@ -9,6 +10,7 @@ using Service.Interface;
 
 namespace OnlineShop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _service;
@@ -107,7 +109,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadPic(ProductPicVM model)
+        public async Task<IActionResult> UploadPic(PicVM<Guid> model)
         {
             var file = await _common.UploadPic(model.Img);
             if (!string.IsNullOrEmpty(file)) { 
