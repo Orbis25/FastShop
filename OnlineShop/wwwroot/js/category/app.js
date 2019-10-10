@@ -39,7 +39,7 @@ async function openModalToCreateCategory() {
 
 /**
  * RemoveCategory
- * @param id this param is the id to remove
+ * @param {*} id this param is the id to remove
  * */
 function Deleted(id) {
 
@@ -75,7 +75,7 @@ function Deleted(id) {
 
 /**
  * Update Category
- * @param id this id of category
+ * @param {*} id this id of category
  */
 async function edit(id) {
     const { value: name } = await Swal.fire({
@@ -109,4 +109,13 @@ async function edit(id) {
             );
         });
     }
+}
+
+
+async function filter(categoryId) {
+
+    fetch('/Filter', {
+        method:"get"
+
+    }).then(() => { }).catch((e) => console.log(e));
 }

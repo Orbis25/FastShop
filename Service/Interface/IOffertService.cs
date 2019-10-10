@@ -9,5 +9,6 @@ namespace Service.Interface
     public interface IOffertService : IRepository<Offert,int>
     {
         Task<bool> UploadImg(ImageOffert model);
+        Task<Offert> GetActiveOffert();
     }
 }

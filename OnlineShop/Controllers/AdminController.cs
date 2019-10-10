@@ -18,12 +18,15 @@ namespace OnlineShop.Controllers
         private readonly IProductService _productService;
         private readonly IOffertService _offertService;
         private readonly ICupponService _cupponService;
+        private readonly ISaleService _saleService;
+
         public AdminController(ICategoryService categoryService ,
             IAdminService adminService ,
             IUserService userService,
             IProductService productService ,
             ICupponService cuppon,
-            IOffertService offertService)
+            IOffertService offertService,
+            ISaleService saleService)
         {
             _categoryService = categoryService;
             _service = adminService;
@@ -31,6 +34,7 @@ namespace OnlineShop.Controllers
             _productService = productService;
             _offertService = offertService;
             _cupponService = cuppon;
+            _saleService = saleService;
         }
 
         [HttpGet]
@@ -55,6 +59,6 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Cupons() => View(await _cupponService.GetAll());
 
         [HttpGet]
-        public IActionResult Sales() => View();
+        public async Task<IActionResult> Sales() => View(await _saleService.GetAll());
     }
 }

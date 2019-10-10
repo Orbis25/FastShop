@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
+using Model.ViewModels;
 using OnlineShop.Models;
+using Service.Interface;
 
 namespace OnlineShop.Controllers
 {
@@ -16,13 +18,18 @@ namespace OnlineShop.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly IServiceProvider _serviceProvider;
-        public HomeController(UserManager<ApplicationUser> user ,
-            SignInManager<ApplicationUser> app , IServiceProvider serviceProvider)
+        private readonly IOffertService _offertService;
+        private readonly IProductService _productService;
+
+        public HomeController(UserManager<ApplicationUser> user,
+            SignInManager<ApplicationUser> app,
+            IOffertService offert,
+             IProductService productService)
         {
             userManager = user;
             signInManager = app;
-            _serviceProvider = serviceProvider;
+            _offertService = offert;
+            _productService = productService;
         }
 
         #region To AddUser to Role 
@@ -48,9 +55,13 @@ namespace OnlineShop.Controllers
         }
         #endregion
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(new HomeVM
+            {
+                Offert = await _offertService.GetActiveOffert(),
+                Products = await _productService.GetHomeProducts()
+            });
         }
 
         public IActionResult Contact() => View();

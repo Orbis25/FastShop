@@ -4,6 +4,7 @@ using OnlineShop.Data;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,11 @@ namespace Service.Svc
         {
             try
             {
-                 await _context.AddAsync(model);
+                var list = await _context.Offerts.ToListAsync();
+                 list.ForEach(x =>  
+                 x.State = Model.Enums.State.deleted
+                );
+                await _context.AddAsync(model);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -27,9 +32,14 @@ namespace Service.Svc
             }
         }
 
-        public async Task<IEnumerable<Offert>> GetAll() => await _context.Offerts.Include(x => x.ImageOfferts).ToListAsync();
+        public async Task<Offert> GetActiveOffert() => await _context.Offerts.Include(x => x.ImageOfferts).FirstOrDefaultAsync(x => x.State != Model.Enums.State.deleted);
 
-        public async Task<Offert> GetById(int id) => await _context.Offerts.Include(x => x.ImageOfferts).SingleOrDefaultAsync(x => x.Id == id);
+        public async Task<IEnumerable<Offert>> GetAll() 
+            => await _context.Offerts.Include(x => x.ImageOfferts)
+            .OrderBy(x => x.State == Model.Enums.State.active)
+            .ToListAsync();
+
+        public async Task<Offert> GetById(int id) => await _context.Offerts.Include(x => x.ImageOfferts).SingleOrDefaultAsync(x => x.Id == id && x.State != Model.Enums.State.deleted);
 
         public async Task<bool> Remove(int id)
         {

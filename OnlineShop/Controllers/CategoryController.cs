@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
+using Model.ViewModels;
 using Service.Interface;
 
 namespace OnlineShop.Controllers
@@ -13,8 +14,16 @@ namespace OnlineShop.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _service;
-        public CategoryController(ICategoryService service) => _service = service;
-        public IActionResult Index() => View();
+        private readonly IProductService _productService;
+        public CategoryController(ICategoryService service , IProductService productService)
+        {
+              _service = service;
+            _productService = productService;
+        }
+        public async Task<IActionResult> Index(int take = 9 , int page = 1) => View(new ShopVM { 
+            Categories = await _service.GetAll(),
+            Products = await _productService.GetAllPaginateProducts(take,page)
+        });
         
 
         [HttpPost]
@@ -42,5 +51,18 @@ namespace OnlineShop.Controllers
             if (await _service.Update(model)) return Ok(true);
             return BadRequest("not updated");
        }
+
+        [HttpGet]
+        public async Task<IActionResult> Filter(Filter filter)
+        {
+            
+            return View(nameof(Index), new ShopVM
+            {
+                Categories = await _service.GetAll(),
+                Products = await _productService.Filter(filter),
+                Filters = filter
+            });
+        }
+
     }
 }

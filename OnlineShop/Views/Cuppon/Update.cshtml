@@ -1,0 +1,44 @@
+﻿@model Model.Models.Cupon
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Actualizar Cupon : @Model.Code</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Concept" class="control-label">Descripción</label>
+                <textarea asp-for="Concept" class="form-control"></textarea>
+                <span asp-validation-for="Concept" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label">Monto</label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StateOfCuppon" class="control-label">Estado</label>
+                <select asp-for="StateOfCuppon" class="form-control">
+                    <option value="0">Activo</option>
+                    <option value="1">Inactivo</option>
+                </select>
+                <span asp-validation-for="StateOfCuppon" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Code" />
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a class="btn btn-dark" asp-action="Cupons" asp-controller="Admin">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

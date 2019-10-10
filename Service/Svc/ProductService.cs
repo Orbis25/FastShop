@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model.Models;
+using Model.ViewModels;
 using OnlineShop.Data;
 using Service.Interface;
 using System;
@@ -87,5 +88,46 @@ namespace Service.Svc
 
         public async Task<IEnumerable<ProductPic>> ProductPics(Guid Id)
             => await _context.ProductPics.Where(x => x.ProductId.Equals(Id)).ToListAsync();
+
+        public async Task<List<Product>> GetHomeProducts(int take = 8)
+            => await _context.Products.Include(x => x.ProductPics)
+            .Include(x => x.Category).OrderBy(x => x.CreatedAt).Take(take).ToListAsync();
+
+        public async Task<ProductPaginationVM> GetAllPaginateProducts(int take = 9, int page = 1)
+        {
+            var model =  await _context.Products.OrderBy(x => x.CreatedAt)
+                .Skip((page - 1) * take)
+                .Take(take)
+                .Include(x => x.ProductPics)
+                .Include(x => x.Category).ToListAsync();
+
+            return new ProductPaginationVM
+            {
+                Products = model,
+                ActualPage = page,
+                TotalOfRegisters = model.Count,
+                RegisterByPage = take
+            };
+
+        }
+
+        public async Task<ProductPaginationVM> Filter(Filter filter)
+        {
+            var model = _context.Products.AsQueryable();
+            model = !string.IsNullOrEmpty(filter.Parameter) ?
+                    model.Where(x => x.ProductName.Contains(filter.Parameter)) : model;
+            model = (filter.From > 0 && filter.To > 0) ? model.Where(x => x.Price >= filter.From && x.Price <= filter.To) : model;
+            model = (filter.Category != null) ? model.Where(x => x.CategoryId == filter.Category) : model;
+            model = model.Take(filter.Take).Skip((filter.Page - 1) * filter.Take);
+
+
+            return new ProductPaginationVM {
+                ActualPage = filter.Page,
+                RegisterByPage = filter.Take,
+                TotalOfRegisters = model.Count(),
+                Products = await model.Include(x => x.Category).Include(x => x.ProductPics).ToListAsync()
+            };
+
+        }
     }
 }

@@ -132,5 +132,8 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id) => View(await _service.GetById(id));
 
+        [HttpGet]
+        public async Task<IActionResult> GetById(Guid id) => View(await _service.GetById(id));
+
     }
 }

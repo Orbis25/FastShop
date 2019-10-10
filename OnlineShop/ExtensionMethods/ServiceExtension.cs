@@ -62,6 +62,7 @@ namespace OnlineShop.ExtensionMethods
             service.AddTransient<IAccountService, AccountService>();
             service.AddTransient<IOffertService, OffertService>();
             service.AddTransient<ICupponService, CupponService>();
+            service.AddTransient<ISaleService, SaleService>();
 
         }
     }

@@ -1,0 +1,45 @@
+﻿@model Model.Models.Product
+@{
+    ViewData["Title"] = "GetById";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--================Single Product Area =================-->
+<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="owl-carousel owl-theme s_Product_carousel">
+                    @foreach (var item in Model.ProductPics)
+                    {
+                        var pic = item.PicName ?? "default.png";
+                        <div id="@item.Id" class="single-prd-item">
+                            <img class="img-fluid" height="200" src="~/files/@pic" alt="">
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3>@Model.ProductName</h3>
+                    <h2>$@Model.Price</h2>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Categoria</span> : @Model.Category.Name </a></li>
+                        <li><a class="active" href="#"><span>Compañia</span> : @Model.CompanyName </a></li>
+                        <li><a class="active" href="#"><span>Modelo</span> : @Model.Model </a></li>
+                        <li><a class="active" href="#"><span>Marca</span> : @Model.Brand </a></li>
+                        @*  <li><a href="#"><span>Availibility</span> : In Stock</a></li>*@
+                    </ul>
+                    <div class="product_count">
+                        <label for="qty">Quantity:</label>
+                        <input type="number" name="qty" id="sst" min="1" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
+                        <a class="button primary-btn" href="#">Agregar al carrito</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->

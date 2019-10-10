@@ -38,7 +38,9 @@
                                 @state
                             </td>
                             <td>
-                                <i class="fas fa-pencil-alt text-primary m-2 " onclick="edit('@item.Id')" style="cursor:pointer;"></i>
+                                <a asp-action="Update" asp-controller="Cuppon" asp-route-Id="@item.Id">
+                                    <i class="fas fa-pencil-alt text-primary m-2 " style="cursor:pointer;"></i>
+                                </a>
                                 <i class="fas fa-trash text-danger" onclick="Deleted('@item.Id')" style="cursor:pointer;"></i>
                             </td>
                         </tr>
