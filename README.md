@@ -7,5 +7,6 @@ This project contains the following:
 2 - N-layer architecture
 3 - SweetAlert 2
 4 - .netcore 2.2
+5 - seeding methods to roles
 
 ![Screenshot_3](https://user-images.githubusercontent.com/38229144/67163371-72bfaa00-f344-11e9-95a3-d458a3cd06f9.png)
