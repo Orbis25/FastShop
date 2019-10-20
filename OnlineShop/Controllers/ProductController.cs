@@ -10,7 +10,6 @@ using Service.Interface;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _service;
@@ -24,12 +23,14 @@ namespace OnlineShop.Controllers
             _categoryService = categoryService;
             _common = common;
         }
-
+        [Authorize(Roles = "admin")]
         public IActionResult Index() => View();
+        [Authorize(Roles = "admin")]
 
         [HttpGet]
         public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _categoryService.GetAll()});
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
@@ -54,11 +55,13 @@ namespace OnlineShop.Controllers
             }
             return View(pvm);
         }
+        [Authorize(Roles = "admin")]
 
         [HttpPost]
         public async Task<IActionResult> Remove(Guid id) => Ok(await _service.Remove(id));
-
+        [Authorize(Roles = "user")]
         public IActionResult Car() => View();
+        [Authorize(Roles = "admin")]
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
@@ -73,6 +76,7 @@ namespace OnlineShop.Controllers
                     Price = product.Price,
                     Brand = product.Brand,
                     Model = product.Model,
+                    Quantity = product.Quantity,
                     CompanyName = product.CompanyName,
                     CategoryId = product.CategoryId,
                     Categories = await _categoryService.GetAll()
@@ -81,6 +85,7 @@ namespace OnlineShop.Controllers
             }
             return RedirectToAction("Products", "Admin");
         }
+        [Authorize(Roles = "admin")]
 
         [HttpPost]
         public async Task<IActionResult> Edit(Product product)
@@ -107,6 +112,7 @@ namespace OnlineShop.Controllers
             }
             return View(pvm);
         }
+        [Authorize(Roles = "admin")]
 
         [HttpPost]
         public async Task<IActionResult> UploadPic(PicVM<Guid> model)
@@ -128,10 +134,12 @@ namespace OnlineShop.Controllers
             }
             return RedirectToAction("Products", "Admin");
         }
+        [Authorize(Roles = "admin")]
 
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id) => View(await _service.GetById(id));
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetById(Guid id) => View(await _service.GetById(id));
 

@@ -22,6 +22,9 @@ namespace Model.Models
         [Display(Name = "Modelo")]
         public string Model { get; set; }
         public int Pounts { get; set; }
+        [Required]
+        [Display(Name = "Cantidad")]
+        public int Quantity { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public virtual List<ProductPic> ProductPics { get; set; }

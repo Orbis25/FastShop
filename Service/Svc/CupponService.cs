@@ -33,6 +33,11 @@ namespace Service.Svc
 
         public async Task<Cupon> GetById(int id) => await _context.Cupons.SingleOrDefaultAsync(x => x.Id == id);
 
+        public async Task<Cupon> GetByCupponCode(string code)
+        {
+           return await _context.Cupons.FirstOrDefaultAsync(x => x.Code.Equals(code));
+        }
+
         public async Task<bool> Remove(int id)
         {
             try

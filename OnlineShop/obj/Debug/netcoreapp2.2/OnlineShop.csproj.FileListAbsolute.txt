@@ -66,3 +66,5 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Online
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\OnlineShop.dll
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\OnlineShop.pdb
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Product\GetById.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_PaginationPartial.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CarPartial.cshtml.g.cs

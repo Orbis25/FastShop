@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>FastShop</title>
     <link rel="icon" href="~/img/favicon.ico" type="image/png">
-    <link rel="stylesheet" href="~/vendors/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="~/vendors/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="~/vendors/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="~/vendors/nice-select/nice-select.css">
-    <link rel="stylesheet" href="~/vendors/owl-carousel/owl.theme.default.min.css">
-    <link rel="stylesheet" href="~/vendors/owl-carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/vendors/nice-select/nice-select.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/css/style.css">
 
     <environment include="Development">
         @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
@@ -49,20 +49,19 @@
                                     <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Car">Carrito</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" asp-action="Contact">Contacto</a></li>
+                            @*<li class="nav-item"><a class="nav-link" asp-action="Contact">Contacto</a></li>*@
                             <li class="nav-item submenu dropdown">
                                 <partial name="_LoginPartial" />
                             </li>
                         </ul>
 
                         <ul class="nav-shop">
-                            <li class="nav-item"><button><i class="ti-search"></i></button></li>
-                            <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+                            <li class="nav-item"><button onclick="location.href = '/Product/Car'"><i class="ti-shopping-cart"></i><span class="nav-shop__circle" id="car-count">0</span></button> </li>
                             @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                             {
                                 <li class="nav-item"><a asp-action="Index" asp-controller="Admin"><i class="fas fa-tachometer-alt"></i></a> </li>
                             }
-                            <li class="nav-item"><a class="button button-header" asp-controller="Category" asp-action="Index">Comprar ahora</a></li>
+                            <li class="nav-item"><a class="button button-header" asp-controller="Category" asp-action="Index">Productos</a></li>
                         </ul>
                     </div>
                 </div>
@@ -156,10 +155,7 @@
             <div class="container">
                 <div class="row d-flex">
                     <p class="col-lg-12 footer-text text-center">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright © FastShop @DateTime.Now.ToShortDateString()
                     </p>
                 </div>
             </div>
@@ -193,7 +189,7 @@
     <script src="~/vendors/mail-script.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
     @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

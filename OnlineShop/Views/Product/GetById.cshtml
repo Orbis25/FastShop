@@ -4,8 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<!--================Single Product Area =================-->
 <div class="product_image_area">
     <div class="container">
         <div class="row s_product_inner">
@@ -13,12 +11,16 @@
                 <div class="owl-carousel owl-theme s_Product_carousel">
                     @foreach (var item in Model.ProductPics)
                     {
-                        var pic = item.PicName ?? "default.png";
                         <div id="@item.Id" class="single-prd-item">
-                            <img class="img-fluid" height="200" src="~/files/@pic" alt="">
+                            <img class="img-fluid" height="200" src="~/files/@item.PicName" alt="@item.PicName">
                         </div>
                     }
-
+                    @if (Model.ProductPics.Count == 0)
+                    {
+                        <div id="@Guid.NewGuid()" class="single-prd-item">
+                            <img class="img-fluid" height="200" src="~/files/default.png" alt="default">
+                        </div>
+                    }
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
@@ -30,16 +32,18 @@
                         <li><a class="active" href="#"><span>Compañia</span> : @Model.CompanyName </a></li>
                         <li><a class="active" href="#"><span>Modelo</span> : @Model.Model </a></li>
                         <li><a class="active" href="#"><span>Marca</span> : @Model.Brand </a></li>
-                        @*  <li><a href="#"><span>Availibility</span> : In Stock</a></li>*@
                     </ul>
                     <div class="product_count">
-                        <label for="qty">Quantity:</label>
-                        <input type="number" name="qty" id="sst" min="1" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
-                        <a class="button primary-btn" href="#">Agregar al carrito</a>
+                        <label for="qty">Cantidad:</label>
+                        <input type="number" name="qty" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
+                        @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().PicName : "default.png"; }
+                        <a class="button primary-btn" href="#" onclick="addToCar('@Model.Id', document.getElementById('qyt').value , '@Model.ProductName' , '@Model.Price', '@picp' , '@Model.Quantity')">Agregar al carrito</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--================End Single Product Area =================-->
+<script src="~/js/sweetalert2.all.min.js"></script>
+<script src="~/js/car/app.js" asp-append-version="true"></script>
+

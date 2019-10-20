@@ -36,7 +36,6 @@ namespace OnlineShop.Controllers
             _cupponService = cuppon;
             _saleService = saleService;
         }
-
         [HttpGet]
         public IActionResult Index() => View();
 

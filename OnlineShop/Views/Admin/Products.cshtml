@@ -21,6 +21,7 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
+                        <th>Cantidad</th>
                         <th>Precio</th>
                         <th>Compañia</th>
                         <th>Marca</th>
@@ -32,6 +33,7 @@
                 <tfoot>
                     <tr>
                         <th>Nombre</th>
+                        <th>Cantidad</th>
                         <th>Precio</th>
                         <th>Compañia</th>
                         <th>Marca</th>
@@ -43,8 +45,10 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
+                        var backGround = (item.Quantity <= 1 ? "bg-danger" : (item.Quantity == 2 ? "bg-warning" : string.Empty));
+                    <tr class="@backGround">
                         <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
                         <td>@item.Price</td>
                         <td>@item.CompanyName</td>
                         <td>@item.Brand</td>

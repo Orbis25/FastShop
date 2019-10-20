@@ -1,5 +1,5 @@
 ﻿@model Model.ViewModels.ShopVM
-<link href="~/css/category/style.css" rel="stylesheet" />
+<link href="~/css/category/style.css" asp-append-version="true" rel="stylesheet" />
 <section class="section-margin--small mb-5">
     <div class="container">
         <div class="row">
@@ -48,8 +48,7 @@
                                         <img class="card-img" src="~/files/@pic" height="263" width="280" alt="@pic">
                                         <ul class="card-product__imgOverlay">
                                             
-                                            <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="ti-eye"></a></li>
-                                            <li><button><i class="ti-shopping-cart"></i></button></li>
+                                            <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="see-product btn" ><i class="ti-eye"></i></a></li>
                                         </ul>
                                     </div>
                                     <div class="card-body">
@@ -69,49 +68,6 @@
 </section>
 
 
-@{
-    var PageQuantity = (int)Math.Ceiling((double)Model.Products.TotalOfRegisters / Model.Products.RegisterByPage);
-
-    int initial = 1;
-    var distance = 2;
-    var maximunQuantityPage = distance * 2 + 1;
-    int Final = (PageQuantity > maximunQuantityPage) ? maximunQuantityPage : PageQuantity;
-    if (Model.Products.ActualPage > (distance + 1))
-    {
-        initial = Model.Products.ActualPage + distance;
-    }
-    else
-    {
-        Final = PageQuantity;
-    }
-
-}
-
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        @{string bosstrapClass = Model.Products.ActualPage == 1 ? "disabled" : " "; }
-        <li class="page-item @bosstrapClass">
-            <a  asp-action="Index" class="page-link" >Primera</a>
-        </li>
-        @for (int i = initial; i <= Final; i++)
-        {
-            if (i == Model.Products.ActualPage)
-            {
-                <li class="active page-item">
-                   <a asp-action="Index" asp-route-page="@i" class="page-link" >@i.ToString()</a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item">
-                   <a asp-action="Index" asp-route-page="@i" class="page-link" >@i.ToString()</a>
-                </li>
-            }
-        }
-        <li class="page-item">
-            <a asp-action="Index" asp-route-page="@PageQuantity" class="page-link" >Ultima</a>
-        </li>
-    </ul>
-</nav>
+<partial name="_PaginationPartial"/>
 
 

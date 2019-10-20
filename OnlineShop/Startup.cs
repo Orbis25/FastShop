@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Model.Settings;
 using OnlineShop.ExtensionMethods;
 
 namespace OnlineShop
@@ -15,6 +16,7 @@ namespace OnlineShop
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<EmailSetting>(Configuration.GetSection(nameof(EmailSetting)));
             services.PolicyCookies();
             services.AddConnection(Configuration);
             services.AddIdentityExtension();

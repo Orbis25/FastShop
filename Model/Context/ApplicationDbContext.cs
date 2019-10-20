@@ -28,6 +28,8 @@ namespace OnlineShop.Data
         public DbSet<Cupon> Cupons { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<DetailSale> DetailSales { get; set; }
+
         public DbSet<ProductPic> ProductPics { get; set; }
         public DbSet<ImageOffert> ImageOfferts { get; set; }
         public DbSet<Offert> Offerts { get; set; }

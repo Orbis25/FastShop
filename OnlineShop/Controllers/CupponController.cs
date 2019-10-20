@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Service.Commons;
@@ -19,9 +20,10 @@ namespace OnlineShop.Controllers
             _service = service;
             _common = common;
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Add() => View();
+        [Authorize(Roles = "admin")]
 
         [HttpPost]
         public async Task<IActionResult> Add(Cupon model)
@@ -38,6 +40,7 @@ namespace OnlineShop.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "admin")]
 
         [HttpGet]
         public async Task<IActionResult> Update(int id)
@@ -49,6 +52,7 @@ namespace OnlineShop.Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = "admin")]
 
         [HttpPost]
         public async Task<IActionResult> Update(Cupon model)
@@ -57,14 +61,18 @@ namespace OnlineShop.Controllers
             {
                 if(await _service.Update(model))
                 {
-                    TempData["Cuppons"] = "Actualizado Correctament";
+                    TempData["Cuppons"] = "Actualizado Correctamente";
                     return RedirectToAction("Cupons", "Admin");
                 }
             }
             return View(model);
         }
+        [Authorize(Roles = "admin")]
 
         [HttpPost]
         public async Task<IActionResult> Remove(int id) => Ok(await _service.Remove(id));
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _service.GetByCupponCode(code));
     }
 }

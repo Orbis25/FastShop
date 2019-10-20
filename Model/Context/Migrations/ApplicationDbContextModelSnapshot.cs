@@ -216,8 +216,7 @@ namespace OnlineShop.Data.Migrations
 
                     b.Property<double>("Amount");
 
-                    b.Property<string>("Code")
-                        .IsRequired();
+                    b.Property<string>("Code");
 
                     b.Property<string>("Concept")
                         .IsRequired();
@@ -258,7 +257,7 @@ namespace OnlineShop.Data.Migrations
 
                     b.HasIndex("SaleId");
 
-                    b.ToTable("DetailSale");
+                    b.ToTable("DetailSales");
                 });
 
             modelBuilder.Entity("Model.Models.ImageOffert", b =>
@@ -328,6 +327,8 @@ namespace OnlineShop.Data.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired();
 
+                    b.Property<int>("Quantity");
+
                     b.Property<int>("State");
 
                     b.Property<DateTime>("UpdatedAt");
@@ -370,6 +371,9 @@ namespace OnlineShop.Data.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("CuponCode");
+
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.Property<int>("State");
 

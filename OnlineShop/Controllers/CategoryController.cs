@@ -10,7 +10,7 @@ using Service.Interface;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _service;
@@ -20,12 +20,13 @@ namespace OnlineShop.Controllers
               _service = service;
             _productService = productService;
         }
-        public async Task<IActionResult> Index(int take = 9 , int page = 1) => View(new ShopVM { 
+        [Authorize(Roles = "user,admin")]
+        public async Task<IActionResult> Index(int take = 9 , int index = 1) => View(new ShopVM { 
             Categories = await _service.GetAll(),
-            Products = await _productService.GetAllPaginateProducts(take,page)
+            Products = await _productService.GetAllPaginateProducts(take,index)
         });
-        
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Category model)
         {
@@ -37,32 +38,33 @@ namespace OnlineShop.Controllers
             }
            return BadRequest();
         }
-
-       [HttpGet]
+        
+        [Authorize(Roles = "admin")]
+        [HttpGet]
        public async Task<IActionResult> Remove([FromRoute] int id)
        {
             if (await _service.Remove(id)) return Ok(true);
             return BadRequest("not deleted");
        }
-
-       [HttpPost]
+        [Authorize(Roles = "admin")]
+        [HttpPost]
        public async Task<IActionResult> Update([FromBody] Category model)
        {
             if (await _service.Update(model)) return Ok(true);
             return BadRequest("not updated");
        }
-
-        [HttpGet]
-        public async Task<IActionResult> Filter(Filter filter)
-        {
+       [Authorize(Roles = "user,admin")]
+       [HttpGet]
+       public async Task<IActionResult> Filter(Filter filter)
+       {
             
-            return View(nameof(Index), new ShopVM
-            {
-                Categories = await _service.GetAll(),
-                Products = await _productService.Filter(filter),
-                Filters = filter
-            });
-        }
+          return View(nameof(Index), new ShopVM
+          {  
+              Categories = await _service.GetAll(),
+              Products = await _productService.Filter(filter),
+              Filters = filter
+          });
+       }
 
     }
 }

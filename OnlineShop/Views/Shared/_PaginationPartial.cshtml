@@ -1,0 +1,94 @@
+﻿@model Model.ViewModels.ShopVM
+
+@{
+    var PageQuantity = (int)Math.Ceiling((double)Model.Products.TotalOfRegisters / Model.Products.RegisterByPage);
+
+    int initial = 1;
+    var distance = 2;
+    var maximunQuantityPage = distance * 2 + 1;
+    int Final = (PageQuantity > maximunQuantityPage) ? maximunQuantityPage : PageQuantity;
+    if (Model.Products.ActualPage > (distance + 1))
+    {
+        initial = Model.Products.ActualPage + distance;
+    }
+    else
+    {
+        Final = PageQuantity;
+    }
+
+}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        @{string bosstrapClass = Model.Products.ActualPage == 1 ? "disabled" : " "; }
+        <li class="page-item @bosstrapClass">
+            <a asp-action="Index" class="page-link">Primera</a>
+        </li>
+        @for (int i = initial; i <= Final; i++)
+        {
+            if (i == Model.Products.ActualPage)
+            {
+                if (Model.Filters == null)
+                {
+                    <li class="active page-item">
+                        <a asp-action="Index" asp-route-index="@i" class="page-link">@i.ToString()</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="active page-item">
+                        <a asp-action="Filter"
+                           asp-route-index="@i"
+                           asp-route-To="@Model.Filters.To"
+                           asp-route-Parameter="@Model.Filters.Parameter"
+                           asp-route-From="@Model.Filters.From"
+                           class="page-link">@i.ToString()</a>
+                    </li>
+                }
+
+            }
+            else
+            {
+
+                if (Model.Filters == null)
+                {
+                    <li class="page-item">
+                        <a asp-action="Index" asp-route-index="@i" class="page-link">@i.ToString()</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a asp-action="Filter"
+                           asp-route-index="@i"
+                           asp-route-To="@Model.Filters.To"
+                           asp-route-Parameter="@Model.Filters.Parameter"
+                           asp-route-From="@Model.Filters.From"
+                           class="page-link">@i.ToString()</a>
+                    </li>
+                }
+
+            }
+        }
+
+        @if (Model.Filters == null)
+        {
+            <li class="page-item">
+                <a asp-action="Index" asp-route-index="@PageQuantity" class="page-link">Ultima</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a asp-action="Filter"
+                   asp-route-index="@PageQuantity"
+                   asp-route-To="@Model.Filters.To"
+                   asp-route-Parameter="@Model.Filters.Parameter"
+                   asp-route-From="@Model.Filters.From"
+                   class="page-link">Ultima</a>
+            </li>
+        }
+
+
+    </ul>
+</nav>
