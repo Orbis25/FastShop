@@ -174,7 +174,6 @@ function ConfirmDialog() {
 }
 
 async function AddSale() {
-    console.log($('#Description').val());
     if ($('#Description').val() !== undefined && $('#Description').val().length > 0) {
         if (localStorage.getItem('products') !== null) {
             let model = {
@@ -187,11 +186,6 @@ async function AddSale() {
             products.forEach(value => {
                 model.DetailSales.push({ Quantity: value.quantity, ProductId: value.id });
             });
-            //REALIZAR EL PROCESO DE 
-            //crear methodos seeding
-            //detalle de la venta
-            //recuperar password
-            //modificar cuenta
             Swal.fire({
                 title: "información",
                 text: "Espere un momento estamos procesando su venta",

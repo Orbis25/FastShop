@@ -26,7 +26,7 @@ namespace Model.Models
         [Display(Name = "Cantidad")]
         public int Quantity { get; set; }
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public virtual List<ProductPic> ProductPics { get; set; }
     }
 }

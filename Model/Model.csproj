@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Context\Migrations\20190915222515_nre.cs" />
     <Compile Remove="Context\Migrations\20190915222515_nre.Designer.cs" />
+    <Compile Remove="Context\Migrations\20191020193649_addingLazyLoading2.cs" />
+    <Compile Remove="Context\Migrations\20191020193649_addingLazyLoading2.Designer.cs" />
+    <Compile Remove="Context\Migrations\20191020200904_addingLazyLoading4.cs" />
+    <Compile Remove="Context\Migrations\20191020200904_addingLazyLoading4.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

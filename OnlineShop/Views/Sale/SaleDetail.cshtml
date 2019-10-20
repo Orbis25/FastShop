@@ -1,0 +1,46 @@
+﻿@model Model.Models.Sale
+
+@{
+    ViewData["Title"] = "SaleDetail";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 class="text-center">Detalle de venta @Model.CreatedAt.ToShortDateString()</h1>
+
+<div class="row justify-content-sm-start">
+    <div class="col-xs-12 col-3 ml-3">
+        <b><label asp-for="Total"></label> : @Model.Total</b><br />
+        <b><label asp-for="User.FullName">Usuario</label> : @Model.User.FullName</b><br />
+        <b><label asp-for="User.UserName"> Correo </label> : @Model.User.UserName</b><br />
+        <b><label asp-for="Description"> Dirección </label> : @Model.Description</> </b><br />
+        @if (!string.IsNullOrEmpty(Model.CuponCode))
+        {
+            <b><label asp-for="CuponCode">Cupón</label> : @Model.CuponCode</b>
+        }
+    </div>
+    <div class="col-xs-12 col-12">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DetailSales)
+                        {
+                            <tr>
+                                <td>@item.Product.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Product.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

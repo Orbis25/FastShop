@@ -20,11 +20,10 @@ else
 <ul class="dropdown-menu">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                @User.Identity.Name.ToLower()
-            </a>
-        </li>
+        <li class="nav-item"><a class="nav-link"  href="#">
+    @User.Identity.Name.ToLower()
+</a></li>
+
 
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -38,6 +37,4 @@ else
         <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
         <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registro</a></li>
     }
-    <li class="nav-item"><a class="nav-link" href="tracking-order.html" a>Traking</a></li>
-
 </ul>

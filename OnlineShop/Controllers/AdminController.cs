@@ -37,7 +37,7 @@ namespace OnlineShop.Controllers
             _saleService = saleService;
         }
         [HttpGet]
-        public IActionResult Index() => View();
+        public IActionResult Index() => View(_service.GetAllCountServices());
 
         [HttpGet]
         public async Task<IActionResult> Users() => View(await _userService.GetUsers());

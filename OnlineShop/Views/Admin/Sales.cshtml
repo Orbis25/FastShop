@@ -25,13 +25,14 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        var cuppon = !string.IsNullOrEmpty(item.CuponCode) ? item.CuponCode : "Ninguno";
                         <tr>
                             <td>@item.Total</td>
                             <td>@item.CreatedAt.ToShortDateString()</td>
-                            <td>@item.CuponCode</td>
+                            <td>@cuppon</td>
                             <td>
-                                <a asp-action="Update" asp-controller="Sales" asp-route-Id="@item.Id">
-                                    <i class="fas fa-pencil-alt text-primary m-2 " style="cursor:pointer;"></i>
+                                <a asp-action="SaleDetail" asp-controller="Sale" asp-route-Id="@item.Id">
+                                    <i class="fas fa-eye text-primary m-2 " style="cursor:pointer;"></i>
                                 </a>
                                 <i class="fas fa-trash text-danger" onclick="Deleted('@item.Id')" style="cursor:pointer;"></i>
                             </td>
@@ -42,3 +43,5 @@
         </div>
     </div>
 </div>
+<script src="~/js/sale/app.js" asp-append-version="true"></script>
+<script src="~/js/sweetalert2.all.min.js"></script>

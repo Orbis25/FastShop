@@ -11,5 +11,7 @@ namespace Model.Settings
         public int Port { get; set; }
         public bool DefaultCredentials { get; set; }
         public string Smtp { get; set; }
+        public string UrlRecovery { get; set; }
+
     }
 }

@@ -368,6 +368,9 @@ namespace OnlineShop.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired();
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("CuponCode");
@@ -381,9 +384,9 @@ namespace OnlineShop.Data.Migrations
 
                     b.Property<DateTime>("UpdatedAt");
 
-                    b.Property<Guid>("UserId");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Sales");
                 });
@@ -467,6 +470,14 @@ namespace OnlineShop.Data.Migrations
                     b.HasOne("Model.Models.Product")
                         .WithMany("ProductPics")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.Models.Sale", b =>
+                {
+                    b.HasOne("Model.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

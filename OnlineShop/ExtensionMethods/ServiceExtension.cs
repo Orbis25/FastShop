@@ -22,6 +22,7 @@ namespace OnlineShop.ExtensionMethods
 
         public static void AddConnection(this IServiceCollection service, IConfiguration configuration) 
             => service.AddDbContext<ApplicationDbContext>(options => {
+                options.UseLazyLoadingProxies();
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 

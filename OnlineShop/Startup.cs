@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Model.DataSeeding;
 using Model.Settings;
 using OnlineShop.ExtensionMethods;
 
@@ -38,6 +39,7 @@ namespace OnlineShop
                 app.UseHsts();
             }
 
+            DataSeeder.SeedRoles(app);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

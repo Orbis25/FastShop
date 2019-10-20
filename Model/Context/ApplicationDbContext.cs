@@ -11,9 +11,8 @@ namespace OnlineShop.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-
-
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +20,7 @@ namespace OnlineShop.Data
             modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.deleted);
             modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.deleted);
             modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.deleted);
+            modelBuilder.Entity<Sale>().HasQueryFilter(x => x.State != State.deleted);
 
         }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }

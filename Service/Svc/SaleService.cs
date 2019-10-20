@@ -79,7 +79,12 @@ namespace Service.Svc
 
         public async Task<IEnumerable<Sale>> GetAll() => await _context.Sales.ToListAsync();
 
-        public async Task<Sale> GetById(Guid id) => await _context.Sales.Include(x => x.DetailSales).SingleOrDefaultAsync();
+        public async Task<Sale> GetById(Guid id)
+        {
+            var model = await _context.Sales.Include(x => x.DetailSales).Include(x => x.User).SingleOrDefaultAsync(x => x.Id == id);
+            model.User = await _context.ApplicationUsers.SingleOrDefaultAsync(x => x.Id == model.ApplicationUserId);
+            return model;
+        }
 
         public async Task<bool> Remove(Guid id)
         {

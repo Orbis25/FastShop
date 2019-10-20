@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
 using Model.ViewModels;
 using OnlineShop.Models;
+using Service.Commons;
 using Service.Interface;
 
 namespace OnlineShop.Controllers
@@ -21,16 +22,18 @@ namespace OnlineShop.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IOffertService _offertService;
         private readonly IProductService _productService;
-
+        private readonly ICommon _commonService;
         public HomeController(UserManager<ApplicationUser> user,
             SignInManager<ApplicationUser> app,
             IOffertService offert,
-             IProductService productService)
+             IProductService productService,
+             ICommon common)
         {
             userManager = user;
             signInManager = app;
             _offertService = offert;
             _productService = productService;
+            _commonService = common;
         }
 
         #region To AddUser to Role 
@@ -68,15 +71,13 @@ namespace OnlineShop.Controllers
 
         public IActionResult Contact() => View();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        [HttpGet]
+        public async Task<IActionResult> RecoveryPassword(string email) => Ok(await _commonService.SendEmailRecoveryPass(email));
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        [HttpGet]
+        public IActionResult Changepassword(string code) =>  View(nameof(Changepassword),code);
+
+        [HttpGet]
+        public async Task<IActionResult> Change(string code, string newpass) => Ok(await _commonService.ChangePassWord(code, newpass));
     }
 }

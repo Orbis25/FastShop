@@ -13,8 +13,4 @@ namespace Service.Interface
         Task<TEntity> GetById(Id id);
         Task<bool> Update(TEntity model);
     }
-
-    public interface IAllServices : ISaleService , IProductService , IOffertService
-    {
-    }
 }
