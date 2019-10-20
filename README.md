@@ -7,3 +7,5 @@ This project contains the following:
 2 - N-layer architecture
 3 - SweetAlert 2
 4 - .netcore 2.2
+
+[imagen] (https://github.com/Orbis25/FastShop/blob/master/Screenshot_3.png)
