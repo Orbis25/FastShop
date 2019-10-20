@@ -8,4 +8,4 @@ This project contains the following:
 3 - SweetAlert 2
 4 - .netcore 2.2
 
-[imagen] (https://github.com/Orbis25/FastShop/blob/master/Screenshot_3.png)
+![alt text] (https://raw.githubusercontent.com/Orbis25/FastShop/master/Screenshot_3.png)
