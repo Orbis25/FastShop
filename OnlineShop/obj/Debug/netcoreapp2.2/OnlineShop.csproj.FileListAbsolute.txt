@@ -38,6 +38,7 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Category\_ListOfCategoriesPartial.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Cuppon\Add.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Cuppon\Update.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Home\Changepassword.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Home\Contact.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.cshtml.g.cs
@@ -69,4 +70,3 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Online
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\OnlineShop.csproj.CopyComplete
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\OnlineShop.dll
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\OnlineShop.pdb
-C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Home\Changepassword.cshtml.g.cs

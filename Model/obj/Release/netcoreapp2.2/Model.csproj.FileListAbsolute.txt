@@ -1,0 +1,10 @@
+C:\Users\Orbis\source\repos\OnlineShop\Model\bin\Release\netcoreapp2.2\Model.deps.json
+C:\Users\Orbis\source\repos\OnlineShop\Model\bin\Release\netcoreapp2.2\Model.runtimeconfig.json
+C:\Users\Orbis\source\repos\OnlineShop\Model\bin\Release\netcoreapp2.2\Model.runtimeconfig.dev.json
+C:\Users\Orbis\source\repos\OnlineShop\Model\bin\Release\netcoreapp2.2\Model.dll
+C:\Users\Orbis\source\repos\OnlineShop\Model\bin\Release\netcoreapp2.2\Model.pdb
+C:\Users\Orbis\source\repos\OnlineShop\Model\obj\Release\netcoreapp2.2\Model.csprojAssemblyReference.cache
+C:\Users\Orbis\source\repos\OnlineShop\Model\obj\Release\netcoreapp2.2\Model.AssemblyInfoInputs.cache
+C:\Users\Orbis\source\repos\OnlineShop\Model\obj\Release\netcoreapp2.2\Model.AssemblyInfo.cs
+C:\Users\Orbis\source\repos\OnlineShop\Model\obj\Release\netcoreapp2.2\Model.dll
+C:\Users\Orbis\source\repos\OnlineShop\Model\obj\Release\netcoreapp2.2\Model.pdb
