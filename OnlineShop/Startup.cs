@@ -18,6 +18,7 @@ namespace OnlineShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<EmailSetting>(Configuration.GetSection(nameof(EmailSetting)));
+            services.Configure<InternalConfiguration>(Configuration.GetSection(nameof(InternalConfiguration)));
             services.PolicyCookies();
             services.AddConnection(Configuration);
             services.AddIdentityExtension();

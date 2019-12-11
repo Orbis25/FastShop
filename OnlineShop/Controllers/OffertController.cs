@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
+using OnlineShop.ExtensionMethods;
 using Service.Commons;
 using Service.Interface;
 
@@ -91,7 +92,8 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var model = await _offertService.GetById(id);
-            return View(model);
+            if(model != null) return View(model);
+            return new NotFoundView();
         }
 
     }

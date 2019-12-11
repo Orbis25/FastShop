@@ -19,18 +19,18 @@ namespace OnlineShop.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        //private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IOffertService _offertService;
         private readonly IProductService _productService;
         private readonly ICommon _commonService;
         public HomeController(UserManager<ApplicationUser> user,
-            SignInManager<ApplicationUser> app,
+            //SignInManager<ApplicationUser> app,
             IOffertService offert,
              IProductService productService,
              ICommon common)
         {
             userManager = user;
-            signInManager = app;
+           // signInManager = app;
             _offertService = offert;
             _productService = productService;
             _commonService = common;

@@ -23,8 +23,9 @@
                             <span asp-validation-for="Input.FullName" class="text-danger"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="email" asp-for="Input.PhoneNumber" placeholder="Numero" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'">
-                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            <input type="tel" required pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control" id="phone" asp-for="Input.PhoneNumber" placeholder="Numero" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'">
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span><br />
+                            <span id="phonevalid" style="display:none;" class="text-danger">Numero invalido</span>
                         </div>
                         <div class="col-md-12 form-group">
                             <textarea class="form-control" id="email" asp-for="Input.Address" placeholder="Dirreccion"></textarea>
@@ -53,4 +54,21 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        jQuery(document).ready(function($){
+        $cf = $('#phone');
+        $cf.blur(function(e){
+            phone = $(this).val();
+            phone = phone.replace(/[^0-9]/g,'');
+            if (phone.length != 10)
+            {
+                $('#phonevalid').show();
+                $('#phone').val('');
+                $('#phone').focus();
+            } else{
+            $('#phonevalid').hide();
+            }
+        });
+    });
+    </script>
 }

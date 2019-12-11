@@ -5,19 +5,22 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 class="text-center">Detalle de venta @Model.CreatedAt.ToShortDateString()</h1>
+<h1 class="text-center">DETALLE DE ORDEN @Model.CreatedAt.ToShortDateString()</h1>
 
 <div class="row justify-content-sm-start">
     <div class="col-xs-12 col-3 ml-3">
         <b><label asp-for="Total"></label> : @Model.Total</b><br />
         <b><label asp-for="User.FullName">Usuario</label> : @Model.User.FullName</b><br />
         <b><label asp-for="User.UserName"> Correo </label> : @Model.User.UserName</b><br />
-        <b><label asp-for="Description"> Dirección </label> : @Model.Description</> </b><br />
+        <b><label asp-for="Description"> Dirección </label> : @Model.Description </b><br />
+        <b><label asp-for="PaymentType"> Tipo de pago </label> : @Model.PaymentType </b><br />
+
         @if (!string.IsNullOrEmpty(Model.CuponCode))
         {
             <b><label asp-for="CuponCode">Cupón</label> : @Model.CuponCode</b>
         }
     </div>
+
     <div class="col-xs-12 col-12">
         <div class="card-body">
             <div class="table-responsive">
@@ -42,5 +45,9 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="col-sm-12 col-12">
+        <partial name="_StatusOrderPartial" model="Model.Order" />
     </div>
 </div>

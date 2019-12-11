@@ -12,6 +12,7 @@ namespace Model.Settings
         public bool DefaultCredentials { get; set; }
         public string Smtp { get; set; }
         public string UrlRecovery { get; set; }
+        public string UrlConfirmEmail { get; set; }
 
     }
 }

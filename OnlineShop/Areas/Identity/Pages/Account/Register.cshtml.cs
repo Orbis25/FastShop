@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Model.Models;
+using Service.Interface;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
 {
@@ -20,17 +21,21 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IAccountService _service;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IAccountService service
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _service = service;
         }
 
         [BindProperty]
@@ -83,25 +88,21 @@ namespace OnlineShop.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email , Address = Input.Address , PhoneNumber = Input.PhoneNumber , FullName = Input.FullName };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+               
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
                     await _userManager.AddToRoleAsync(user, "USER");
                     
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    if(await _service.SendEmailConfirmation(Input.Email))
+                    {
+                        return LocalRedirect("/Account/EmailConfirm");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Occurrio un error");
+                    }
                 }
                 foreach (var error in result.Errors)
                 {

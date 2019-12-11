@@ -73,7 +73,7 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             var account = await _account.GetByEmail(Input.Email);
-            if (ModelState.IsValid && (account != null && account.LockoutEnabled == false))
+            if (ModelState.IsValid && (account != null && account.LockoutEnabled == false && account.EmailConfirmed))
             {
 
                 // This doesn't count login failures towards account lockout
@@ -100,12 +100,15 @@ namespace OnlineShop.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
-            else if (account != null) {
-                ModelState.AddModelError(string.Empty, "User account locked out.");
+            else if (account == null) {
+                ModelState.AddModelError(string.Empty, "User account not exist");
+            }else if (!account.EmailConfirmed)
+            {
+                ModelState.AddModelError(string.Empty, "Please confirm you account");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "User account not exist");
+                ModelState.AddModelError(string.Empty, "User account blocked");
             }
             // If we got this far, something failed, redisplay form
             return Page();

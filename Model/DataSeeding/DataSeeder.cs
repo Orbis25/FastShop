@@ -35,7 +35,7 @@ namespace Model.DataSeeding
                 }
                 if (!_context.ApplicationUsers.Any())
                 {
-                    var user = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com", Address = "sample", PhoneNumber = "000000000", FullName = "admin" };
+                    var user = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com", Address = "sample", PhoneNumber = "000000000", FullName = "admin" , EmailConfirmed = true };
                     _userManager.CreateAsync(user, "admin1234");
                     _context.Add(user);
                     _context.SaveChanges();

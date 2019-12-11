@@ -10,5 +10,7 @@ namespace Service.Interface
     {
         Task<bool> BlockAndUnlockAccount(Guid id);
         Task<ApplicationUser> GetByEmail(string email);
+        Task<bool> ValidateUser(string id);
+        Task<bool> SendEmailConfirmation(string email);
     }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineShop.Data
 {
-    public  class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -33,5 +33,6 @@ namespace OnlineShop.Data
         public DbSet<ProductPic> ProductPics { get; set; }
         public DbSet<ImageOffert> ImageOfferts { get; set; }
         public DbSet<Offert> Offerts { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }

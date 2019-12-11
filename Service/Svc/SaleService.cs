@@ -20,16 +20,25 @@ namespace Service.Svc
     {
         private readonly ApplicationDbContext _context;
         private readonly EmailSetting _settings;
-        public SaleService(ApplicationDbContext context , IOptions<EmailSetting> options)
+        private readonly InternalConfiguration _internalOptions;
+        private readonly IOrderService _order;
+        public SaleService(ApplicationDbContext context , IOptions<EmailSetting> options , IOrderService order , IOptions<InternalConfiguration> internalOptions)
         {
             _context = context;
             _settings = options.Value;
+            _order = order;
+            _internalOptions = internalOptions.Value;
         }
         public async Task<bool> Add(Sale model)
         {
-            model.CreatedAt = DateTime.Now;
-            await _context.AddAsync(model);
-            return await _context.SaveChangesAsync() > 0;
+                var order = new Order() {  };
+                if (await _order.Add(order))
+                {
+                    model.OrderId = order.Id;
+                    model.CreatedAt = DateTime.Now;
+                    await _context.AddAsync(model);
+                }
+                return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> CreateSale(Sale sale, string userEmail)
@@ -81,8 +90,9 @@ namespace Service.Svc
 
         public async Task<Sale> GetById(Guid id)
         {
-            var model = await _context.Sales.Include(x => x.DetailSales).Include(x => x.User).SingleOrDefaultAsync(x => x.Id == id);
-            model.User = await _context.ApplicationUsers.SingleOrDefaultAsync(x => x.Id == model.ApplicationUserId);
+            var model = await _context.Sales.Include(x => x.DetailSales).Include(x => x.Order).Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+            if (model == null) return model; 
+            model.User = (model != null) ? await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == model.ApplicationUserId) : new ApplicationUser();
             return model;
         }
 
@@ -122,8 +132,11 @@ namespace Service.Svc
             var html = await ReadTemplateEmailAsString();
             html = html.Replace("{date}", model.CreatedAt.ToString());
             html = html.Replace("{user}", userEmail);
-            html = html.Replace("{cuppon}", !string.IsNullOrEmpty(model.CuponCode) ? model.CuponCode : "---");
+            html = html.Replace("{cuppon}", !string.IsNullOrEmpty(model.CuponCode) ? model.CuponCode : "N/A");
             html = html.Replace("{total}", model.Total.ToString());
+            html = html.Replace("{code}", model.Code);
+            html = html.Replace("{orderCode}", model.Order.OrderCode);
+            html = html.Replace("{paymentType}", model.PaymentType.ToString());
             string table = string.Empty;
             foreach (var item in model.DetailSales)
             {
@@ -133,8 +146,12 @@ namespace Service.Svc
                     $"<td style='border: 1px solid #dddddd;text-align: left;padding: 8px;' >{prd.Price}</td></tr>";
             }
             html = html.Replace("{body}", table);
+            html = html.Replace("{AppName}", _internalOptions.AppName);
 
 
+
+
+#pragma warning disable IDE0067 // Dispose objects before losing scope
             var smtp = new SmtpClient()
             {
                 Host = _settings.Smtp,
@@ -142,17 +159,19 @@ namespace Service.Svc
                 UseDefaultCredentials = _settings.DefaultCredentials,
                 Credentials = new NetworkCredential(_settings.User, _settings.Password)
             };
-
-            var mailMessage = new MailMessage
-            {
-                From = new MailAddress(_settings.User)
-            };
-            mailMessage.To.Add(userEmail);
-            mailMessage.IsBodyHtml = true;
-            mailMessage.Subject = "FastShop --- Bill";
-            mailMessage.Body = html;
+#pragma warning restore IDE0067 // Dispose objects before losing scope
+         
             try
             {
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(_settings.User)
+                };
+                mailMessage.To.Add(userEmail);
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Subject = $"{_internalOptions.AppName} --- Bill";
+                mailMessage.Body = html;
+
                 await smtp.SendMailAsync(mailMessage);
             }
             catch

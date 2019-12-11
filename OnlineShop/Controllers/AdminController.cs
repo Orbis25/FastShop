@@ -43,10 +43,7 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Users() => View(await _userService.GetUsers());
 
         [HttpGet]
-        public async Task<IActionResult> Products()
-        {
-            return View(await _productService.GetAll());
-        }
+        public async Task<IActionResult> Products() => View(await _productService.GetAll());
 
         [HttpGet]
         public async Task<IActionResult> Categories() => View(await _categoryService.GetAll());

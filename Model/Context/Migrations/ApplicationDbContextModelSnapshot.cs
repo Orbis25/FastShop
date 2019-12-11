@@ -302,6 +302,26 @@ namespace OnlineShop.Data.Migrations
                     b.ToTable("Offerts");
                 });
 
+            modelBuilder.Entity("Model.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("OrderCode");
+
+                    b.Property<int>("State");
+
+                    b.Property<int>("StateOrder");
+
+                    b.Property<DateTime>("UpdateAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("Model.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -371,12 +391,18 @@ namespace OnlineShop.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .IsRequired();
 
+                    b.Property<string>("Code");
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<string>("CuponCode");
 
                     b.Property<string>("Description")
                         .IsRequired();
+
+                    b.Property<Guid>("OrderId");
+
+                    b.Property<int>("PaymentType");
 
                     b.Property<int>("State");
 
@@ -387,6 +413,9 @@ namespace OnlineShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Sales");
                 });
@@ -478,6 +507,11 @@ namespace OnlineShop.Data.Migrations
                     b.HasOne("Model.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Models.Order", "Order")
+                        .WithOne("Sale")
+                        .HasForeignKey("Model.Models.Sale", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
+using OnlineShop.ExtensionMethods;
 using Service.Commons;
 using Service.Interface;
 
@@ -137,11 +138,21 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpGet]
-        public async Task<IActionResult> ProductDetail(Guid id) => View(await _service.GetById(id));
+        public async Task<IActionResult> ProductDetail(Guid id)
+        {
+            var model = await _service.GetById(id);
+            if (model != null) return View(model);
+            return new NotFoundView();
+        }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetById(Guid id) => View(await _service.GetById(id));
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var model = await _service.GetById(id);
+            if(model != null) return View(model);
+            return new NotFoundView();
+        }
 
     }
 }

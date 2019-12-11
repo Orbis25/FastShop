@@ -9,6 +9,7 @@ using Model.Models;
 using OnlineShop.Data;
 using Service.Commons;
 using Service.Interface;
+using Service.svc;
 using Service.Svc;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,7 @@ namespace OnlineShop.ExtensionMethods
             service.AddTransient<IOffertService, OffertService>();
             service.AddTransient<ICupponService, CupponService>();
             service.AddTransient<ISaleService, SaleService>();
+            service.AddTransient<IOrderService, OrderService>();
 
         }
     }
