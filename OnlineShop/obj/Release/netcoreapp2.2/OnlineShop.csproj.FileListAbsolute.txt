@@ -70,3 +70,14 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Onli
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\OnlineShop.csproj.CopyComplete
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\OnlineShop.dll
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\OnlineShop.pdb
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Manage\Index.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Views\Account\EmailConfirm.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Views\Account\Validate.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Views\Product\_PaymentPartial.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Views\Sale\_StatusOrderPartial.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Views\Shared\NotFound.cshtml.g.cs
+C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Release\netcoreapp2.2\Razor\Views\Tracking\Index.cshtml.g.cs

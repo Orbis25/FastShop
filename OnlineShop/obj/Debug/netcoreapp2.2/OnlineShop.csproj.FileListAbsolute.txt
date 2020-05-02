@@ -81,4 +81,3 @@ C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Account\EmailConfirm.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Account\Validate.cshtml.g.cs
 C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Shared\NotFound.cshtml.g.cs
-C:\Users\Orbis\source\repos\OnlineShop\OnlineShop\obj\Debug\netcoreapp2.2\Razor\Views\Sale\_PaypalPaymentPartial.cshtml.g.cs

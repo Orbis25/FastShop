@@ -121,7 +121,7 @@ $(function() {
 /*Car*/
 $(document).ready(function () {
     let products = JSON.parse(localStorage.getItem('products'));
-    if (products !== null || products !== undefined) {
+    if (products !== null && products !== undefined) {
         $('#car-count').text(String(products.length));
     }
 });
