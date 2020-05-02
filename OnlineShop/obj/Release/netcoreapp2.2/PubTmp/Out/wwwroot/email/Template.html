@@ -5,14 +5,12 @@
     <title></title>
 </head>
 <body>
-    <h2 style="text-align:center">Factura {code} </h2>
+    <h2 style="text-align:center">Factura </h2>
 
     <ul>
         <li><b>Fecha : {date}</b> </li>
         <li><b>Usuario : {user}</b> </li>
         <li><b>Cupón Aplicado: {cuppon}</b> </li>
-        <li><b>Tipo de Pago : {paymentType}</b> </li>
-        <li><b>No. Orden : {orderCode}</b> </li>
         <li><b>Total : {total}</b> </li>
     </ul>
 
@@ -25,23 +23,7 @@
             <th style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Precio</th>
         </tr>
         {body}
-
+     
     </table>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
-    <script>
-        document.getElementById('date').innerHTML = new Date().getFullYear();
-        $('#qrcode').qrcode("{code}");
-    </script>
-    <footer style="margin-top:100px">
-        <div class="container my-auto">
-            <center class="copyright text-center my-auto">
-                <div id="qrcode"></div>
-                <span>Copyright © {AppName} <span id="date"></span></span>
-            </center>
-        </div>
-    </footer>
 </body>
 </html>

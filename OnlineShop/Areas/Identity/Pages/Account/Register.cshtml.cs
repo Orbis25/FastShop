@@ -45,27 +45,26 @@ namespace OnlineShop.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Campo requerido")]
+            [Required]
             [EmailAddress]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 
 
-            [Required(ErrorMessage = "Campo requerido")]
+            [Required]
             [Display(Name = "Dirreccion")]
             public string Address { get; set; }
 
-            [Required(ErrorMessage = "Campo requerido")]
+            [Required]
             [Display(Name = "Numero")]
-            [DataType(DataType.PhoneNumber, ErrorMessage = "Numero invalido")]
             public string PhoneNumber { get; set; }
 
-            [Required(ErrorMessage = "Campo requerido")]
+            [Required]
             [Display(Name = "Nombre completo")]
             public string FullName { get; set; }
 
 
-            [Required(ErrorMessage = "Campo requerido")]
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -73,7 +72,7 @@ namespace OnlineShop.Areas.Identity.Pages.Account
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "La contraseña de confirmación es diferente")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -88,14 +87,6 @@ namespace OnlineShop.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email , Address = Input.Address , PhoneNumber = Input.PhoneNumber , FullName = Input.FullName };
-
-                var existUser = await _userManager.FindByEmailAsync(Input.Email);
-                if (existUser != null)
-                {
-                    ModelState.AddModelError("Email", "Ya existe una cuenta con este correo intente con otro");
-                    return Page();
-                }
-
                 var result = await _userManager.CreateAsync(user, Input.Password);
                
                 if (result.Succeeded)

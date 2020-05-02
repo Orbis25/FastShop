@@ -87,8 +87,6 @@ function GetAllProducts() {
                         </tr>`);
                 subTotal += values.total;
             });
-        } else {
-            $('#noProducts').show();
         }
 
         if (products.length > 0) {
@@ -121,17 +119,13 @@ function GetAllProducts() {
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
                                     <a class="gray_btn" href="/Category">Continuar comprando</a>
-                                    <a class="primary-btn ml-2" href="#" onClick="displayPaymentType()">Proceder a pagar</a>
+                                    <a class="primary-btn ml-2" href="#" onClick="ConfirmDialog()">Proceder a pagar</a>
                                 </div>
                             </td>
                         </tr>`);
         }
     });
 }
-
-const displayPaymentType = () => {
-    $('#paymentType').show();
-};
 
 function ApplyCuppon() {
     if (subTotal > 0) {
@@ -159,90 +153,75 @@ function RemoveProduct(id) {
     location.reload();
 }
 
-const payment = async (model) => {
-    await fetch('/Sale/Add', {
-        method: "POST",
-        body: JSON.stringify(model),
-        headers: {
-            'Content-Type': 'application/json'
+function ConfirmDialog() {
+    Swal.fire({
+        title: '<strong>Dirección</u></strong>',
+        type: 'info',
+        html: `Por favor completa lo siguiente : <br />
+        <textarea class="form-control" name="Description" id="Description" placeholder="Porfavor ingresar la dirreción en esta area"></textarea>`,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<span onClick="AddSale()">Listo</span>',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText: 'Cancelar',
+        cancelButtonAriaLabel: 'Thumbs down'
+    }).then((va) => {
+        if (va.value) {
+            AddSale();
         }
-    }).then((response) => response).then((res) => {
-        if (res) {
-            Swal.close();
-        }
-        localStorage.clear();
-        Swal.fire({
-            title: '<strong>Compra realizada</strong>',
-            type: 'success',
-            text: "En su correo estara la factura con el detalle de su compra, recuerde (el pago se realiza en efectivo al llevarle su compra pero si pago por paypal ignorar el mensaje)"
-        }).then(() => {
-            location.href = '/';
-
-        }).catch(() => {
-            location.href = '/';
-
-        });
-    }).catch(e => console.log('err', e));
-};
-
-async function AddSale(type =  "MyLocation") {
-
-    switch (type) {
-        case "MyLocation":
-            const user = await fetch('/Account/GetUser').then((response) => response.json());
-            sweetProcces();
-            if (user !== null) {
-                if (localStorage.getItem('products') !== null) {
-                    let model = {
-                        CuponCode: $('#cupon-code').val(),
-                        Total: subTotal,
-                        Description: user.address,
-                        DetailSales: []
-                    };
-                    let products = JSON.parse(localStorage.getItem('products'));
-                    products.forEach(value => {
-                        model.DetailSales.push({ Quantity: value.quantity, ProductId: value.id });
-                    });
-                    await payment(model);
-                }
-            }
-            break;
-        case "AddLocation":
-            if ($('#Description').val() !== undefined) {
-                if ($('#Description').val().length <= 0) {
-                    Swal.fire({
-                        title: '<strong>Lo sentimos</strong>',
-                        type: 'error',
-                        text: "Ingrese una dirrección"
-                    });
-                } else {
-                    sweetProcces();
-                    if (localStorage.getItem('products') !== null) {
-                        let model = {
-                            CuponCode: $('#cupon-code').val(),
-                            Total: subTotal,
-                            Description: $('#Description').val(),
-                            DetailSales: []
-                        };
-                        let products = JSON.parse(localStorage.getItem('products'));
-                        products.forEach(value => {
-                            model.DetailSales.push({ Quantity: value.quantity, ProductId: value.id });
-                        });
-                        await payment(model);
-                    }
-                }
-            }
-            break;
-    }
-  
+    });
 }
 
-const sweetProcces = () => {
-    Swal.fire({
-        title: "información",
-        text: "Espere un momento estamos procesando su venta",
-        showCancelButton: false,
-        showConfirmButton: false,
-        allowOutsideClick: false
-    });
-};
+async function AddSale() {
+    if ($('#Description').val() !== undefined && $('#Description').val().length > 0) {
+        if (localStorage.getItem('products') !== null) {
+            let model = {
+                CuponCode: $('#cupon-code').val(),
+                Total: subTotal,
+                Description: $('#Description').val(),
+                DetailSales: []
+            };
+            let products = JSON.parse(localStorage.getItem('products'));
+            products.forEach(value => {
+                model.DetailSales.push({ Quantity: value.quantity, ProductId: value.id });
+            });
+            Swal.fire({
+                title: "información",
+                text: "Espere un momento estamos procesando su venta",
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+            await fetch('/Sale/Add', {
+                method: "POST",
+                body: JSON.stringify(model),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((response) => response).then((res) => {
+                if (res) {
+                    Swal.close();
+                }
+                localStorage.clear();
+                Swal.fire({
+                    title: '<strong>Compra realizada</strong>',
+                    type: 'success',
+                    text: "En su correo estara la factura con el detalle de su compra, recuerde el pago se realiza en efectivo al llevarle su compra"
+                }).then(() => {
+                    location.href = '/';
+
+                }).catch(() => {
+                    location.href = '/';
+
+                });
+            }).catch(e => console.log('err', e));
+        }
+    } else {
+        Swal.fire({
+            title: '<strong>Lo sentimos</strong>',
+            type: 'error',
+            text: "Ingrese una dirrección"
+        });
+    }
+}
