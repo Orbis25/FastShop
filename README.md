@@ -1,5 +1,5 @@
 # FastShop
-This project is a online shopping car , develop in .netcore 2.2
+This project is a online shopping car , develop in .NETCore
 
 This project contains the following:
 
