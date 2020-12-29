@@ -21,18 +21,18 @@ namespace OnlineShop.ExtensionMethods
     public static class ServiceExtension
     {
 
-        public static void AddConnection(this IServiceCollection service, IConfiguration configuration) 
-            => service.AddDbContext<ApplicationDbContext>(options => {
+        public static void AddConnection(this IServiceCollection service, IConfiguration configuration)
+            => service.AddDbContext<ApplicationDbContext>(options =>
+            {
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
         public static void AddIdentityExtension(this IServiceCollection service)
         {
-           service.AddDefaultIdentity<ApplicationUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            service.AddDefaultIdentity<ApplicationUser>()
+                 .AddRoles<IdentityRole>()
+                 .AddEntityFrameworkStores<ApplicationDbContext>();
             service.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -44,7 +44,7 @@ namespace OnlineShop.ExtensionMethods
             });
         }
 
-        public static void PolicyCookies(this IServiceCollection service) 
+        public static void PolicyCookies(this IServiceCollection service)
             => service.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
