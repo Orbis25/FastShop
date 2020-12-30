@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Service.Commons;
 using Service.Interface;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
@@ -70,7 +67,7 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpPost]
-        public async Task<IActionResult> Remove(int id) => Ok(await _service.Remove(id));
+        public async Task<IActionResult> Remove(int id) => Ok(await _service.SoftRemove(id));
         [Authorize(Roles = "user")]
         [HttpGet]
         public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _service.GetByCupponCode(code));

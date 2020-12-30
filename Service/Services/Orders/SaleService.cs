@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BussinesLayer.Repository;
+using DataLayer.Utils.Paginations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Model.Models;
 using Model.Settings;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -16,45 +19,47 @@ using System.Threading.Tasks;
 namespace Service.Svc
 {
 
-    public class SaleService : ISaleService
+    public class SaleService : BaseRepository<Sale, ApplicationDbContext, Guid>, ISaleService
     {
         private readonly ApplicationDbContext _context;
         private readonly EmailSetting _settings;
         private readonly InternalConfiguration _internalOptions;
         private readonly IOrderService _order;
-        public SaleService(ApplicationDbContext context , IOptions<EmailSetting> options , IOrderService order , IOptions<InternalConfiguration> internalOptions)
+        public SaleService(ApplicationDbContext context,
+            IOptions<EmailSetting> options,
+            IOrderService order,
+            IOptions<InternalConfiguration> internalOptions)
+            : base(context)
         {
             _context = context;
             _settings = options.Value;
             _order = order;
             _internalOptions = internalOptions.Value;
         }
-        public async Task<bool> Add(Sale model)
+        public override async Task<bool> Add(Sale model)
         {
-                var order = new Order() {  };
-                if (await _order.Add(order))
-                {
-                    model.OrderId = order.Id;
-                    model.CreatedAt = DateTime.Now;
-                    await _context.AddAsync(model);
-                }
-                return await _context.SaveChangesAsync() > 0;
+            var order = new Order() { };
+            var result = await _order.Add(order);
+            if (!result) return false;
+            model.OrderId = order.Id;
+            model.CreatedAt = DateTime.Now;
+            return await base.Add(model);
         }
 
         public async Task<bool> CreateSale(Sale sale, string userEmail)
         {
-            if(await Add(sale))
+            if (await Add(sale))
             {
                 sale.DetailSales.ForEach(_ =>
                 {
                     _.CreatedAt = DateTime.Now;
                     _.SaleId = sale.Id;
                 });
-               if(await UpdateProducts(sale.DetailSales))
-               {
+                if (await UpdateProducts(sale.DetailSales))
+                {
                     await SendEmail(sale, userEmail);
                     if (!await AddDetailSale(sale.DetailSales)) return false;
-               }
+                }
             }
             return await _context.SaveChangesAsync() > 0;
         }
@@ -85,45 +90,13 @@ namespace Service.Svc
             }
         }
 
-
-        public async Task<IEnumerable<Sale>> GetList() => await _context.Sales.ToListAsync();
-
-        public async Task<Sale> GetById(Guid id)
+        public override async Task<Sale> GetById(Guid id, params Expression<Func<Sale, object>>[] includes)
         {
-            var model = await _context.Sales.Include(x => x.DetailSales).Include(x => x.Order).Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
-            if (model == null) return model; 
+            var model = await _context.Sales.Include(x => x.User).Include(x => x.Order).Include(x => x.DetailSales)
+                .ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.Id == id);
+            if (model == null) return model;
             model.User = (model != null) ? await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == model.ApplicationUserId) : new ApplicationUser();
             return model;
-        }
-
-        public async Task<bool> Remove(Guid id)
-        {
-            try
-            {
-                var model = await GetById(id);
-                model.UpdatedAt = DateTime.Now;
-                model.State = Model.Enums.State.Deleted;
-                _context.Update(model);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> Update(Sale model)
-        {
-            try
-            {
-                model.UpdatedAt = DateTime.Now;
-                _context.Update(model);
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
 
         private async Task<bool> SendEmail(Sale model, string userEmail)
@@ -158,7 +131,7 @@ namespace Service.Svc
                 UseDefaultCredentials = _settings.DefaultCredentials,
                 Credentials = new NetworkCredential(_settings.User, _settings.Password)
             };
-         
+
             try
             {
                 var mailMessage = new MailMessage
@@ -173,7 +146,7 @@ namespace Service.Svc
                 await smtp.SendMailAsync(mailMessage);
             }
             catch
-            {}
+            { }
             return true;
         }
 

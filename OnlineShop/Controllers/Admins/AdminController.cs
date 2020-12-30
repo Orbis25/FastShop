@@ -20,10 +20,10 @@ namespace OnlineShop.Controllers
         private readonly ICouponService _cupponService;
         private readonly ISaleService _saleService;
 
-        public AdminController(ICategoryService categoryService ,
-            IAdminService adminService ,
+        public AdminController(ICategoryService categoryService,
+            IAdminService adminService,
             IUserService userService,
-            IProductService productService ,
+            IProductService productService,
             ICouponService cuppon,
             IOffertService offertService,
             ISaleService saleService)
@@ -43,13 +43,13 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Users() => View(await _userService.GetUsers());
 
         [HttpGet]
-        public async Task<IActionResult> Products() => View(await _productService.GetList());
+        public async Task<IActionResult> Products() => View(await _productService.GetList(null, x => x.Category));
 
         [HttpGet]
         public async Task<IActionResult> Categories() => View(await _categoryService.GetList());
 
         [HttpGet]
-        public async Task<IActionResult> Offerts() => View(await _offertService.GetList());
+        public async Task<IActionResult> Offerts() => View(await _offertService.GetList(null, x => x.ImageOfferts));
 
         [HttpGet]
         public async Task<IActionResult> Cupons() => View(await _cupponService.GetList());

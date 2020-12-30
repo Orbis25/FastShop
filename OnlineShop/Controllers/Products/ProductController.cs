@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,7 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpGet]
-        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _categoryService.GetList()});
+        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _categoryService.GetList() });
 
         [Authorize(Roles = "admin")]
         [HttpPost]
@@ -59,7 +60,8 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpPost]
-        public async Task<IActionResult> Remove(Guid id) => Ok(await _service.Remove(id));
+        public async Task<IActionResult> Remove(Guid id) => Ok(await _service.SoftRemove(id));
+        
         [Authorize(Roles = "user")]
         public IActionResult Car() => View();
         [Authorize(Roles = "admin")]
@@ -119,7 +121,8 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> UploadPic(PicVM<Guid> model)
         {
             var file = await _common.UploadPic(model.Img);
-            if (!string.IsNullOrEmpty(file)) { 
+            if (!string.IsNullOrEmpty(file))
+            {
                 if (ModelState.IsValid)
                 {
                     if (await _service.UplodadPic(new ProductPic
@@ -140,7 +143,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id)
         {
-            var model = await _service.GetById(id);
+            var model = await _service.GetById(id, x => x.Category, x => x.ProductPics);
             if (model != null) return View(model);
             return new NotFoundView();
         }
@@ -149,8 +152,8 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var model = await _service.GetById(id);
-            if(model != null) return View(model);
+            var model = await _service.GetById(id, x => x.Category, x => x.ProductPics);
+            if (model != null) return View(model);
             return new NotFoundView();
         }
 

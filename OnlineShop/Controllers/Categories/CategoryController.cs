@@ -43,7 +43,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
        public async Task<IActionResult> Remove([FromRoute] int id)
        {
-            if (await _service.Remove(id)) return Ok(true);
+            if (await _service.SoftRemove(id)) return Ok(true);
             return BadRequest("not deleted");
        }
         [Authorize(Roles = "admin")]

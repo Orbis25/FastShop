@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BussinesLayer.Repository;
+using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Model.ViewModels;
 using OnlineShop.Data;
@@ -11,61 +12,11 @@ using System.Threading.Tasks;
 
 namespace Service.Svc
 {
-    public class ProductService : IProductService
+    public class ProductService : BaseRepository<Product, ApplicationDbContext, Guid>, IProductService
     {
         private readonly ApplicationDbContext _context;
-        public ProductService(ApplicationDbContext context) => _context = context;
-        
-        public async Task<bool> Add(Product model)
-        {
-            try
-            {
-                _context.Products.Add(model);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+        public ProductService(ApplicationDbContext context) : base(context) => _context = context;
 
-        }
-
-        public async Task<IEnumerable<Product>> GetList() => await _context.Products.Include(x => x.Category).ToListAsync();
-
-        public async Task<Product> GetById(Guid id) => await _context.Products.Include(x => x.Category).Include(x => x.ProductPics).FirstOrDefaultAsync(x => x.Id == id);
-
-        public async Task<bool> Remove(Guid id)
-        {
-            try
-            {
-                var model = await GetById(id);
-                model.UpdatedAt = DateTime.Now;
-                model.State = Model.Enums.State.Deleted;
-                _context.Update(model);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> Update(Product model)
-        {
-            try
-            {
-                model.UpdatedAt = DateTime.Now;
-                _context.Update(model);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
         public async Task<bool> UplodadPic(ProductPic model)
         {
@@ -90,7 +41,7 @@ namespace Service.Svc
 
         public async Task<ProductPaginationVM> GetAllPaginateProducts(int take = 9, int page = 1)
         {
-            var model =  await _context.Products.OrderBy(x => x.CreatedAt)
+            var model = await _context.Products.OrderBy(x => x.CreatedAt)
                 .Skip((page - 1) * take)
                 .Take(take)
                 .Include(x => x.ProductPics)
@@ -117,7 +68,8 @@ namespace Service.Svc
             model = model.Take(filter.Take).Skip((filter.Index - 1) * filter.Take);
 
 
-            return new ProductPaginationVM {
+            return new ProductPaginationVM
+            {
                 ActualPage = filter.Index,
                 RegisterByPage = filter.Take,
                 TotalOfRegisters = model.Count(),

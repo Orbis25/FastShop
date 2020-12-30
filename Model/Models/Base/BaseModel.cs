@@ -3,7 +3,7 @@ using System;
 
 namespace Model.Models
 {
-    public class BaseModel<T> where T : struct
+    public class BaseModel<T> where T : IEquatable<T>
     {
         public virtual T Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
