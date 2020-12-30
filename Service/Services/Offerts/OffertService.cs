@@ -34,7 +34,7 @@ namespace Service.Svc
 
         public async Task<Offert> GetActiveOffert() => await _context.Offerts.Include(x => x.ImageOfferts).FirstOrDefaultAsync(x => x.State != Model.Enums.State.Deleted);
 
-        public async Task<IEnumerable<Offert>> GetAll() 
+        public async Task<IEnumerable<Offert>> GetList() 
             => await _context.Offerts.Include(x => x.ImageOfferts)
             .OrderBy(x => x.State == Model.Enums.State.Active)
             .ToListAsync();

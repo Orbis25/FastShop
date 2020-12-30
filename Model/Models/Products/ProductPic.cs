@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class ProductPic : CommonProperties<int>
+    public class ProductPic : BaseModel<int>
     {
         public Guid ProductId { get; set; }
         public string PicName { get; set; } 

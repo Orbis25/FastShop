@@ -31,7 +31,7 @@ namespace Service.svc
             => await _context.Orders.Include(x => x.Sale)
             .FirstOrDefaultAsync(x => x.OrderCode.Equals(code) && x.Sale.ApplicationUserId.Equals(userId));
 
-        public async Task<IEnumerable<Order>> GetAll() => await _context.Orders.ToListAsync();
+        public async Task<IEnumerable<Order>> GetList() => await _context.Orders.ToListAsync();
 
         public async Task<Order> GetById(Guid id) => await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
 

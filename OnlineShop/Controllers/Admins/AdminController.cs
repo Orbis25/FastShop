@@ -43,18 +43,18 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Users() => View(await _userService.GetUsers());
 
         [HttpGet]
-        public async Task<IActionResult> Products() => View(await _productService.GetAll());
+        public async Task<IActionResult> Products() => View(await _productService.GetList());
 
         [HttpGet]
-        public async Task<IActionResult> Categories() => View(await _categoryService.GetAll());
+        public async Task<IActionResult> Categories() => View(await _categoryService.GetList());
 
         [HttpGet]
-        public async Task<IActionResult> Offerts() => View(await _offertService.GetAll());
+        public async Task<IActionResult> Offerts() => View(await _offertService.GetList());
 
         [HttpGet]
-        public async Task<IActionResult> Cupons() => View(await _cupponService.GetAll());
+        public async Task<IActionResult> Cupons() => View(await _cupponService.GetList());
 
         [HttpGet]
-        public async Task<IActionResult> Sales() => View(await _saleService.GetAll());
+        public async Task<IActionResult> Sales() => View(await _saleService.GetList());
     }
 }

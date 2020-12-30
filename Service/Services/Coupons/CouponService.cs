@@ -29,7 +29,7 @@ namespace Service.Svc
             }
         }
 
-        public async Task<IEnumerable<Cupon>> GetAll() => await _context.Cupons.ToListAsync();
+        public async Task<IEnumerable<Cupon>> GetList() => await _context.Cupons.ToListAsync();
 
         public async Task<Cupon> GetById(int id) => await _context.Cupons.SingleOrDefaultAsync(x => x.Id == id);
 

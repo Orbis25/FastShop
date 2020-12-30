@@ -86,7 +86,7 @@ namespace Service.Svc
         }
 
 
-        public async Task<IEnumerable<Sale>> GetAll() => await _context.Sales.ToListAsync();
+        public async Task<IEnumerable<Sale>> GetList() => await _context.Sales.ToListAsync();
 
         public async Task<Sale> GetById(Guid id)
         {

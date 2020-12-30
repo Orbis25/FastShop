@@ -31,7 +31,7 @@ namespace Service.Svc
 
         }
 
-        public async Task<IEnumerable<Product>> GetAll() => await _context.Products.Include(x => x.Category).ToListAsync();
+        public async Task<IEnumerable<Product>> GetList() => await _context.Products.Include(x => x.Category).ToListAsync();
 
         public async Task<Product> GetById(Guid id) => await _context.Products.Include(x => x.Category).Include(x => x.ProductPics).FirstOrDefaultAsync(x => x.Id == id);
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class Category : CommonProperties<int>
+    public class Category : BaseModel<int>
     {
         [Required]
         public string Name { get; set; }

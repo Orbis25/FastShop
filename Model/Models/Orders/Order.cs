@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class Order : CommonProperties<Guid>
+    public class Order : BaseModel<Guid>
     {
         public StateOrder StateOrder { get; set; } = StateOrder.Storage;
         public string Description { get; set; }

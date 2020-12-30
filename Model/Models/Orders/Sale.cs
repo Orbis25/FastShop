@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class Sale : CommonProperties<Guid>
+    public class Sale : BaseModel<Guid>
     {
 
         public string CuponCode { get; set; }
@@ -30,7 +30,7 @@ namespace Model.Models
         
     }
 
-    public class DetailSale : CommonProperties<Guid>
+    public class DetailSale : BaseModel<Guid>
     {
         [Required]
         public int Quantity { get; set; }

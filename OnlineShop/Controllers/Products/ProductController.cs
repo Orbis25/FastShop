@@ -29,7 +29,7 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpGet]
-        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _categoryService.GetAll()});
+        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _categoryService.GetList()});
 
         [Authorize(Roles = "admin")]
         [HttpPost]
@@ -44,7 +44,7 @@ namespace OnlineShop.Controllers
                 Model = product.Model,
                 CompanyName = product.CompanyName,
                 CategoryId = product.CategoryId,
-                Categories = await _categoryService.GetAll()
+                Categories = await _categoryService.GetList()
             };
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace OnlineShop.Controllers
                     Quantity = product.Quantity,
                     CompanyName = product.CompanyName,
                     CategoryId = product.CategoryId,
-                    Categories = await _categoryService.GetAll()
+                    Categories = await _categoryService.GetList()
                 };
                 return View(pvm);
             }
@@ -108,7 +108,7 @@ namespace OnlineShop.Controllers
                     TempData["Product"] = "Producto Actualizado";
                     return RedirectToAction("Products", "Admin");
                 }
-                pvm.Categories = await _categoryService.GetAll();
+                pvm.Categories = await _categoryService.GetList();
                 return View(pvm);
             }
             return View(pvm);

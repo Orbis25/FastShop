@@ -22,7 +22,7 @@ namespace OnlineShop.Controllers
         }
         [Authorize(Roles = "user,admin")]
         public async Task<IActionResult> Index(int take = 9 , int index = 1) => View(new ShopVM { 
-            Categories = await _service.GetAll(),
+            Categories = await _service.GetList(),
             Products = await _productService.GetAllPaginateProducts(take,index)
         });
 
@@ -60,7 +60,7 @@ namespace OnlineShop.Controllers
             
           return View(nameof(Index), new ShopVM
           {  
-              Categories = await _service.GetAll(),
+              Categories = await _service.GetList(),
               Products = await _productService.Filter(filter),
               Filters = filter
           });

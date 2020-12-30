@@ -3,7 +3,7 @@ using System;
 
 namespace Model.Models
 {
-    public class CommonProperties<T> where T : struct
+    public class BaseModel<T> where T : struct
     {
         public virtual T Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

@@ -32,7 +32,7 @@ namespace Service.Svc
             }
         }
 
-        public async Task<IEnumerable<Category>> GetAll()
+        public async Task<IEnumerable<Category>> GetList()
         {
             return await _context.Categories.ToListAsync();
         }

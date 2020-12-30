@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class Offert : CommonProperties<int>
+    public class Offert : BaseModel<int>
     {
         [Required]
         public string Description { get; set; }
