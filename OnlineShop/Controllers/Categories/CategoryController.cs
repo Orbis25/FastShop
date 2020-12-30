@@ -22,7 +22,7 @@ namespace OnlineShop.Controllers
         }
         [Authorize(Roles = "user,admin")]
         public async Task<IActionResult> Index(int take = 9 , int index = 1) => View(new ShopVM { 
-            Categories = await _service.GetAll(),
+            Categories = await _service.GetList(),
             Products = await _productService.GetAllPaginateProducts(take,index)
         });
 
@@ -43,7 +43,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
        public async Task<IActionResult> Remove([FromRoute] int id)
        {
-            if (await _service.Remove(id)) return Ok(true);
+            if (await _service.SoftRemove(id)) return Ok(true);
             return BadRequest("not deleted");
        }
         [Authorize(Roles = "admin")]
@@ -60,7 +60,7 @@ namespace OnlineShop.Controllers
             
           return View(nameof(Index), new ShopVM
           {  
-              Categories = await _service.GetAll(),
+              Categories = await _service.GetList(),
               Products = await _productService.Filter(filter),
               Filters = filter
           });

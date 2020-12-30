@@ -1,16 +1,24 @@
-﻿using System;
+﻿using DataLayer.Utils.Paginations;
+using Model.Models;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Service.Interface
 {
-    public interface IBaseRepository<TEntity , Id> where TEntity : class where Id : struct
+    public interface IBaseRepository<TEntity , TIdentifier> where TEntity : BaseModel<TIdentifier> where TIdentifier : IEquatable<TIdentifier>
     {
         Task<bool> Add(TEntity model);
-        Task<bool> Remove(Id id);
-        Task<IEnumerable<TEntity>> GetAll();
-        Task<TEntity> GetById(Id id);
+        Task<bool> Remove(TIdentifier id);
+        Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>> filters = null, params Expression<Func<TEntity, object>>[] includes);
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filters = null, params Expression<Func<TEntity, object>>[] includes);
+        Task<PaginationResult<TEntity>> GetAllPaginated(PaginationBase pagination,Expression<Func<TEntity, bool>> filters = null,params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetById(TIdentifier id, params Expression<Func<TEntity, object>>[] includes);
         Task<bool> Update(TEntity model);
+        Task<bool> SoftRemove(TIdentifier id);
+        Task<bool> Exist(TIdentifier id);
+
     }
 }

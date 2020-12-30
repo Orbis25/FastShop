@@ -18,7 +18,7 @@ namespace OnlineShop.Controllers
         private readonly ISaleService _service;
         private readonly IOrderService _order;
         private readonly ICommon _common;
-        public SaleController(ISaleService sale , IOrderService order , ICommon common)
+        public SaleController(ISaleService sale, IOrderService order, ICommon common)
         {
             _service = sale;
             _order = order;
@@ -26,12 +26,12 @@ namespace OnlineShop.Controllers
         }
         [Authorize(Roles = "user")]
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]Sale model)
+        public async Task<IActionResult> Add([FromBody] Sale model)
         {
             if (User.Identity.IsAuthenticated)
             {
                 model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                return Ok(await _service.CreateSale(model,User.Identity.Name));
+                return Ok(await _service.CreateSale(model, User.Identity.Name));
             }
             return Ok(false);
         }
@@ -40,7 +40,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> SaleDetail(Guid id)
         {
-            var model = await _service.GetById(id);
+            var model = await _service.GetById(id, x => x.DetailSales);
             if (model != null)
             {
                 ViewData["StatusPercent"] = _common.OrderStatusPercent(model.Order.StateOrder);
@@ -51,14 +51,14 @@ namespace OnlineShop.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Remove(Guid id) => Ok(await _service.Remove(id));
+        public async Task<IActionResult> Remove(Guid id) => Ok(await _service.SoftRemove(id));
 
         [HttpPost]
         public async Task<IActionResult> UpdateOrder(Order model, Guid saleId)
         {
             if (ModelState.IsValid)
             {
-               await _order.Update(model);
+                await _order.Update(model);
             }
             return RedirectToAction(nameof(SaleDetail), new { id = saleId });
         }

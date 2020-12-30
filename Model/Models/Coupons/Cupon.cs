@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class Cupon : CommonProperties<int>
+    public class Cupon : BaseModel<int>
     {
         [Required]
         public string Concept { get; set; }

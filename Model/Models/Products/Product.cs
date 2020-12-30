@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model.Models
 {
-    public class Product : CommonProperties<Guid>
+    public class Product : BaseModel<Guid>
     {
         [Required]
         [Display(Name = "Nombre del Producto")]
