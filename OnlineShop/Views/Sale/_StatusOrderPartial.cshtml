@@ -8,7 +8,7 @@
                 <h1>ESTADO DE LA ORDEN @Model.OrderCode </h1>
                 <div class="mb-5">
                     <i class="fas fa-calendar-week"></i>
-                    Ultima actualización => @Model.UpdateAt.ToShortDateString()
+                    Ultima actualización => @Model.UpdatedAt.ToShortDateString()
                 </div>
                 @{
                     var bgClass = Model.StateOrder == StateOrder.Canceled ? "bg-danger" : Model.StateOrder == StateOrder.Delivered ? "bg-success" : string.Empty;

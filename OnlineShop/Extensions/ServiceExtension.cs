@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,10 +10,6 @@ using Service.Commons;
 using Service.Interface;
 using Service.svc;
 using Service.Svc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineShop.ExtensionMethods
 {
@@ -24,7 +19,6 @@ namespace OnlineShop.ExtensionMethods
         public static void AddConnection(this IServiceCollection service, IConfiguration configuration)
             => service.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseLazyLoadingProxies();
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
@@ -60,10 +54,10 @@ namespace OnlineShop.ExtensionMethods
             service.AddTransient<IAdminService, AdminService>();
             service.AddTransient<IUserService, UserService>();
             service.AddTransient<IProductService, ProductService>();
-            service.AddTransient<ICommon, Commons>();
+            service.AddTransient<ICommon, Common>();
             service.AddTransient<IAccountService, AccountService>();
             service.AddTransient<IOffertService, OffertService>();
-            service.AddTransient<ICupponService, CupponService>();
+            service.AddTransient<ICouponService, CouponService>();
             service.AddTransient<ISaleService, SaleService>();
             service.AddTransient<IOrderService, OrderService>();
 
