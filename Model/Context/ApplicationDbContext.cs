@@ -17,10 +17,10 @@ namespace OnlineShop.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.deleted);
-            modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.deleted);
-            modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.deleted);
-            modelBuilder.Entity<Sale>().HasQueryFilter(x => x.State != State.deleted);
+            modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.Deleted);
+            modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.Deleted);
+            modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.Deleted);
+            modelBuilder.Entity<Sale>().HasQueryFilter(x => x.State != State.Deleted);
 
         }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
