@@ -11,7 +11,7 @@ namespace Model.Models
         public int Id { get; set; }
         [ForeignKey("OffertId")]
         public int OffertId { get; set; }
-        public virtual Offert Offert { get; set; }
+        public Offert Offert { get; set; }
         public string ImageName { get; set; }
     }
 }

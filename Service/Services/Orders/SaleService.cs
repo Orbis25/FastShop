@@ -94,8 +94,6 @@ namespace Service.Svc
         {
             var model = await _context.Sales.Include(x => x.User).Include(x => x.Order).Include(x => x.DetailSales)
                 .ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.Id == id);
-            if (model == null) return model;
-            model.User = (model != null) ? await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == model.ApplicationUserId) : new ApplicationUser();
             return model;
         }
 
