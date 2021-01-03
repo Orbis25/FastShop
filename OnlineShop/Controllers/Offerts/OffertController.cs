@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BussinesLayer.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
 using OnlineShop.ExtensionMethods;
 using Service.Commons;
-using Service.Interface;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -12,12 +12,12 @@ namespace OnlineShop.Controllers
     [Authorize(Roles = "admin")]
     public class OffertController : Controller
     {
-        private readonly IOffertService _offertService;
+        private readonly IUnitOfWork _services;
         private readonly ICommon _common;
 
-        public OffertController(IOffertService offertService, ICommon common)
+        public OffertController(IUnitOfWork services, ICommon common)
         {
-            _offertService = offertService;
+            _services = services;
             _common = common;
         }
 
@@ -29,7 +29,7 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _offertService.Add(model))
+                if (await _services.OffertService.Add(model))
                 {
                     TempData["Offert"] = "Agregado Correctamente";
                     return RedirectToAction("Offerts", "Admin");
@@ -44,17 +44,17 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id) => Ok(await _offertService.SoftRemove(id));
+        public async Task<IActionResult> Delete(int id) => Ok(await _services.OffertService.SoftRemove(id));
 
         [HttpGet]
-        public async Task<IActionResult> Update(int id) => View(await _offertService.GetById(id));
+        public async Task<IActionResult> Update(int id) => View(await _services.OffertService.GetById(id));
 
         [HttpPost]
         public async Task<IActionResult> Update(Offert model)
         {
             if (ModelState.IsValid)
             {
-                await _offertService.Update(model);
+                await _services.OffertService.Update(model);
                 TempData["Offert"] = "Actualizada Correctamente";
                 return RedirectToAction("Offerts", "Admin");
             }
@@ -70,7 +70,7 @@ namespace OnlineShop.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _offertService.UploadImg(new ImageOffert
+                    if (await _services.OffertService.UploadImg(new ImageOffert
                     {
                         ImageName = file,
                         OffertId = model.Id,
@@ -86,7 +86,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
-            var model = await _offertService.GetById(id);
+            var model = await _services.OffertService.GetById(id);
             if(model != null) return View(model);
             return new NotFoundView();
         }

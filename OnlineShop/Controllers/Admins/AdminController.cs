@@ -1,60 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BussinesLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Model.Models;
-using Service.Interface;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        private readonly IAdminService _service;
-        private readonly ICategoryService _categoryService;
-        private readonly IUserService _userService;
-        private readonly IProductService _productService;
-        private readonly IOffertService _offertService;
-        private readonly ICouponService _cupponService;
-        private readonly ISaleService _saleService;
+        private readonly IUnitOfWork _services;
 
-        public AdminController(ICategoryService categoryService,
-            IAdminService adminService,
-            IUserService userService,
-            IProductService productService,
-            ICouponService cuppon,
-            IOffertService offertService,
-            ISaleService saleService)
+        public AdminController(IUnitOfWork services)
         {
-            _categoryService = categoryService;
-            _service = adminService;
-            _userService = userService;
-            _productService = productService;
-            _offertService = offertService;
-            _cupponService = cuppon;
-            _saleService = saleService;
+            _services = services;
         }
-        [HttpGet]
-        public IActionResult Index() => View(_service.GetAllCountServices());
 
         [HttpGet]
-        public async Task<IActionResult> Users() => View(await _userService.GetUsers());
+        public IActionResult Index() => View(_services.AdminService.GetAllCountServices());
 
         [HttpGet]
-        public async Task<IActionResult> Products() => View(await _productService.GetList(null, x => x.Category));
+        public async Task<IActionResult> Users() => View(await _services.UserService.GetUsers());
 
         [HttpGet]
-        public async Task<IActionResult> Categories() => View(await _categoryService.GetList());
+        public async Task<IActionResult> Products() => View(await _services.ProductService.GetList(null, x => x.Category));
 
         [HttpGet]
-        public async Task<IActionResult> Offerts() => View(await _offertService.GetList(null, x => x.ImageOfferts));
+        public async Task<IActionResult> Categories() => View(await _services.CategoryService.GetList());
 
         [HttpGet]
-        public async Task<IActionResult> Cupons() => View(await _cupponService.GetList());
+        public async Task<IActionResult> Offerts() => View(await _services.OffertService.GetList(null, x => x.ImageOfferts));
 
         [HttpGet]
-        public async Task<IActionResult> Sales() => View(await _saleService.GetList());
+        public async Task<IActionResult> Cupons() => View(await _services.CouponService.GetList());
+
+        [HttpGet]
+        public async Task<IActionResult> Sales() => View(await _services.SaleService.GetList());
     }
 }

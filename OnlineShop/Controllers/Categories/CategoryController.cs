@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BussinesLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
-using Service.Interface;
+using System;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     [Authorize]
     public class CategoryController : Controller
     {
-        private readonly ICategoryService _service;
-        private readonly IProductService _productService;
-        public CategoryController(ICategoryService service , IProductService productService)
+        private readonly IUnitOfWork _services;
+        public CategoryController(IUnitOfWork services)
         {
-              _service = service;
-            _productService = productService;
+              _services = services;
         }
         [Authorize(Roles = "user,admin")]
         public async Task<IActionResult> Index(int take = 9 , int index = 1) => View(new ShopVM { 
-            Categories = await _service.GetList(),
-            Products = await _productService.GetAllPaginateProducts(take,index)
+            Categories = await _services.CategoryService.GetList(),
+            Products = await _services.ProductService.GetAllPaginateProducts(take,index)
         });
 
         [Authorize(Roles = "admin")]
@@ -33,7 +29,7 @@ namespace OnlineShop.Controllers
             if (!string.IsNullOrEmpty(model.Name))
             {
                 model.CreatedAt = DateTime.Now;
-                var result = await _service.Add(model);
+                var result = await _services.CategoryService.Add(model);
                 if (result != false) return Ok(result);
             }
            return BadRequest();
@@ -43,14 +39,14 @@ namespace OnlineShop.Controllers
         [HttpGet]
        public async Task<IActionResult> Remove([FromRoute] int id)
        {
-            if (await _service.SoftRemove(id)) return Ok(true);
+            if (await _services.CategoryService.SoftRemove(id)) return Ok(true);
             return BadRequest("not deleted");
        }
         [Authorize(Roles = "admin")]
         [HttpPost]
        public async Task<IActionResult> Update([FromBody] Category model)
        {
-            if (await _service.Update(model)) return Ok(true);
+            if (await _services.CategoryService.Update(model)) return Ok(true);
             return BadRequest("not updated");
        }
        [Authorize(Roles = "user,admin")]
@@ -60,8 +56,8 @@ namespace OnlineShop.Controllers
             
           return View(nameof(Index), new ShopVM
           {  
-              Categories = await _service.GetList(),
-              Products = await _productService.Filter(filter),
+              Categories = await _services.CategoryService.GetList(),
+              Products = await _services.ProductService.Filter(filter),
               Filters = filter
           });
        }

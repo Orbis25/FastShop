@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Model\DataLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UnitOfWork\" />
-  </ItemGroup>
-
 </Project>

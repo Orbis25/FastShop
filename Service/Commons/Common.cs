@@ -20,7 +20,6 @@ namespace Service.Commons
     public interface ICommon
     {
         Task<string> UploadPic(IFormFile file);
-        string GenerateCodeString(int length);
         Task<bool> SendEmailRecoveryPass(string email);
         Task<bool> ChangePassWord(string code, string newPassword);
         int OrderStatusPercent(StateOrder state);
@@ -68,8 +67,6 @@ namespace Service.Commons
             }
             return null;
         }
-
-        public string GenerateCodeString(int length) => Guid.NewGuid().ToString().Substring(0, length).ToUpper();
 
         public async Task<bool> SendEmailRecoveryPass(string email)
         {

@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BussinesLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Model.Models;
 using Service.Commons;
-using Service.Interface;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     [Authorize]
     public class TrackingController : Controller
     {
-        private readonly IOrderService _service;
         private readonly ICommon _common;
-        private readonly IAccountService _account;
+        private readonly IUnitOfWork _services;
 
-
-        public TrackingController(IOrderService service , ICommon common, IAccountService account)
+        public TrackingController(IUnitOfWork services, ICommon common)
         {
-            _service = service;
+            _services = services;
             _common = common;
-            _account = account;
         }
-        
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -34,8 +27,8 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string OrderCode)
         {
-            var user = await _account.GetByEmail(User.Identity.Name);
-            var result = await _service.FindByOrderCode(OrderCode , user.Id);
+            var user = await _services.AccountService.GetByEmail(User.Identity.Name);
+            var result = await _services.OrderService.FindByOrderCode(OrderCode, user.Id);
             if (result == null)
             {
                 ViewData["NotFound"] = true;
@@ -45,6 +38,6 @@ namespace OnlineShop.Controllers
             return View(result);
         }
 
-       
+
     }
 }
