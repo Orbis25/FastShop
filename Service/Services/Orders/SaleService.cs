@@ -1,5 +1,4 @@
 ﻿using BussinesLayer.Repository;
-using DataLayer.Utils.Paginations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Model.Models;
@@ -9,11 +8,9 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Svc
@@ -24,22 +21,20 @@ namespace Service.Svc
         private readonly ApplicationDbContext _context;
         private readonly EmailSetting _settings;
         private readonly InternalConfiguration _internalOptions;
-        private readonly IOrderService _order;
         public SaleService(ApplicationDbContext context,
             IOptions<EmailSetting> options,
-            IOrderService order,
             IOptions<InternalConfiguration> internalOptions)
             : base(context)
         {
             _context = context;
             _settings = options.Value;
-            _order = order;
             _internalOptions = internalOptions.Value;
         }
         public override async Task<bool> Add(Sale model)
         {
             var order = new Order() { };
-            var result = await _order.Add(order);
+            await _context.Orders.AddAsync(order);
+            var result = await CommitAsync();
             if (!result) return false;
             model.OrderId = order.Id;
             model.CreatedAt = DateTime.Now;

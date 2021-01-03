@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BussinesLayer.UnitOfWork;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -50,16 +51,8 @@ namespace OnlineShop.ExtensionMethods
 
         public static void Services(this IServiceCollection service)
         {
-            service.AddTransient<ICategoryService, CategoryService>();
-            service.AddTransient<IAdminService, AdminService>();
-            service.AddTransient<IUserService, UserService>();
-            service.AddTransient<IProductService, ProductService>();
+            service.AddTransient<IUnitOfWork, UnitOfWork>();
             service.AddTransient<ICommon, Common>();
-            service.AddTransient<IAccountService, AccountService>();
-            service.AddTransient<IOffertService, OffertService>();
-            service.AddTransient<ICouponService, CouponService>();
-            service.AddTransient<ISaleService, SaleService>();
-            service.AddTransient<IOrderService, OrderService>();
 
         }
     }

@@ -1,39 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using BussinesLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
 using Model.ViewModels;
-using OnlineShop.Models;
 using Service.Commons;
-using Service.Interface;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     public class HomeController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
-        //private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly IOffertService _offertService;
-        private readonly IProductService _productService;
         private readonly ICommon _commonService;
+        private readonly IUnitOfWork _services;
+
         public HomeController(UserManager<ApplicationUser> user,
-            //SignInManager<ApplicationUser> app,
-            IOffertService offert,
-             IProductService productService,
-             ICommon common)
+             ICommon common,
+             IUnitOfWork services)
         {
-            userManager = user;
-           // signInManager = app;
-            _offertService = offert;
-            _productService = productService;
             _commonService = common;
+            userManager = user;
+            _services = services;
         }
 
         #region To AddUser to Role 
@@ -64,8 +52,8 @@ namespace OnlineShop.Controllers
 
             return View(new HomeVM
             {
-                Offert = await _offertService.GetActiveOffert(),
-                Products = await _productService.GetHomeProducts()
+                Offert = await _services.OffertService.GetActiveOffert(),
+                Products = await _services.ProductService.GetHomeProducts()
             });
         }
 
@@ -75,7 +63,7 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> RecoveryPassword(string email) => Ok(await _commonService.SendEmailRecoveryPass(email));
 
         [HttpGet]
-        public IActionResult Changepassword(string code) =>  View(nameof(Changepassword),code);
+        public IActionResult Changepassword(string code) => View(nameof(Changepassword), code);
 
         [HttpGet]
         public async Task<IActionResult> Change(string code, string newpass) => Ok(await _commonService.ChangePassWord(code, newpass));

@@ -1,4 +1,5 @@
-﻿using Model.Enums;
+﻿using Commons.Helpers;
+using Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ namespace Model.Models
         [Required]
         public string Concept { get; set; }
 
-        public string Code { get; set; }
+        public string Code { get; set; } = StringHelper.GetRandomCode();
 
         [Required]
         public double Amount { get; set; }

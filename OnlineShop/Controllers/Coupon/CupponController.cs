@@ -1,21 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BussinesLayer.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
-using Service.Commons;
-using Service.Interface;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     public class CupponController : Controller
     {
-        private readonly ICouponService _service;
-        private readonly ICommon _common;
+        private readonly IUnitOfWork _services;
 
-        public CupponController(ICouponService service , ICommon common)
+        public CupponController(IUnitOfWork services)
         {
-            _service = service;
-            _common = common;
+            _services = services;
         }
         [Authorize(Roles = "admin")]
         [HttpGet]
@@ -25,10 +22,9 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Cupon model)
         {
-            model.Code = _common.GenerateCodeString(5);
             if (ModelState.IsValid)
             {
-                if(await _service.Add(model))
+                if (await _services.CouponService.Add(model))
                 {
                     TempData["Cuppon"] = "Agregado Correctamente";
                     return RedirectToAction("Cupons", "Admin");
@@ -42,7 +38,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var model = await _service.GetById(id);
+            var model = await _services.CouponService.GetById(id);
             if (model != null)
             {
                 return View(model);
@@ -56,7 +52,7 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(await _service.Update(model))
+                if (await _services.CouponService.Update(model))
                 {
                     TempData["Cuppons"] = "Actualizado Correctamente";
                     return RedirectToAction("Cupons", "Admin");
@@ -67,9 +63,9 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpPost]
-        public async Task<IActionResult> Remove(int id) => Ok(await _service.SoftRemove(id));
+        public async Task<IActionResult> Remove(int id) => Ok(await _services.CouponService.SoftRemove(id));
         [Authorize(Roles = "user")]
         [HttpGet]
-        public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _service.GetByCupponCode(code));
+        public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _services.CouponService.GetByCupponCode(code));
     }
 }

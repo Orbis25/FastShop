@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Model.Models;
 using Service.Interface;
+using BussinesLayer.UnitOfWork;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
 {
@@ -19,13 +20,14 @@ namespace OnlineShop.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IAccountService _account;
+        private readonly IUnitOfWork _services;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger , IAccountService accountService)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger , 
+            IUnitOfWork services)
         {
             _signInManager = signInManager;
             _logger = logger;
-            _account = accountService;
+            _services = services;
         }
 
         [BindProperty]
@@ -72,7 +74,7 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            var account = await _account.GetByEmail(Input.Email);
+            var account = await _services.AccountService.GetByEmail(Input.Email);
             if (ModelState.IsValid && (account != null && account.LockoutEnabled == false && account.EmailConfirmed))
             {
 

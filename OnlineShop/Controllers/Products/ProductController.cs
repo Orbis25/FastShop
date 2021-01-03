@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using BussinesLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
 using OnlineShop.ExtensionMethods;
 using Service.Commons;
-using Service.Interface;
+using System;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductService _service;
-        private readonly ICategoryService _categoryService;
         private readonly ICommon _common;
-        public ProductController(IProductService service,
-            ICategoryService categoryService,
+        private readonly IUnitOfWork _services;
+        public ProductController(IUnitOfWork services,
             ICommon common)
         {
-            _service = service;
-            _categoryService = categoryService;
+            _services = services;
             _common = common;
         }
         [Authorize(Roles = "admin")]
@@ -30,7 +25,7 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpGet]
-        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _categoryService.GetList() });
+        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _services.CategoryService.GetList() });
 
         [Authorize(Roles = "admin")]
         [HttpPost]
@@ -45,11 +40,11 @@ namespace OnlineShop.Controllers
                 Model = product.Model,
                 CompanyName = product.CompanyName,
                 CategoryId = product.CategoryId,
-                Categories = await _categoryService.GetList()
+                Categories = await _services.CategoryService.GetList()
             };
             if (ModelState.IsValid)
             {
-                if (await _service.Add(product))
+                if (await _services.ProductService.Add(product))
                 {
                     return RedirectToAction("Products", "Admin");
                 }
@@ -60,7 +55,7 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = "admin")]
 
         [HttpPost]
-        public async Task<IActionResult> Remove(Guid id) => Ok(await _service.SoftRemove(id));
+        public async Task<IActionResult> Remove(Guid id) => Ok(await _services.ProductService.SoftRemove(id));
         
         [Authorize(Roles = "user")]
         public IActionResult Car() => View();
@@ -69,7 +64,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var product = await _service.GetById(id);
+            var product = await _services.ProductService.GetById(id);
             if (product != null)
             {
                 var pvm = new ProductCategoryVM
@@ -82,7 +77,7 @@ namespace OnlineShop.Controllers
                     Quantity = product.Quantity,
                     CompanyName = product.CompanyName,
                     CategoryId = product.CategoryId,
-                    Categories = await _categoryService.GetList()
+                    Categories = await _services.CategoryService.GetList()
                 };
                 return View(pvm);
             }
@@ -105,12 +100,12 @@ namespace OnlineShop.Controllers
             };
             if (ModelState.IsValid)
             {
-                if (await _service.Update(product))
+                if (await _services.ProductService.Update(product))
                 {
                     TempData["Product"] = "Producto Actualizado";
                     return RedirectToAction("Products", "Admin");
                 }
-                pvm.Categories = await _categoryService.GetList();
+                pvm.Categories = await _services.CategoryService.GetList();
                 return View(pvm);
             }
             return View(pvm);
@@ -125,7 +120,7 @@ namespace OnlineShop.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _service.UplodadPic(new ProductPic
+                    if (await _services.ProductService.UplodadPic(new ProductPic
                     {
                         ProductId = model.Id,
                         CreatedAt = DateTime.Now,
@@ -143,7 +138,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id)
         {
-            var model = await _service.GetById(id, x => x.Category, x => x.ProductPics);
+            var model = await _services.ProductService.GetById(id, x => x.Category, x => x.ProductPics);
             if (model != null) return View(model);
             return new NotFoundView();
         }
@@ -152,7 +147,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var model = await _service.GetById(id, x => x.Category, x => x.ProductPics);
+            var model = await _services.ProductService.GetById(id, x => x.Category, x => x.ProductPics);
             if (model != null) return View(model);
             return new NotFoundView();
         }
