@@ -1,0 +1,6 @@
+﻿<script asp-append-version="true">
+    @if(TempData["notification"] != null)
+    {
+        @Html.Raw(TempData["notification"].ToString());
+    }
+</script>

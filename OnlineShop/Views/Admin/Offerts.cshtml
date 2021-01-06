@@ -44,29 +44,29 @@
                     {
                         var state = item.State == 0 ? "Activa" : "Inactiva";
                         var classActive = item.State == 0 ? "bg-success text-white" : string.Empty;
-                    <tr class="@classActive">
-                        <td>@item.Concept</td>
-                        <td>@state</td>
-                        <td>@item.Description</td>
-                        <td>@item.Duration</td>
-                        @if (item.State == State.Active)
-                        {
-                            <td>
-                                <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="removeOffert('@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
-                                <a asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
-                                    <i class="fas fa-pencil-alt text-primary m-2 "></i>
-                                </a>
-                                <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
-                                <a asp-action="Detail" asp-controller="Offert" asp-route-Id="@item.Id">
-                                    <i class="fas fa-eye m-2" style="cursor:pointer;"></i>
-                                </a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td><b>N/A</b></td>
-                        }
-                    </tr>
+                        <tr class="@classActive">
+                            <td>@item.Concept</td>
+                            <td>@state</td>
+                            <td>@item.Description</td>
+                            <td>@item.Duration</td>
+                            @if (item.State == State.Active)
+                            {
+                                <td>
+                                    <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="removeOffert('@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
+                                    <a asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
+                                        <i class="fas fa-pencil-alt text-primary m-2 "></i>
+                                    </a>
+                                    <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
+                                    <a asp-action="Detail" asp-controller="Offert" asp-route-Id="@item.Id">
+                                        <i class="fas fa-eye m-2" style="cursor:pointer;"></i>
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td><b>N/A</b></td>
+                            }
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -98,15 +98,5 @@
 </div>
 
 
-<script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
 <script src="~/js/offert/index.js" asp-append-version="true"></script>
-@if (TempData["Offert"] != null)
-{
-    <script>
-        Swal.fire(
-            '@TempData["Offert"]',
-            '',
-            'success'
-        )
-    </script>
-}
+<partial name="_NotificationPartial" />

@@ -1,8 +1,10 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
+using OnlineShop.Controllers.Base;
 using OnlineShop.ExtensionMethods;
 using Service.Commons;
 using System.Threading.Tasks;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 namespace OnlineShop.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class OffertController : Controller
+    public class OffertController : BaseController
     {
         private readonly IUnitOfWork _services;
         private readonly ICommon _common;
@@ -31,10 +33,10 @@ namespace OnlineShop.Controllers
             {
                 if (await _services.OffertService.Add(model))
                 {
-                    TempData["Offert"] = "Agregado Correctamente";
+                    SendNotification(null, "Agregado Correctamente");
                     return RedirectToAction("Offerts", "Admin");
                 }
-                TempData["Offert"] = "No se pudo agregar";
+                SendNotification(null, "No se pudo agregar", NotificationEnum.Error);
                 return View(model);
             }
             else
@@ -55,7 +57,7 @@ namespace OnlineShop.Controllers
             if (ModelState.IsValid)
             {
                 await _services.OffertService.Update(model);
-                TempData["Offert"] = "Actualizada Correctamente";
+                SendNotification(null, "Actualizada Correctamente");
                 return RedirectToAction("Offerts", "Admin");
             }
             return View(model);
@@ -76,7 +78,7 @@ namespace OnlineShop.Controllers
                         OffertId = model.Id,
                     }))
                     {
-                        TempData["Offert"] = "Imagen cargada correctamente";
+                        SendNotification(null, "Imagen cargada correctamente");
                     }
                 }
             }
@@ -87,7 +89,7 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var model = await _services.OffertService.GetById(id);
-            if(model != null) return View(model);
+            if (model != null) return View(model);
             return new NotFoundView();
         }
 

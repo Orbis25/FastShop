@@ -51,16 +51,6 @@
     </div>
 </div>
 
-<script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
 <script src="~/js/cuppon/index.js" asp-append-version="true"></script>
+<partial name="_NotificationPartial" />
 
-@if (TempData["Cuppon"] != null)
-{
-    <script>
-        Swal.fire(
-            '@TempData["Cuppon"]',
-            '',
-            'success'
-        )
-    </script>
-}

@@ -97,20 +97,8 @@
 </div>
 
 
-
-<script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
 <script src="~/js/product/app.js" asp-append-version="true"></script>
-
-@if (TempData["Product"] != null)
-{
-    <script>
-        Swal.fire(
-            '@TempData["Product"]',
-            '',
-            'success'
-        )
-    </script>
-}
+<partial name="_NotificationPartial"/>
 
 <script>
     $(function () {

@@ -28,7 +28,6 @@ namespace OnlineShop.Controllers
         {
             if (!string.IsNullOrEmpty(model.Name))
             {
-                model.CreatedAt = DateTime.Now;
                 var result = await _services.CategoryService.Add(model);
                 if (result != false) return Ok(result);
             }
