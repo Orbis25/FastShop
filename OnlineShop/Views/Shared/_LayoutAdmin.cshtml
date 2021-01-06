@@ -21,7 +21,7 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-        <a class="navbar-brand mr-1" asp-action="Index">Aministracción</a>
+        <a class="navbar-brand mr-1" asp-action="Index">Administración</a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="~/#">
             <i class="fas fa-bars"></i>
@@ -85,7 +85,21 @@
         <div id="content-wrapper">
 
             <div class="container-fluid">
-
+                <script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script src="~/vendors/jquery/jquery.min.js"></script>
+                <script src="~/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!-- Core plugin JavaScript-->
+                <script src="~/vendors/jquery-easing/jquery.easing.min.js"></script>
+                <!-- Page level plugin JavaScript-->
+                <script src="~/vendors/chart.js/Chart.min.js"></script>
+                <script src="~/vendors/datatables/jquery.dataTables.js"></script>
+                <script src="~/vendors/datatables/dataTables.bootstrap4.js"></script>
+                <!-- Custom scripts for all pages-->
+                <script src="~/js/sb-admin.min.js"></script>
+                <!-- Demo scripts for this page-->
+                <script src="~/js/demo/datatables-demo.js"></script>
+                <script src="~/js/demo/chart-area-demo.js"></script>
                 <!-- Breadcrumbs unos planes para esto-->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active">@Url.Action().ToLower()</li>
@@ -110,26 +124,7 @@
     <a class="scroll-to-top rounded" href="~/#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="~/vendors/jquery/jquery.min.js"></script>
-    <script src="~/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="~/vendors/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Page level plugin JavaScript-->
-    <script src="~/vendors/chart.js/Chart.min.js"></script>
-    <script src="~/vendors/datatables/jquery.dataTables.js"></script>
-    <script src="~/vendors/datatables/dataTables.bootstrap4.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="~/js/sb-admin.min.js"></script>
-
-    <!-- Demo scripts for this page-->
-    <script src="~/js/demo/datatables-demo.js"></script>
-    <script src="~/js/demo/chart-area-demo.js"></script>
 </body>
 
 </html>

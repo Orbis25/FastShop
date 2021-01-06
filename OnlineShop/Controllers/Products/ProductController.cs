@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.ViewModels;
+using OnlineShop.Controllers.Base;
 using OnlineShop.ExtensionMethods;
 using Service.Commons;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly ICommon _common;
         private readonly IUnitOfWork _services;
@@ -102,7 +103,7 @@ namespace OnlineShop.Controllers
             {
                 if (await _services.ProductService.Update(product))
                 {
-                    TempData["Product"] = "Producto Actualizado";
+                    SendNotification(null, "Producto Actualizado");
                     return RedirectToAction("Products", "Admin");
                 }
                 pvm.Categories = await _services.CategoryService.GetList();
@@ -127,7 +128,8 @@ namespace OnlineShop.Controllers
                         PicName = file
                     }))
                     {
-                        TempData["Product"] = "Imagen cargada correctamente";
+                        SendNotification(null, "Imagen cargada correctamente");
+
                     }
                 }
             }

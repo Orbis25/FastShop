@@ -1,12 +1,14 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
+using OnlineShop.Controllers.Base;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
-    public class CupponController : Controller
+    public class CupponController : BaseController
     {
         private readonly IUnitOfWork _services;
 
@@ -26,10 +28,10 @@ namespace OnlineShop.Controllers
             {
                 if (await _services.CouponService.Add(model))
                 {
-                    TempData["Cuppon"] = "Agregado Correctamente";
+                    SendNotification(null, "Agregado Correctamente");
                     return RedirectToAction("Cupons", "Admin");
                 }
-                TempData["Cuppon"] = "Ha ocurrido un error al agregar";
+                SendNotification(null, "Ha ocurrido un error al agregar", NotificationEnum.Error);
             }
             return View(model);
         }
@@ -54,7 +56,7 @@ namespace OnlineShop.Controllers
             {
                 if (await _services.CouponService.Update(model))
                 {
-                    TempData["Cuppons"] = "Actualizado Correctamente";
+                    SendNotification(null, "Actualizado Correctamente");
                     return RedirectToAction("Cupons", "Admin");
                 }
             }
