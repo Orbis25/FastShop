@@ -12,13 +12,13 @@
                     @foreach (var item in Model.ProductPics)
                     {
                         <div id="@item.Id" class="single-prd-item">
-                            <img class="img-fluid" height="200" src="~/files/@item.PicName" alt="@item.PicName">
+                            <img class="img-fluid" height="200" src="~/img/@item.PicName" alt="@item.PicName">
                         </div>
                     }
                     @if (Model.ProductPics.Count == 0)
                     {
                         <div id="@Guid.NewGuid()" class="single-prd-item">
-                            <img class="img-fluid" height="200" src="~/files/default.png" alt="default">
+                            <img class="img-fluid" height="200" src="~/img/default.png" alt="default">
                         </div>
                     }
                 </div>
@@ -44,6 +44,5 @@
         </div>
     </div>
 </div>
-<script src="~/js/sweetalert2.all.min.js"></script>
 <script src="~/js/car/app.js" asp-append-version="true"></script>
 
