@@ -52,7 +52,7 @@
                             @if (item.State == State.Active)
                             {
                                 <td>
-                                    <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="removeOffert('@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
+                                    <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/Offert/delete/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
                                     <a asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
                                         <i class="fas fa-pencil-alt text-primary m-2 "></i>
                                     </a>

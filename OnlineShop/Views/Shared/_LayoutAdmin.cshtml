@@ -13,7 +13,7 @@
     <link rel="icon" href="~/img/favicon.ico" type="image/png">
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" />
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/admin/style.css" rel="stylesheet" asp-append-version="true" />
 </head>
 
@@ -86,7 +86,7 @@
                 <script src="~/lib/jquery/dist/jquery.min.js"></script>
                 <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js" asp-append-version="true"></script>
                 <script src="~/js/admin/index.js"></script>
-
+                <script asp-append-version="true" src="~/js/Base/genericSweetAlert.js"></script>
                 <!-- Breadcrumbs-->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active">@Url.Action().ToLower()</li>

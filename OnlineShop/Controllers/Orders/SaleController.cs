@@ -47,7 +47,13 @@ namespace OnlineShop.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Remove(Guid id) => Ok(await _services.SaleService.SoftRemove(id));
+        [HttpPost]
+        public async Task<IActionResult> Remove(Guid id)
+        {
+            var result = await _services.SaleService.SoftRemove(id);
+            if (!result) return BadRequest("ha ocurrido un error, intente de nuevo mas tarde");
+            return Ok(result);
+        }
 
         [HttpPost]
         public async Task<IActionResult> UpdateOrder(Order model, Guid saleId)

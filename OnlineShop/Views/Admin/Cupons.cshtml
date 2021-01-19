@@ -41,7 +41,7 @@
                                 <a asp-action="Update" asp-controller="Cuppon" asp-route-Id="@item.Id">
                                     <i class="fas fa-pencil-alt text-primary m-2 " style="cursor:pointer;"></i>
                                 </a>
-                                <i class="fas fa-trash text-danger" onclick="Deleted('@item.Id')" style="cursor:pointer;"></i>
+                                <i class="fas fa-trash text-danger" onclick="sweetRemove('/Cuppon/remove/@item.Id')" style="cursor:pointer;"></i>
                             </td>
                         </tr>
                     }
@@ -50,7 +50,5 @@
         </div>
     </div>
 </div>
-
-<script src="~/js/cuppon/index.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />
 

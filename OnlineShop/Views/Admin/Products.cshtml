@@ -55,7 +55,7 @@
                         <td>@item.Model</td>
                         <td>@item.Category.Name</td>
                         <td>
-                            <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="Deleted('@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
+                            <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/product/remove/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
                             <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
                                 <i class="fas fa-pencil-alt text-primary m-2 "></i>
                             </a>
@@ -99,9 +99,3 @@
 
 <script src="~/js/product/app.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial"/>
-
-<script>
-    $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-</script>

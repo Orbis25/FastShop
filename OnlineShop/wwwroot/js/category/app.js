@@ -38,42 +38,6 @@ async function openModalToCreateCategory() {
 
 
 /**
- * RemoveCategory
- * @param {*} id this param is the id to remove
- * */
-function Deleted(id) {
-
-    Swal.fire({
-        title: 'Esta seguro?',
-        text: "Si la elimina no podra deshacer esta accion",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Eliminar!'
-    }).then((result) => {
-        if (result.value) {
-            fetch(`/Category/Remove/${id}`, {
-                method: 'GET'
-                })
-                .then(() => {
-                    Swal.fire(
-                        'Eliminado!',
-                        'Ha sido eliminado',
-                        'success'
-                    ).then(() => location.reload()).catch(() => location.reload());
-                }).catch(() => {
-                    Swal.fire(
-                        'Error!',
-                        'Intente de nuevo!',
-                        'error');
-                });
-        }
-    });
-}
-
-
-/**
  * Update Category
  * @param {*} id this id of category
  */
@@ -109,13 +73,4 @@ async function edit(id) {
             );
         });
     }
-}
-
-
-async function filter(categoryId) {
-
-    fetch('/Filter', {
-        method:"get"
-
-    }).then(() => { }).catch((e) => console.log(e));
 }

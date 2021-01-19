@@ -6,7 +6,7 @@
             <div class="col-5 d-none d-sm-block">
                 <div class="hero-banner__img">
                     @{
-                        var image = !Model.ImageOfferts.Any() ? "default.png" : Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImageName;
+                        var image = Model == null || !Model.ImageOfferts.Any() ? "default.png" : Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImageName;
                     }
                     <img class="img-fluid" height="700" src="~/img/@image" alt="@image">
                 </div>
@@ -21,4 +21,4 @@
             </div>
         </div>
     </div>
-</section>
+</section> 

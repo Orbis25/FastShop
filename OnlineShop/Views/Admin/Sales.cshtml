@@ -34,7 +34,7 @@
                                 <a asp-action="SaleDetail" asp-controller="Sale" asp-route-Id="@item.Id">
                                     <i class="fas fa-eye text-primary m-2 " style="cursor:pointer;"></i>
                                 </a>
-                                <i class="fas fa-trash text-danger" onclick="Deleted('@item.Id')" style="cursor:pointer;"></i>
+                                <i class="fas fa-trash text-danger" onclick="sweetRemove('/sale/remove/@item.Id')" style="cursor:pointer;"></i>
                             </td>
                         </tr>
                     }
@@ -44,5 +44,4 @@
     </div>
 </div>
 
-<script src="~/js/sale/app.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />

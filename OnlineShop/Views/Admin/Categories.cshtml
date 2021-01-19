@@ -42,7 +42,7 @@
                             <td>@item.CreatedAt.ToShortDateString()</td>
                             <td>
                                 <i class="fas fa-pencil-alt text-primary m-2 " onclick="edit('@item.Id')" style="cursor:pointer;"></i>
-                                <i class="fas fa-trash text-danger" onclick="Deleted('@item.Id')" style="cursor:pointer;"></i>
+                                <i class="fas fa-trash text-danger" onclick="sweetRemove('/category/remove/@item.Id')" style="cursor:pointer;"></i>
                             </td>
                         </tr>
                     }
