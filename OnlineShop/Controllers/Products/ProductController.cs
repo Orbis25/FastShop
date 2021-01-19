@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
@@ -21,14 +22,14 @@ namespace OnlineShop.Controllers
             _services = services;
             _common = common;
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         public IActionResult Index() => View();
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpGet]
         public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _services.CategoryService.GetList() });
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
@@ -53,7 +54,7 @@ namespace OnlineShop.Controllers
             }
             return View(pvm);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpPost]
         public async Task<IActionResult> Remove(Guid id) {
@@ -61,10 +62,10 @@ namespace OnlineShop.Controllers
             if(!result) return BadRequest("Ocurrio un error, intente de nuevo mas tarde");
             return Ok(result);
         }
-        
-        [Authorize(Roles = "user")]
+
+        [Authorize(Roles = nameof(AuthLevel.User))]
         public IActionResult Car() => View();
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
@@ -88,7 +89,7 @@ namespace OnlineShop.Controllers
             }
             return RedirectToAction("Products", "Admin");
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpPost]
         public async Task<IActionResult> Edit(Product product)
@@ -115,7 +116,7 @@ namespace OnlineShop.Controllers
             }
             return View(pvm);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpPost]
         public async Task<IActionResult> UploadPic(PicVM<Guid> model)
@@ -139,7 +140,7 @@ namespace OnlineShop.Controllers
             }
             return RedirectToAction("Products", "Admin");
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id)

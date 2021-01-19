@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = nameof(AuthLevel.Admin))]
     public class OffertController : BaseController
     {
         private readonly IUnitOfWork _services;

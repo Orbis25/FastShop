@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
@@ -16,14 +17,14 @@ namespace OnlineShop.Controllers
         {
             _services = services;
         }
-        [Authorize(Roles = "user,admin")]
+        [Authorize(Roles = nameof(AuthLevel.User) + "," + nameof(AuthLevel.Admin))]
         public async Task<IActionResult> Index(int take = 9, int index = 1) => View(new ShopVM
         {
             Categories = await _services.CategoryService.GetList(),
             Products = await _services.ProductService.GetAllPaginateProducts(take, index)
         });
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Category model)
         {
@@ -35,7 +36,7 @@ namespace OnlineShop.Controllers
             return BadRequest();
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Remove([FromRoute] int id)
         {
@@ -43,14 +44,16 @@ namespace OnlineShop.Controllers
             if (!result) return BadRequest("not deleted");
             return Ok(result);
         }
-        [Authorize(Roles = "admin")]
+
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Update([FromBody] Category model)
         {
             if (await _services.CategoryService.Update(model)) return Ok(true);
             return BadRequest("not updated");
         }
-        [Authorize(Roles = "user,admin")]
+
+        [Authorize(Roles = nameof(AuthLevel.User) + "," + nameof(AuthLevel.Admin))]
         [HttpGet]
         public async Task<IActionResult> Filter(Filter filter)
         {

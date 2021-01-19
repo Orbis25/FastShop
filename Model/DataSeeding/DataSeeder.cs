@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DataLayer.Enums.Base;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
@@ -10,7 +11,7 @@ namespace Model.DataSeeding
 {
     public static class DataSeeder
     {
-        public static void SeedRoles(IApplicationBuilder app)
+        public static void SeedService(IApplicationBuilder app)
         {
 
             using var appScoped = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
@@ -19,8 +20,8 @@ namespace Model.DataSeeding
             if (!_context.Roles.Any())
             {
                 var listRoles = new List<IdentityRole> {
-                       new IdentityRole { Name = "admin" , NormalizedName = "ADMIN" },
-                       new IdentityRole { Name = "user" , NormalizedName = "USER" }
+                       new IdentityRole { Name = nameof(AuthLevel.Admin) , NormalizedName =  nameof(AuthLevel.Admin).ToUpper() },
+                       new IdentityRole { Name =  nameof(AuthLevel.User) , NormalizedName =  nameof(AuthLevel.User).ToUpper() }
                     };
 
                 _context.AddRange(listRoles);
@@ -33,7 +34,7 @@ namespace Model.DataSeeding
                 _context.Add(user);
                 _context.SaveChanges();
 
-                var role = _context.Roles.FirstOrDefault(x => x.Name.Equals("admin"));
+                var role = _context.Roles.FirstOrDefault(x => x.Name.Equals(nameof(AuthLevel.Admin)));
                 _context.UserRoles.Add(new IdentityUserRole<string> { RoleId = role.Id, UserId = user.Id });
                 _context.SaveChanges();
 
