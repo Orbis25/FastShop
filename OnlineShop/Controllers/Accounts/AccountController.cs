@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,14 +12,14 @@ namespace OnlineShop.Controllers
         private readonly IUnitOfWork _services;
         public AccountController(IUnitOfWork services) => _services = services;
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         public async Task<IActionResult> BlockOrUnlockAccount(Guid id)
         {
             await _services.AccountService.BlockAndUnlockAccount(id);
             return RedirectToAction("Users", "Admin");
         }
 
-        [Authorize(Roles = "admin,user")]
+        [Authorize(Roles =  nameof(AuthLevel.Admin) + "," + nameof(AuthLevel.User))]
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {

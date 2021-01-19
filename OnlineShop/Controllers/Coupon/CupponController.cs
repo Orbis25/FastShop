@@ -16,10 +16,10 @@ namespace OnlineShop.Controllers
         {
             _services = services;
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpGet]
         public IActionResult Add() => View();
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpPost]
         public async Task<IActionResult> Add(Cupon model)
@@ -35,7 +35,7 @@ namespace OnlineShop.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpGet]
         public async Task<IActionResult> Update(int id)
@@ -47,7 +47,7 @@ namespace OnlineShop.Controllers
             }
             return NotFound();
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpPost]
         public async Task<IActionResult> Update(Cupon model)
@@ -62,11 +62,11 @@ namespace OnlineShop.Controllers
             }
             return View(model);
         }
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpPost]
         public async Task<IActionResult> Remove(int id) => Ok(await _services.CouponService.SoftRemove(id));
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = nameof(AuthLevel.User))]
         [HttpGet]
         public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _services.CouponService.GetByCupponCode(code));
     }

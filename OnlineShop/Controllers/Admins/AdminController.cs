@@ -1,11 +1,12 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = nameof(AuthLevel.Admin))]
     public class AdminController : Controller
     {
         private readonly IUnitOfWork _services;

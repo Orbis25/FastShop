@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace OnlineShop.Controllers
         }
 
         #region To AddUser to Role 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         public async Task AddUserToRole()
         {
             //var roles = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();

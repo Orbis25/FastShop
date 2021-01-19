@@ -41,7 +41,7 @@ namespace OnlineShop
                 app.UseHsts();
             }
 
-            DataSeeder.SeedRoles(app);
+            DataSeeder.SeedService(app);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
@@ -20,7 +21,7 @@ namespace OnlineShop.Controllers
             _common = common;
         }
 
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = nameof(AuthLevel.User))]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] Sale model)
         {
@@ -32,7 +33,7 @@ namespace OnlineShop.Controllers
             return Ok(false);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpGet]
         public async Task<IActionResult> SaleDetail(Guid id)
         {
@@ -46,7 +47,7 @@ namespace OnlineShop.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Remove(Guid id)
         {
