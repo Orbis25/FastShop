@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Model.Models
 {
-    public class ImageOffert
+    public class ImageOffert : BaseModel<int>
     {
-        public int Id { get; set; }
         [ForeignKey("OffertId")]
         public int OffertId { get; set; }
         public Offert Offert { get; set; }
+        [MaxLength(60)]
         public string ImageName { get; set; }
     }
 }

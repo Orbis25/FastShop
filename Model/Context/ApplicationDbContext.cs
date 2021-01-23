@@ -19,6 +19,7 @@ namespace OnlineShop.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.Deleted);
+            modelBuilder.Entity<ProductPic>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Sale>().HasQueryFilter(x => x.State != State.Deleted);
 
