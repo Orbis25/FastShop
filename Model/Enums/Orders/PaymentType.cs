@@ -9,7 +9,7 @@ namespace Model.Enums
     {
         [Display(Name = nameof(Paypal))]
         Paypal,
-        [Display(Name = nameof(Cash))]
+        [Display(Name =  "Efectivo")]
         Cash
     }
 }
