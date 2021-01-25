@@ -1,7 +1,7 @@
-﻿using DataLayer.Utils.Paginations;
+﻿using DataLayer.Models.Base;
+using DataLayer.Utils.Paginations;
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
-using Model.Models;
 using Service.Interface;
 using System;
 using System.Collections.Generic;

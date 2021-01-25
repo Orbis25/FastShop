@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using DataLayer.Models.Categories;
+using Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

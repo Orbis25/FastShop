@@ -14,6 +14,10 @@ namespace OnlineShop.Controllers
 {
     public class ProductController : BaseController
     {
+
+        /// <summary>
+        /// TODO: ME QUEDE AQUI PARA OPTIMIZAR EL CODIGO DE LOS PRODUCTOS.
+        /// </summary>
         private readonly ICommon _common;
         private readonly IUnitOfWork _services;
         public ProductController(IUnitOfWork services,
@@ -22,8 +26,27 @@ namespace OnlineShop.Controllers
             _services = services;
             _common = common;
         }
-        [Authorize(Roles = nameof(AuthLevel.Admin))]
-        public IActionResult Index() => View();
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int take = 9, int index = 1) => View(new ShopVM
+        {
+            Categories = await _services.CategoryService.GetList(),
+            Products = await _services.ProductService.GetAllPaginateProducts(take, index)
+        });
+
+        [HttpGet]
+        public async Task<IActionResult> Filter(Filter filter)
+        {
+
+            return View(nameof(Index), new ShopVM
+            {
+                Categories = await _services.CategoryService.GetList(),
+                Products = await _services.ProductService.Filter(filter),
+                Filters = filter
+            });
+        }
+
+
         [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpGet]

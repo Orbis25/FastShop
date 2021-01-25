@@ -1,4 +1,5 @@
 ﻿using Commons.Helpers;
+using DataLayer.Models.Base;
 using Model.Enums;
 using System;
 using System.Collections.Generic;

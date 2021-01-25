@@ -1,8 +1,0 @@
-﻿@model Model.ViewModels.ShopVM
-                <select class="form-control mb-3" name="category">
-                    <option selected>SELECCIONA UNA CATEGORIA</option>
-                    @foreach (var item in Model.Categories)
-                    {
-                        <option id="@item.Id" value="@item.Id">@item.Name</option>
-                    }
-                </select> 

@@ -1,4 +1,4 @@
-﻿using Model.Models;
+﻿using DataLayer.Models.Categories;
 
 namespace Service.Interface
 {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Model.Models.Category>
+﻿@model IEnumerable<Category>
 @{
     ViewData["Title"] = "Categories";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -6,9 +6,9 @@
 
 <div class="mb-2">
     <h1 style="display:inline-block">Categorias</h1>
-    <button onclick="openModalToCreateCategory()" class="btn btn-primary ml-3 btn-sm">
+    <a asp-action="Create" asp-controller="Category" class="btn btn-primary ml-3 btn-sm">
         <i class="fas fa-plus-circle"></i>
-    </button>
+    </a>
 </div>
 
 
@@ -27,19 +27,12 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Creacion</th>
-                        <th>Acciones</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
                             <td>@item.Name</td>
-                            <td>@item.CreatedAt.ToShortDateString()</td>
+                            <td>@item.CreatedAtSrt</td>
                             <td>
                                 <i class="fas fa-pencil-alt text-primary m-2 " onclick="edit('@item.Id')" style="cursor:pointer;"></i>
                                 <i class="fas fa-trash text-danger" onclick="sweetRemove('/category/remove/@item.Id')" style="cursor:pointer;"></i>

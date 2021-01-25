@@ -1,0 +1,29 @@
+﻿@model Category
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-12 mb-5">
+           <h1>Nueva categoria</h1>
+    </div>
+    <div class="col col-md-6">
+        <form asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Crear</button>
+                <a class="btn btn-dark" asp-action="Category" asp-controller="Admin">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<partial name="_NotificationPartial" />

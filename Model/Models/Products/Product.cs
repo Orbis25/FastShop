@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataLayer.Models.Base;
+using DataLayer.Models.Categories;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

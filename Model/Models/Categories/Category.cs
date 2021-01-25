@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DataLayer.Models.Base;
+using Microsoft.EntityFrameworkCore;
+using Model.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace Model.Models
+namespace DataLayer.Models.Categories
 {
     public class Category : BaseModel<int>
     {

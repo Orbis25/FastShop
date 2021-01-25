@@ -1,5 +1,5 @@
 ﻿using BussinesLayer.Repository;
-using Model.Models;
+using DataLayer.Models.Categories;
 using OnlineShop.Data;
 using Service.Interface;
 

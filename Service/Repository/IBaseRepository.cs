@@ -1,5 +1,5 @@
-﻿using DataLayer.Utils.Paginations;
-using Model.Models;
+﻿using DataLayer.Models.Base;
+using DataLayer.Utils.Paginations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
