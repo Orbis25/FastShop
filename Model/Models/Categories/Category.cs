@@ -1,5 +1,4 @@
 ﻿using DataLayer.Models.Base;
-using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

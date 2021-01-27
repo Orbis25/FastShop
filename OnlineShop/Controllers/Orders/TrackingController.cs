@@ -34,7 +34,7 @@ namespace OnlineShop.Controllers
                 ViewData["NotFound"] = true;
                 return View();
             }
-            ViewData["StatusPercent"] = _common.OrderStatusPercent(result.StateOrder);
+            ViewData["StatusPercent"] = _services.OrderService.OrderStatusPercent(result.StateOrder);
             return View(result);
         }
 

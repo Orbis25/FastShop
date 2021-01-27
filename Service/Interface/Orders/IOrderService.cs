@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using Model.Enums;
+using Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,5 +10,6 @@ namespace Service.Interface
     public interface IOrderService : IBaseRepository<Order , Guid>
     {
         Task<Order> FindByOrderCode(string code, string userId);
+        int OrderStatusPercent(StateOrder state);
     }
 }

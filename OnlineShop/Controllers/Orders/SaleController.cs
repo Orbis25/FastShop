@@ -3,6 +3,8 @@ using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
+using OnlineShop.Controllers.Base;
+using OnlineShop.ExtensionMethods;
 using Service.Commons;
 using System;
 using System.Security.Claims;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 namespace OnlineShop.Controllers
 {
     [Authorize]
-    public class SaleController : Controller
+    public class SaleController : BaseController
     {
         private readonly IUnitOfWork _services;
         private readonly ICommon _common;
@@ -25,12 +27,10 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] Sale model)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                model.ApplicationUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                return Ok(await _services.SaleService.CreateSale(model, User.Identity.Name));
-            }
-            return Ok(false);
+            model.ApplicationUserId = GetLoggedIdUser();
+            var result = await _services.SaleService.CreateSale(model, User.Identity.Name);
+            if (!result) return BadRequest("Ha ocurrido un error, intente de nuevo mas tarde");
+            return Ok(result);
         }
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]
@@ -38,13 +38,9 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> SaleDetail(Guid id)
         {
             var model = await _services.SaleService.GetById(id, x => x.DetailSales);
-            if (model != null)
-            {
-                ViewData["StatusPercent"] = _common.OrderStatusPercent(model.Order.StateOrder);
-                return View(model);
-            }
-            return RedirectToAction("Index", "admin");
-
+            if (model == null) return new NotFoundView();
+            ViewData["StatusPercent"] = _services.OrderService.OrderStatusPercent(model.Order.StateOrder);
+            return View(model);
         }
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]

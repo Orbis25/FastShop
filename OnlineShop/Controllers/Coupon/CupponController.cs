@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using OnlineShop.Controllers.Base;
+using OnlineShop.ExtensionMethods;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -41,11 +42,8 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var model = await _services.CouponService.GetById(id);
-            if (model != null)
-            {
-                return View(model);
-            }
-            return NotFound();
+            if (model == null) return new NotFoundView();
+            return View(model);
         }
         [Authorize(Roles = nameof(AuthLevel.Admin))]
 
@@ -59,6 +57,7 @@ namespace OnlineShop.Controllers
                     SendNotification(null, "Actualizado Correctamente");
                     return RedirectToAction("Cupons", "Admin");
                 }
+                SendNotification(null, "Ha ocurrido un error al actualizar", NotificationEnum.Error);
             }
             return View(model);
         }

@@ -1,13 +1,16 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Model.Models;
 using Model.ViewModels;
 using OnlineShop.Controllers.Base;
 using OnlineShop.ExtensionMethods;
 using Service.Commons;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -15,9 +18,6 @@ namespace OnlineShop.Controllers
     public class ProductController : BaseController
     {
 
-        /// <summary>
-        /// TODO: ME QUEDE AQUI PARA OPTIMIZAR EL CODIGO DE LOS PRODUCTOS.
-        /// </summary>
         private readonly ICommon _common;
         private readonly IUnitOfWork _services;
         public ProductController(IUnitOfWork services,
@@ -28,119 +28,94 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int take = 9, int index = 1) => View(new ShopVM
+        public async Task<IActionResult> Index(ProductFilterVM filters)
         {
-            Categories = await _services.CategoryService.GetList(),
-            Products = await _services.ProductService.GetAllPaginateProducts(take, index)
-        });
-
-        [HttpGet]
-        public async Task<IActionResult> Filter(Filter filter)
-        {
-
-            return View(nameof(Index), new ShopVM
-            {
-                Categories = await _services.CategoryService.GetList(),
-                Products = await _services.ProductService.Filter(filter),
-                Filters = filter
-            });
+            var categories = await _services.CategoryService.GetList();
+            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            return View(await _services.ProductService.GetAllPaginateProducts(filters));
         }
-
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]
 
         [HttpGet]
-        public async Task<IActionResult> Create() => View(new ProductCategoryVM { Categories = await _services.CategoryService.GetList() });
+        public async Task<IActionResult> Create()
+        {
+            var categories = await _services.CategoryService.GetList();
+            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            return View();
+        }
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
-            product.CreatedAt = DateTime.Now;
-            var pvm = new ProductCategoryVM
-            {
-                ProductName = product.ProductName,
-                Price = product.Price,
-                Brand = product.Brand,
-                Model = product.Model,
-                CompanyName = product.CompanyName,
-                CategoryId = product.CategoryId,
-                Categories = await _services.CategoryService.GetList()
-            };
-            if (ModelState.IsValid)
-            {
-                if (await _services.ProductService.Add(product))
-                {
-                    return RedirectToAction("Products", "Admin");
-                }
-                return View(pvm);
-            }
-            return View(pvm);
-        }
-        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
+            var categories = await _services.CategoryService.GetList();
+            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            if (!ModelState.IsValid) return View(product);
+
+            var result = await _services.ProductService.Add(product);
+            if (!result)
+            {
+                SendNotification("Error", "Ha ocurrido un error, intente de nuevo mas tarde", NotificationEnum.Error);
+                return View(product);
+            }
+            SendNotification("Producto agregado");
+            return RedirectToAction("Products", "Admin");
+
+        }
+
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
-        public async Task<IActionResult> Remove(Guid id) {
+        public async Task<IActionResult> Remove(Guid id)
+        {
             var result = await _services.ProductService.SoftRemove(id);
-            if(!result) return BadRequest("Ocurrio un error, intente de nuevo mas tarde");
+            if (!result) return BadRequest("Ocurrio un error, intente de nuevo mas tarde");
             return Ok(result);
         }
 
         [Authorize(Roles = nameof(AuthLevel.User))]
         public IActionResult Car() => View();
-        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
+
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             var product = await _services.ProductService.GetById(id);
-            if (product != null)
-            {
-                var pvm = new ProductCategoryVM
-                {
-                    Id = product.Id,
-                    ProductName = product.ProductName,
-                    Price = product.Price,
-                    Brand = product.Brand,
-                    Model = product.Model,
-                    Quantity = product.Quantity,
-                    CompanyName = product.CompanyName,
-                    CategoryId = product.CategoryId,
-                    Categories = await _services.CategoryService.GetList()
-                };
-                return View(pvm);
-            }
-            return RedirectToAction("Products", "Admin");
+            if (product == null) return new NotFoundView();
+            var categories = await _services.CategoryService.GetList();
+            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            return View(product);
         }
-        [Authorize(Roles = nameof(AuthLevel.Admin))]
 
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> Edit(Product product)
         {
-            product.UpdatedAt = DateTime.Now;
-            var pvm = new ProductCategoryVM
+            var exist = await _services.ProductService.Exist(product.Id);
+            if (exist) return new NotFoundView();
+
+            var categories = await _services.CategoryService.GetList();
+            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+
+            if (!ModelState.IsValid) return View(product);
+
+            var result = await _services.ProductService.Update(product);
+            if (!result)
             {
-                ProductName = product.ProductName,
-                Price = product.Price,
-                Brand = product.Brand,
-                Model = product.Model,
-                CompanyName = product.CompanyName,
-                CategoryId = product.CategoryId
-            };
-            if (ModelState.IsValid)
-            {
-                if (await _services.ProductService.Update(product))
-                {
-                    SendNotification(null, "Producto Actualizado");
-                    return RedirectToAction("Products", "Admin");
-                }
-                pvm.Categories = await _services.CategoryService.GetList();
-                return View(pvm);
+                SendNotification("Error", "Ha ocurrido un error, intente de nuevo mas tarde", NotificationEnum.Error);
+                return View(product);
             }
-            return View(pvm);
+
+            SendNotification("Producto actualizado");
+            return RedirectToAction("Products", "Admin");
+
         }
         [Authorize(Roles = nameof(AuthLevel.Admin))]
 
+
+        ///TODO: CHECK IMAGE UPLOADS
         [HttpPost]
         public async Task<IActionResult> UploadPic(PicVM<Guid> model)
         {
@@ -163,8 +138,8 @@ namespace OnlineShop.Controllers
             }
             return RedirectToAction("Products", "Admin");
         }
+       
         [Authorize(Roles = nameof(AuthLevel.Admin))]
-
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id)
         {

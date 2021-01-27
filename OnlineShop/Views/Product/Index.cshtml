@@ -1,80 +1,69 @@
-﻿@model Model.ViewModels.ShopVM
+﻿@model ProductFilterVM
 <link href="~/css/category/style.css" asp-append-version="true" rel="stylesheet" />
-<section class="section-margin--small mb-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12">
-                <!-- Start Filter Bar -->
-                <h1>Busqueda de productos</h1>
-                <form asp-action="Filter" method="get">
-                    <div class="filter-bar d-flex flex-wrap align-items-center">
-                        <div class="sorting">
-                            <span>
-                                Desde $
-                                <input type="number" min="1" class="inputPrice" name="From" />
-                            </span>
-                            <div id="lower-value"></div>
-                            <br />
-                            <span>
-                                Hasta $
-                                <input type="number" min="1" class="inputPrice" name="To" />
-                            </span>
 
-                        </div>
-                        <div class="sorting mr-auto">
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 mb-5">
+            <!-- Start Filter Bar -->
+            <h1>Busqueda de productos</h1>
+            <form asp-action="Filter" method="get">
+                <div class="filter-bar d-flex flex-wrap align-items-center">
+                    <div class="sorting">
+                        <span>
+                            Desde $
+                            <input type="number" min="1" class="inputPrice" name="From" />
+                        </span>
+                        <div id="lower-value"></div>
+                        <br />
+                        <span>
+                            Hasta $
+                            <input type="number" min="1" class="inputPrice" name="To" />
+                        </span>
 
+                    </div>
+                    <div class="sorting mr-auto">
+
+                    </div>
+                    <div class="">
+                        <div class="input-group filter-bar-search">
+                            <select class="form-control mb-3" asp-for="Category" name="category" asp-items="ViewBag.Categories">
+                                <option selected>SELECCIONA UNA CATEGORIA</option>
+                            </select>
+                            <input type="text" name="parameter" placeholder="Search">
+                            <button type="submit" class="btn btn"><i class="ti-search"></i></button>
                         </div>
-                        <div class="">
-                            <div class="input-group filter-bar-search">
-                                <select class="form-control mb-3" name="category">
-                                    <option selected>SELECCIONA UNA CATEGORIA</option>
-                                    @foreach (var item in Model.Categories)
-                                    {
-                                        <option id="@item.Id" value="@item.Id">@item.Name</option>
-                                    }
-                                </select>
-                                <input type="text" name="parameter" placeholder="Search">
-                                <button type="submit" class="btn btn"><i class="ti-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 mb-5">
+            <div class="row">
+                @foreach (var item in Model.Results)
+                {
+                    var pic = item.ProductPics.FirstOrDefault() != null ? item.ProductPics.FirstOrDefault().PicName : "default.png";
+
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-4">
+                        <div class="card text-center card-product">
+                            <div class="card-product__img">
+                                <img src="~/img/@pic" height="200" width="200" alt="@pic">
+                                <ul class="card-product__imgOverlay">
+                                    <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="see-product btn"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <p>@item.Category.Name</p>
+                                <h4 class="card-product__title"><a href="#">@item.ProductName</a></h4>
+                                <p class="card-product__price">$@item.Price</p>
                             </div>
                         </div>
                     </div>
-                </form>
-
-                <!-- End Filter Bar -->
-                <!-- Start Best Seller -->
-                <section class="lattest-product-area pb-40 category-list">
-                    <div class="row">
-                        @foreach (var item in Model.Products.Products)
-                        {
-                            var pic = item.ProductPics.FirstOrDefault() != null ? item.ProductPics.FirstOrDefault().PicName : "default.png";
-
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card text-center card-product">
-                                    <div class="card-product__img">
-                                        <img class="card-img" src="~/img/@pic" height="263" width="280" alt="@pic">
-                                        <ul class="card-product__imgOverlay">
-
-                                            <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="see-product btn"><i class="ti-eye"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body">
-                                        <p>@item.Category.Name</p>
-                                        <h4 class="card-product__title"><a href="#">@item.ProductName</a></h4>
-                                        <p class="card-product__price">$@item.Price</p>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </section>
-                <!-- End Best Seller -->
+                }
             </div>
         </div>
     </div>
-</section>
+</div>
 
 
-<partial name="_PaginationPartial" />
 
 
 

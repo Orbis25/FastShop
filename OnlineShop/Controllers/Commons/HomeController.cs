@@ -61,12 +61,12 @@ namespace OnlineShop.Controllers
         public IActionResult Contact() => View();
 
         [HttpGet]
-        public async Task<IActionResult> RecoveryPassword(string email) => Ok(await _commonService.SendEmailRecoveryPass(email));
+        public async Task<IActionResult> RecoveryPassword(string email) => Ok(await _services.AccountService.SendEmailRecoveryPass(email));
 
         [HttpGet]
         public IActionResult Changepassword(string code) => View(nameof(Changepassword), code);
 
         [HttpGet]
-        public async Task<IActionResult> Change(string code, string newpass) => Ok(await _commonService.ChangePassWord(code, newpass));
+        public async Task<IActionResult> Change(string code, string newpass) => Ok(await _services.AccountService.ChangePassWord(code, newpass));
     }
 }
