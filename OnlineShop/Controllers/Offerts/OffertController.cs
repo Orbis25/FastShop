@@ -39,10 +39,9 @@ namespace OnlineShop.Controllers
                 SendNotification(null, "No se pudo agregar", NotificationEnum.Error);
                 return View(model);
             }
-            else
-            {
-                return View(model);
-            }
+
+            return View(model);
+
         }
 
         [HttpPost]

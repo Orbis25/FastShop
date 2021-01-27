@@ -1,4 +1,6 @@
 ﻿using BussinesLayer.Repository;
+using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Products;
 using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using Model.ViewModels;
@@ -7,7 +9,6 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Svc
@@ -39,43 +40,30 @@ namespace Service.Svc
             => await _context.Products.Include(x => x.ProductPics)
             .Include(x => x.Category).Where(x => x.Quantity > 0).OrderBy(x => x.CreatedAt).Take(take).ToListAsync();
 
-        public async Task<ProductPaginationVM> GetAllPaginateProducts(int take = 9, int page = 1)
+        public async Task<ProductFilterVM> GetAllPaginateProducts(ProductFilterVM filters)
         {
-            var model = await _context.Products.OrderBy(x => x.CreatedAt)
-                .Skip((page - 1) * take)
-                .Take(take)
+            var results =  _context.Products.OrderBy(x => x.CreatedAt)
+                
                 .Include(x => x.ProductPics)
                 .Include(x => x.Category)
-                .Where(x => x.Quantity > 0).ToListAsync();
+                .Where(x => x.Quantity > 0).AsQueryable();
 
-            return new ProductPaginationVM
+            //get by name
+            if (!string.IsNullOrEmpty(filters.Name)) results = results.Where(x => x.ProductName.Contains(filters.Name));
+            //get by category
+            if (filters.Category.HasValue && filters.Category.Value > 0) results = results.Where(x => x.CategoryId == filters.Category);
+            //range of money
+            if (filters.To > 0) results = results.Where(x => x.Price >= filters.From && x.Price <= filters.To);
+
+            return new ProductFilterVM
             {
-                Products = model,
-                ActualPage = page,
-                TotalOfRegisters = _context.Products.Count(),
-                RegisterByPage = take
+                Results = await results.Skip((filters.ActualPage - 1) * filters.Qyt).Take(filters.Qyt).ToListAsync(),
+                ActualPage = filters.ActualPage,
+                Total = results.Count(),
+                Qyt = filters.Qyt
             };
 
         }
-
-        public async Task<ProductPaginationVM> Filter(Filter filter)
-        {
-            var model = _context.Products.AsQueryable();
-            model = !string.IsNullOrEmpty(filter.Parameter) ?
-                    model.Where(x => x.ProductName.Contains(filter.Parameter)) : model;
-            model = (filter.From > 0 && filter.To > 0) ? model.Where(x => x.Price >= filter.From && x.Price <= filter.To) : model;
-            model = (filter.Category != null) ? model.Where(x => x.CategoryId == filter.Category) : model;
-            model = model.Take(filter.Take).Skip((filter.Index - 1) * filter.Take);
-
-
-            return new ProductPaginationVM
-            {
-                ActualPage = filter.Index,
-                RegisterByPage = filter.Take,
-                TotalOfRegisters = model.Count(),
-                Products = await model.Include(x => x.Category).Include(x => x.ProductPics).Where(x => x.Quantity > 0).ToListAsync()
-            };
-
-        }
+ 
     }
 }

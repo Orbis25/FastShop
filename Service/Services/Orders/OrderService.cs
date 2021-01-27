@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BussinesLayer.Repository;
 using DataLayer.Utils.Paginations;
 using Microsoft.EntityFrameworkCore;
+using Model.Enums;
 using Model.Models;
 using OnlineShop.Data;
 using Service.Commons;
@@ -25,5 +26,16 @@ namespace Service.svc
         public async Task<Order> FindByOrderCode(string code, string userId)
             => await _context.Orders.Include(x => x.Sale)
             .FirstOrDefaultAsync(x => x.OrderCode.Equals(code) && x.Sale.ApplicationUserId.Equals(userId));
+
+        public int OrderStatusPercent(StateOrder state)
+        {
+            return state switch
+            {
+                StateOrder.Storage => 25,
+                StateOrder.Send => 50,
+                StateOrder.Delivered => 100,
+                _ => 100,
+            };
+        }
     }
 }

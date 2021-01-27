@@ -32,38 +32,31 @@ namespace Service.Svc
         }
         public override async Task<bool> Add(Sale model)
         {
+            //crete the order
             var order = new Order() { };
-            await _context.Orders.AddAsync(order);
+            await _context.Orders.AddAsync(new());
             var result = await CommitAsync();
             if (!result) return false;
             model.OrderId = order.Id;
-            model.CreatedAt = DateTime.Now;
             return await base.Add(model);
         }
 
         public async Task<bool> CreateSale(Sale sale, string userEmail)
         {
-            if (await Add(sale))
+            var result = await Add(sale);
+            if (!result) return false;
+            if (await UpdateProducts(sale.DetailSales))
             {
-                sale.DetailSales.ForEach(_ =>
-                {
-                    _.CreatedAt = DateTime.Now;
-                    _.SaleId = sale.Id;
-                });
-                if (await UpdateProducts(sale.DetailSales))
-                {
-                    await SendEmail(sale, userEmail);
-                    if (!await AddDetailSale(sale.DetailSales)) return false;
-                }
+                await SendEmail(sale, userEmail);
+                if (!await AddDetailSale(sale.DetailSales)) return false;
             }
-            return await _context.SaveChangesAsync() > 0;
+            return await CommitAsync();
         }
 
         private async Task<bool> AddDetailSale(IEnumerable<DetailSale> model)
         {
             _context.DetailSales.AddRange(model);
-            var result = await _context.SaveChangesAsync() > 0;
-            return result;
+            return await CommitAsync();
         }
 
         private async Task<bool> UpdateProducts(IEnumerable<DetailSale> model)
@@ -75,7 +68,7 @@ namespace Service.Svc
                     var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == item.ProductId);
                     product.Quantity -= item.Quantity;
                     _context.Products.Update(product);
-                    await _context.SaveChangesAsync();
+                    await CommitAsync();
                 }
                 return true;
             }
@@ -144,5 +137,6 @@ namespace Service.Svc
         }
 
         private static async Task<string> ReadTemplateEmailAsString() => await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\email", "Template.html"));
+
     }
 }

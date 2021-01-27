@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Model.Models;
 using Model.Settings;
 using OnlineShop.Data;
 using Service.Interface;
@@ -29,6 +31,7 @@ namespace BussinesLayer.UnitOfWork
         private OrderService _orderService;
         private SaleService _saleService;
         private ProductService _productService;
+        private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
         #region Options
@@ -39,16 +42,18 @@ namespace BussinesLayer.UnitOfWork
         public UnitOfWork(
             ApplicationDbContext dbContext,
             IOptions<EmailSetting> emailOptions,
-            IOptions<InternalConfiguration> internalOptions)
+            IOptions<InternalConfiguration> internalOptions,
+             UserManager<ApplicationUser> userManager)
         {
             _context = dbContext;
             _emailOptions = emailOptions;
             _internalOptions = internalOptions;
+            _userManager = userManager;
 
         }
 
 
-        public IAccountService AccountService => _accountService ??= new AccountService(_context, _emailOptions, _internalOptions);
+        public IAccountService AccountService => _accountService ??= new AccountService(_context, _emailOptions, _internalOptions, _userManager);
 
         public IUserService UserService => _userService ??= new UserService(_context);
 

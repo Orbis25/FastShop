@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers.Base
@@ -13,5 +14,8 @@ namespace OnlineShop.Controllers.Base
         {
             TempData["Notification"] = $"Swal.fire('{title}','{text}','{type.ToString().ToLower()}')";
         }
+
+
+        public string GetLoggedIdUser() => User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
 }
