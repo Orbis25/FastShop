@@ -3,8 +3,15 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var categories = ViewBag.Categories as IEnumerable<SelectListItem>;
 }
 
+@if (!categories.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        Necesitas tener registrada alguna categoria para crear un producto <a asp-action="Create" asp-controller="Category"><i>¿Crear nueva categoria?</i></a>
+    </div>
+}
 <h1>Nuevo Producto</h1>
 <hr />
 <div class="row">
@@ -43,17 +50,20 @@
             </div>
             <div class="form-group">
                 <label for="CategoryId">Categoria</label>
-                <select class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
+                <select class="form-control mb-3" asp-for="CategoryId" asp-items="categories">
                     <option selected>SELECCIONA UNA CATEGORIA</option>
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
+                @if (categories.Any())
+                {
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                }
                 <a asp-action="Products" asp-controller="Admin" class="btn btn-dark">Volver</a>
             </div>
         </form>
     </div>
 </div>
 
-<partial name="_NotificationPartial"/>
+<partial name="_NotificationPartial" />
