@@ -30,49 +30,35 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
-                        <th>Compañia</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Categoria</th>
-                        <th>Acciones</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         var backGround = (item.Quantity <= 1 ? "bg-danger" : (item.Quantity == 2 ? "bg-warning" : string.Empty));
-                    <tr class="@backGround">
-                        <td>@item.ProductName</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Price</td>
-                        <td>@item.CompanyName</td>
-                        <td>@item.Brand</td>
-                        <td>@item.Model</td>
-                        <td>@item.Category.Name</td>
-                        <td>
-                            <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/product/remove/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
-                            <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
-                                <i class="fas fa-pencil-alt text-primary m-2 "></i>
-                            </a>
-                            <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
-                            <a asp-action="ProductDetail" asp-controller="Product" asp-route-Id="@item.Id">
-                                <i class="fas fa-eye m-2" style="cursor:pointer;"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr class="@backGround">
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price</td>
+                            <td>@item.CompanyName</td>
+                            <td>@item.Brand</td>
+                            <td>@item.Model</td>
+                            <td>@item.Category.Name</td>
+                            <td>
+                                <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/product/remove/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
+                                <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
+                                    <i class="fas fa-pencil-alt text-primary m-2 "></i>
+                                </a>
+                                <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
+                                <a asp-action="ProductDetail" asp-controller="Product" asp-route-Id="@item.Id">
+                                    <i class="fas fa-eye m-2" style="cursor:pointer;"></i>
+                                </a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -85,7 +71,7 @@
             <div class="modal-body">
                 <form asp-action="UploadPic" enctype="multipart/form-data" asp-controller="Product" class="form-group" method="post">
                     <input class="form-control mb-5 mt-5" type="file" name="Img" />
-                    <input class="form-control mb-5 mt-5" type="hidden" name="Id" id="idimg" />
+                    <input class="form-control mb-5 mt-5" type="hidden" name="ProductId" id="idimg" />
                     <button type="submit" class="btn btn-block btn-success"> Subir</button>
                 </form>
             </div>
@@ -96,6 +82,5 @@
     </div>
 </div>
 
-
 <script src="~/js/product/app.js" asp-append-version="true"></script>
-<partial name="_NotificationPartial"/>
+<partial name="_NotificationPartial" />

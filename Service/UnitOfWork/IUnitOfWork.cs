@@ -1,4 +1,5 @@
-﻿using Service.Interface;
+﻿using BussinesLayer.Interface.ImageServer;
+using Service.Interface;
 
 namespace BussinesLayer.UnitOfWork
 {
@@ -13,6 +14,7 @@ namespace BussinesLayer.UnitOfWork
         IOrderService OrderService { get; }
         ISaleService SaleService { get; }
         IProductService ProductService { get; }
+        IImageServerService ImageServerService { get; }
 
     }
 }

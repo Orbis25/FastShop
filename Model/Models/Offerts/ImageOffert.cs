@@ -1,4 +1,5 @@
 ﻿using DataLayer.Models.Base;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,9 @@ namespace Model.Models
         public int OffertId { get; set; }
         public Offert Offert { get; set; }
         [MaxLength(60)]
-        public string ImageName { get; set; }
+        public string ImagePath { get; set; }
+
+        [NotMapped]
+        public IFormFile Img { get; set; }
     }
 }

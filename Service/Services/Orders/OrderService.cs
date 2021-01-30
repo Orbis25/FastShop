@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using BussinesLayer.Repository;
-using DataLayer.Utils.Paginations;
+﻿using BussinesLayer.Repository;
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
 using Model.Models;
 using OnlineShop.Data;
-using Service.Commons;
 using Service.Interface;
+using System;
+using System.Threading.Tasks;
 
 namespace Service.svc
 {
