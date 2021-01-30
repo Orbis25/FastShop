@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BussinesLayer.Interface.ImageServer;
+using BussinesLayer.Services.ImageServer;
+using DataLayer.Settings.ImageServer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Model.Models;
 using Model.Settings;
@@ -31,24 +34,30 @@ namespace BussinesLayer.UnitOfWork
         private OrderService _orderService;
         private SaleService _saleService;
         private ProductService _productService;
+        private ImageServerService _imageServerService;
         private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
         #region Options
         private readonly IOptions<EmailSetting> _emailOptions;
         private readonly IOptions<InternalConfiguration> _internalOptions;
+        private readonly IOptions<ImageServerOption> _imageServerOptions;
+
         #endregion
 
         public UnitOfWork(
             ApplicationDbContext dbContext,
             IOptions<EmailSetting> emailOptions,
             IOptions<InternalConfiguration> internalOptions,
+            IOptions<ImageServerOption> imageServerOptions,
+
              UserManager<ApplicationUser> userManager)
         {
             _context = dbContext;
             _emailOptions = emailOptions;
             _internalOptions = internalOptions;
             _userManager = userManager;
+            _imageServerOptions = imageServerOptions;
 
         }
 
@@ -70,5 +79,7 @@ namespace BussinesLayer.UnitOfWork
         public ISaleService SaleService => _saleService ??= new SaleService(_context, _emailOptions, _internalOptions);
 
         public IProductService ProductService => _productService ??= new ProductService(_context);
+
+        public IImageServerService ImageServerService => _imageServerService ??= new ImageServerService(_imageServerOptions);
     }
 }

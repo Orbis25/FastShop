@@ -12,10 +12,10 @@
                     @foreach (var item in Model.ProductPics)
                     {
                         <div id="@item.Id" class="single-prd-item">
-                            <img class="img-fluid" height="200" src="~/img/@item.PicName" alt="@item.PicName">
+                            <img class="img-fluid" height="200" src="@item.Path" alt="@item.Path">
                         </div>
                     }
-                    @if (Model.ProductPics.Count == 0)
+                    @if (!Model.ProductPics.Any())
                     {
                         <div id="@Guid.NewGuid()" class="single-prd-item">
                             <img class="img-fluid" height="200" src="~/img/default.png" alt="default">
@@ -36,7 +36,7 @@
                     <div class="product_count">
                         <label for="qty">Cantidad:</label>
                         <input type="number" name="qty" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
-                        @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().PicName : "default.png"; }
+                        @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().Path : "default.png"; }
                         <a class="button primary-btn" href="#" onclick="addToCar('@Model.Id', document.getElementById('qyt').value , '@Model.ProductName' , '@Model.Price', '@picp' , '@Model.Quantity')">Agregar al carrito</a>
                     </div>
                 </div>

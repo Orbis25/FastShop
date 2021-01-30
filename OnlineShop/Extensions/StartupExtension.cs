@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
+using DataLayer.Settings.ImageServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -6,15 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
+using Model.Settings;
 using OnlineShop.Data;
 using Service.Commons;
-using Service.Interface;
-using Service.svc;
-using Service.Svc;
 
 namespace OnlineShop.ExtensionMethods
 {
-    public static class ServiceExtension
+    public static class StartupExtension
     {
 
         public static void AddConnection(this IServiceCollection service, IConfiguration configuration)
@@ -54,6 +53,14 @@ namespace OnlineShop.ExtensionMethods
             service.AddTransient<IUnitOfWork, UnitOfWork>();
             service.AddTransient<ICommon, Common>();
 
+        }
+
+
+        public static void AddOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<EmailSetting>(configuration.GetSection(nameof(EmailSetting)));
+            services.Configure<InternalConfiguration>(configuration.GetSection(nameof(InternalConfiguration)));
+            services.Configure<ImageServerOption>(configuration.GetSection(nameof(ImageServerOption)));
         }
     }
 }

@@ -6,9 +6,9 @@
             <div class="col-5 d-none d-sm-block">
                 <div class="hero-banner__img">
                     @{
-                        var image = Model == null || !Model.ImageOfferts.Any() ? "default.png" : Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImageName;
+                        var image = Model == null || !Model.ImageOfferts.Any() ? "default.png" : Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImagePath;
                     }
-                    <img class="img-fluid" height="700" src="~/img/@image" alt="@image">
+                    <img class="img-fluid" height="700" src="@image" alt="@image">
                 </div>
             </div>
             <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">

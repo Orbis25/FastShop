@@ -3,10 +3,8 @@ using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
-using Model.ViewModels;
 using OnlineShop.Controllers.Base;
 using OnlineShop.ExtensionMethods;
-using Service.Commons;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -15,12 +13,10 @@ namespace OnlineShop.Controllers
     public class OffertController : BaseController
     {
         private readonly IUnitOfWork _services;
-        private readonly ICommon _common;
 
-        public OffertController(IUnitOfWork services, ICommon common)
+        public OffertController(IUnitOfWork services)
         {
             _services = services;
-            _common = common;
         }
 
         [HttpGet]
@@ -64,20 +60,23 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> UploadPic(PicVM<int> model)
+        public async Task<IActionResult> UploadPic(ImageOffert model)
         {
-            string file = await _common.UploadPic(model.Img);
+            string file = await _services.ImageServerService.UploadImage(model.Img);
+            SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
             if (!string.IsNullOrEmpty(file))
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _services.OffertService.UploadImg(new ImageOffert
-                    {
-                        ImageName = file,
-                        OffertId = model.Id,
-                    }))
+                    model.ImagePath = file;
+                    var result = await _services.OffertService.UploadImg(model);
+                    if (result)
                     {
                         SendNotification(null, "Imagen cargada correctamente");
+                    }
+                    else
+                    {
+                        SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
                     }
                 }
             }
@@ -87,7 +86,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
-            var model = await _services.OffertService.GetById(id);
+            var model = await _services.OffertService.GetById(id, x => x.ImageOfferts);
             if (model != null) return View(model);
             return new NotFoundView();
         }

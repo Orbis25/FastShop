@@ -115,30 +115,31 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = nameof(AuthLevel.Admin))]
 
 
-        ///TODO: CHECK IMAGE UPLOADS
         [HttpPost]
-        public async Task<IActionResult> UploadPic(PicVM<Guid> model)
+        public async Task<IActionResult> UploadPic(ProductPic model)
         {
-            var file = await _common.UploadPic(model.Img);
+            var file = await _services.ImageServerService.UploadImage(model.Img);
+            SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
             if (!string.IsNullOrEmpty(file))
             {
                 if (ModelState.IsValid)
                 {
-                    if (await _services.ProductService.UplodadPic(new ProductPic
+                    model.Path = file;
+                    var result = await _services.ProductService.UplodadPic(model);
+                    if (!result)
                     {
-                        ProductId = model.Id,
-                        CreatedAt = DateTime.Now,
-                        PicName = file
-                    }))
+                        SendNotification(null, "Ha ocurrido un problema, intente de nuevo mas tarde", NotificationEnum.Error);
+                    }
+                    else
                     {
                         SendNotification(null, "Imagen cargada correctamente");
-
                     }
                 }
             }
+
             return RedirectToAction("Products", "Admin");
         }
-       
+
         [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpGet]
         public async Task<IActionResult> ProductDetail(Guid id)
