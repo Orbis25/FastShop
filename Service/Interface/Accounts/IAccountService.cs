@@ -11,8 +11,8 @@ namespace Service.Interface
         Task<bool> BlockAndUnlockAccount(Guid id);
         Task<ApplicationUser> GetByEmail(string email);
         Task<bool> ValidateUser(string id);
-        Task<bool> SendEmailConfirmation(string email);
-        Task<bool> ChangePassWord(string code, string newPassword);
+        Task<bool> SendEmailConfirmation(string email, string userId);
+        Task<bool> ChangePassword(string code, string newPassword);
         Task<bool> SendEmailRecoveryPass(string email);
 
     }

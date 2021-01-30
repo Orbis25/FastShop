@@ -46,6 +46,13 @@
         "owl.carousel.min.css",
         "owl.theme.min.css"
       ]
+    },
+    {
+      "library": "jquery.mask@1.14.16",
+      "destination": "wwwroot/lib/jquery.mask/",
+      "files": [
+        "jquery.mask.min.js"
+      ]
     }
   ]
 }

@@ -17,31 +17,43 @@
                 <div class="login_form_inner register_form_inner">
                     <h3>Crear cuenta</h3>
                     <form asp-route-returnUrl="@Model.ReturnUrl" class="row login_form" id="register_form" method="post">
-
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="email" asp-for="Input.FullName" placeholder="Nombre Completo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre completo'">
+                            <label>Nombre completo</label>
+                            <input type="text" class="form-control" id="email" asp-for="Input.FullName" placeholder="ej:Orbis Alonzo..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre completo'">
                             <span asp-validation-for="Input.FullName" class="text-danger"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="tel" required pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" class="form-control" id="phone" asp-for="Input.PhoneNumber" placeholder="Numero" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Numero'">
+                            <label class="col-form-label">Numero telefonico</label>
+                            <input type="tel"
+                                   class="form-control phone-number"
+                                   asp-for="Input.PhoneNumber"
+                                   placeholder="ej:(809369....)">
                             <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span><br />
-                            <span id="phonevalid" style="display:none;" class="text-danger">Numero invalido</span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <textarea class="form-control" id="email" asp-for="Input.Address" placeholder="Dirreccion"></textarea>
+                            <label>Dirreción</label>
+                            <textarea class="form-control" id="email" asp-for="Input.Address" placeholder="ej:street #14..."></textarea>
                             <span asp-validation-for="Input.Address" class="text-danger"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="email" asp-for="Input.Email" placeholder="Correo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Correo'">
+                            <label>Correo</label>
+                            <input type="text" class="form-control" id="email" asp-for="Input.Email" placeholder="ej:orbisalonzo@@....">
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input class="form-control" asp-for="Input.Password" placeholder="Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
+                            <label>Contraseña</label>
+                            <input class="form-control" asp-for="Input.Password">
                         </div>
                         <div class="col-md-12 form-group">
-                            <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirma la Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirma la Contraseña'">
+                            <label>Repita la Contraseña</label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" />
                             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                         </div>
+                        <div class="col-md-12 form-group">
+                            <div asp-validation-summary="All" class="text-center text-danger"></div>
+
+                        </div>
+
                         <div class="col-md-12 form-group">
                             <button type="submit" value="submit" class="button button-register w-100">Registrarme</button>
                         </div>
@@ -52,23 +64,5 @@
     </div>
 </section>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        jQuery(document).ready(function($){
-        $cf = $('#phone');
-        $cf.blur(function(e){
-            phone = $(this).val();
-            phone = phone.replace(/[^0-9]/g,'');
-            if (phone.length != 10)
-            {
-                $('#phonevalid').show();
-                $('#phone').val('');
-                $('#phone').focus();
-            } else{
-            $('#phonevalid').hide();
-            }
-        });
-    });
-    </script>
-}
+<partial name="_ValidationScriptsPartial" />
+
