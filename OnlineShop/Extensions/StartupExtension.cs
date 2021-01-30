@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Model.Models;
 using Model.Settings;
 using OnlineShop.Data;
-using Service.Commons;
 
 namespace OnlineShop.ExtensionMethods
 {
@@ -51,8 +50,6 @@ namespace OnlineShop.ExtensionMethods
         public static void Services(this IServiceCollection service)
         {
             service.AddTransient<IUnitOfWork, UnitOfWork>();
-            service.AddTransient<ICommon, Common>();
-
         }
 
 

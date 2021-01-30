@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using OnlineShop.Controllers.Base;
 using OnlineShop.ExtensionMethods;
-using Service.Commons;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,11 +15,9 @@ namespace OnlineShop.Controllers
     public class SaleController : BaseController
     {
         private readonly IUnitOfWork _services;
-        private readonly ICommon _common;
-        public SaleController(IUnitOfWork services, ICommon common)
+        public SaleController(IUnitOfWork services)
         {
             _services = services;
-            _common = common;
         }
 
         [Authorize(Roles = nameof(AuthLevel.User))]
