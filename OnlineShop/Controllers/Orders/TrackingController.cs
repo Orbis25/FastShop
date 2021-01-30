@@ -1,7 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Commons;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -9,13 +8,11 @@ namespace OnlineShop.Controllers
     [Authorize]
     public class TrackingController : Controller
     {
-        private readonly ICommon _common;
         private readonly IUnitOfWork _services;
 
-        public TrackingController(IUnitOfWork services, ICommon common)
+        public TrackingController(IUnitOfWork services)
         {
             _services = services;
-            _common = common;
         }
 
         [HttpGet]

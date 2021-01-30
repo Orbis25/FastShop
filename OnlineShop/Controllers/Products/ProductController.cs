@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Model.Models;
-using Model.ViewModels;
 using OnlineShop.Controllers.Base;
 using OnlineShop.ExtensionMethods;
-using Service.Commons;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,13 +16,11 @@ namespace OnlineShop.Controllers
     public class ProductController : BaseController
     {
 
-        private readonly ICommon _common;
         private readonly IUnitOfWork _services;
-        public ProductController(IUnitOfWork services,
-            ICommon common)
+        public ProductController(IUnitOfWork services
+          )
         {
             _services = services;
-            _common = common;
         }
 
         [HttpGet]
