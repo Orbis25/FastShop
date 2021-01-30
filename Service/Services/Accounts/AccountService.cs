@@ -6,11 +6,9 @@ using Model.Settings;
 using OnlineShop.Data;
 using Service.Interface;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Svc
@@ -26,7 +24,7 @@ namespace Service.Svc
             IOptions<InternalConfiguration> internalOptions,
             UserManager<ApplicationUser> userManager
             )
-        {
+        { 
             _context = context;
             _options = options.Value;
             _internalOptions = internalOptions.Value;
@@ -65,27 +63,24 @@ namespace Service.Svc
             return null;
         }
 
-        public async Task<bool> SendEmailConfirmation(string email)
+        public async Task<bool> SendEmailConfirmation(string email, string userId)
         {
-            var model = await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Email.Equals(email));
-            if (model == null) return false;
-
-
             var html = $"Porfavor pulsa el siguiente boton para confirmar tu cuenta <br /> <br><br> " +
                 $"<a style='text-decoration:none;border:none;border-radius:5px;font-size:15px;background:#1976d2;padding:10px;color:#fff;cursor:pointer;' " +
-                $"href={_internalOptions.BaseUrl}{_options.UrlConfirmEmail}{model.Id}>CONFIRMAR</a> <br /><br><br> @copyright  {_internalOptions.AppName}";
+                $"href={_internalOptions.BaseUrl}{_options.UrlConfirmEmail}{userId}>CONFIRMAR</a> <br /><br><br> @copyright  {_internalOptions.AppName}";
 
-            var smtp = new SmtpClient()
+            using var smtp = new SmtpClient(_options.Smtp,_options.Port)
             {
                 Host = _options.Smtp,
                 EnableSsl = true,
                 UseDefaultCredentials = _options.DefaultCredentials,
-                Credentials = new NetworkCredential(_options.User, _options.Password)
+                Credentials = new NetworkCredential(_options.User, _options.Password),
+                DeliveryMethod = SmtpDeliveryMethod.Network
             };
 
             try
             {
-                var mailMessage = new MailMessage
+                using var mailMessage = new MailMessage
                 {
                     From = new MailAddress(_options.User)
                 };
@@ -103,7 +98,7 @@ namespace Service.Svc
 
         private async Task<ApplicationUser> FindUserByCode(string code) => await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.ConcurrencyStamp == code);
 
-        public async Task<bool> ChangePassWord(string code, string newPassword)
+        public async Task<bool> ChangePassword(string code, string newPassword)
         {
             var user = await FindUserByCode(code);
             if (user == null) return false;
@@ -112,8 +107,6 @@ namespace Service.Svc
             await _userManager.UpdateAsync(user);
             return true;
         }
-
-
 
         public async Task<bool> SendEmailRecoveryPass(string email)
         {
@@ -146,7 +139,6 @@ namespace Service.Svc
             { return false; }
             return true;
         }
-
 
     }
 }

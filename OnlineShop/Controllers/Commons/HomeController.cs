@@ -40,6 +40,6 @@ namespace OnlineShop.Controllers
         public IActionResult Changepassword(string code) => View(nameof(Changepassword), code);
 
         [HttpGet]
-        public async Task<IActionResult> Change(string code, string newpass) => Ok(await _services.AccountService.ChangePassWord(code, newpass));
+        public async Task<IActionResult> Change(string code, string newpass) => Ok(await _services.AccountService.ChangePassword(code, newpass));
     }
 }

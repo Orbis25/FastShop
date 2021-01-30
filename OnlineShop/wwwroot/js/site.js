@@ -52,7 +52,7 @@ $(function () {
         forceHeight: false
     });
 
- 
+
 
     //------- hero carousel -------//
     $(".hero-carousel").owlCarousel({
@@ -164,6 +164,15 @@ $(document).ready(function () {
     if (products !== null && products !== undefined) {
         $('#car-count').text(String(products.length));
     }
+
+
+    /**
+     *Mask for phone Numbers
+     */
+    $(".phone-number").mask("000-000-0000");
+
+
+
 });
 
 

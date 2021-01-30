@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using BussinesLayer.UnitOfWork;
+using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -52,6 +53,7 @@ namespace OnlineShop.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Numero")]
+            [Phone]
             public string PhoneNumber { get; set; }
 
             [Required]
@@ -82,22 +84,20 @@ namespace OnlineShop.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Address = Input.Address, PhoneNumber = Input.PhoneNumber, FullName = Input.FullName };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var emailSended = await _service.SendEmailConfirmation(Input.Email, user.Id);
+                if (!emailSended)
+                {
+                    ModelState.AddModelError(string.Empty, "Ocurrio un error, intente de nuevo mas tarde");
+                    return Page();
+                }
 
+                var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user, "USER");
-
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
-                    if (await _service.SendEmailConfirmation(Input.Email))
-                    {
-                        return LocalRedirect("/Account/EmailConfirm");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Occurrio un error");
-                    }
+                    await _userManager.AddToRoleAsync(user, nameof(AuthLevel.User));
+                    if (emailSended) return LocalRedirect("/Account/EmailConfirm");
+                    else ModelState.AddModelError(string.Empty, "Occurrio un error, intente de nuevo");
                 }
                 foreach (var error in result.Errors)
                 {
