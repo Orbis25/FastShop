@@ -1,8 +1,10 @@
-﻿@model IEnumerable<Model.Models.Product>
+﻿@model PaginationResult<Product>
 @{
     ViewData["Title"] = "Products";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+@inject IPagingConfig config
+
 
 <div class="mb-2">
     <h1 style="display:inline-block">Productos</h1>
@@ -31,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Results)
                     {
                         var backGround = (item.Quantity <= 1 ? "bg-danger" : (item.Quantity == 2 ? "bg-warning" : string.Empty));
                         <tr class="@backGround">
@@ -57,8 +59,17 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
+       {
+           LinkClass = "page-link",
+           DoNotRenderForOnePage = true
+       })
+        </div>
     </div>
 </div>
+
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

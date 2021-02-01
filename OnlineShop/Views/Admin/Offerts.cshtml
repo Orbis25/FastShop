@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Model.Models.Offert>
+﻿@model PaginationResult<Offert>
 @using Model.Enums
 @{
     ViewData["Title"] = "Offerts";
@@ -6,73 +6,92 @@
 }
 
 
-<div class="mb-2">
-    <h1 style="display:inline-block">Ofertas</h1>
-    <a asp-action="Add" asp-controller="Offert" class="btn btn-primary ml-3 btn-sm">
-        <i class="fas fa-plus-circle"></i>
-    </a>
-</div>
+<div class="row">
+    <div class="col-12">
 
-<div class="card mb-3">
-    <div class="card-header">
-        <i class="fas fa-table"></i>
-        Listado de Ofertas
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Estado</th>
-                        <th>Descripción</th>
-                        <th>Duración</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Estado</th>
-                        <th>Descripción</th>
-                        <th>Duración</th>
-                        <th>Acción</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        var state = item.State == 0 ? "Activa" : "Inactiva";
-                        var classActive = item.State == 0 ? "bg-success text-white" : string.Empty;
-                        <tr class="@classActive">
-                            <td>@item.Concept</td>
-                            <td>@state</td>
-                            <td>@item.Description</td>
-                            <td>@item.Duration</td>
-                            @if (item.State == State.Active)
+        <div class="mb-2">
+            <h1 style="display:inline-block">Ofertas</h1>
+            <a asp-action="Add" asp-controller="Offert" class="btn btn-primary ml-3 btn-sm">
+                <i class="fas fa-plus-circle"></i>
+            </a>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Listado de Ofertas
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Estado</th>
+                                <th>Descripción</th>
+                                <th>Duración</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Estado</th>
+                                <th>Descripción</th>
+                                <th>Duración</th>
+                                <th>Acción</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model.Results)
                             {
-                                <td>
-                                    <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/Offert/delete/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
-                                    <a asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
-                                        <i class="fas fa-pencil-alt text-primary m-2 "></i>
-                                    </a>
-                                    <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
-                                    <a asp-action="Detail" asp-controller="Offert" asp-route-Id="@item.Id">
-                                        <i class="fas fa-eye m-2" style="cursor:pointer;"></i>
-                                    </a>
-                                </td>
+                                var state = item.State == 0 ? "Activa" : "Inactiva";
+                                var classActive = item.State == 0 ? "bg-success text-white" : string.Empty;
+                                <tr class="@classActive">
+                                    <td>@item.Concept</td>
+                                    <td>@state</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.Duration</td>
+                                    @if (item.State == State.Active)
+                                    {
+                                        <td>
+                                            <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/Offert/delete/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
+                                            <a asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
+                                                <i class="fas fa-pencil-alt text-primary m-2 "></i>
+                                            </a>
+                                            <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
+                                            <a asp-action="Detail" asp-controller="Offert" asp-route-Id="@item.Id">
+                                                <i class="fas fa-eye m-2" style="cursor:pointer;"></i>
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td><b>N/A</b></td>
+                                    }
+                                </tr>
                             }
-                            else
-                            {
-                                <td><b>N/A</b></td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-12">
+
+        @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
+           {
+               LinkClass = "page-link",
+               DoNotRenderForOnePage = true
+           })
+
+
+    </div>
 </div>
+
+
+
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

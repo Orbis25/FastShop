@@ -84,14 +84,14 @@ namespace BussinesLayer.Repository
             var result = GetAll(filters, includes);
             var total = result.Count();
             var pages = total / pagination.Qyt;
-            result = result.Take(pagination.Qyt).Skip((pagination.ActualPage - 1) / pagination.Qyt);
+            result = result.Skip((pagination.Page - 1) * pagination.Qyt).Take(pagination.Qyt);
 
             return new()
             {
                 Pages = pages,
                 Total = total,
                 Qyt = pagination.Qyt,
-                ActualPage = pagination.ActualPage,
+                ActualPage = pagination.Page,
                 Results = await result.ToListAsync()
             };
         }

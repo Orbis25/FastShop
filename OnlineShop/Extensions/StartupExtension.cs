@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Settings.ImageServer;
+using ExicoPaginationCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -49,6 +50,7 @@ namespace OnlineShop.ExtensionMethods
 
         public static void Services(this IServiceCollection service)
         {
+            service.AddExicoCorePagination();
             service.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
