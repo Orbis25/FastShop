@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.Utils.Paginations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -20,21 +21,21 @@ namespace OnlineShop.Controllers
         public IActionResult Index() => View(_services.AdminService.GetAllCountServices());
 
         [HttpGet]
-        public async Task<IActionResult> Users() => View(await _services.UserService.GetUsers());
+        public async Task<IActionResult> Users(PaginationBase pagination) => View(await _services.UserService.GetAllPaginated(pagination));
 
         [HttpGet]
-        public async Task<IActionResult> Products() => View(await _services.ProductService.GetList(null, x => x.Category));
+        public async Task<IActionResult> Products(PaginationBase pagination) => View(await _services.ProductService.GetAllPaginated(pagination, null, x => x.Category));
 
         [HttpGet]
-        public async Task<IActionResult> Categories() => View(await _services.CategoryService.GetList());
+        public async Task<IActionResult> Categories(PaginationBase pagination) => View(await _services.CategoryService.GetAllPaginated(pagination));
 
         [HttpGet]
-        public async Task<IActionResult> Offerts() => View(await _services.OffertService.GetList(null, x => x.ImageOfferts));
+        public async Task<IActionResult> Offerts(PaginationBase pagination) => View(await _services.OffertService.GetAllPaginated(pagination, null, x => x.ImageOfferts));
 
         [HttpGet]
-        public async Task<IActionResult> Cupons() => View(await _services.CouponService.GetList());
+        public async Task<IActionResult> Cupons(PaginationBase pagination) => View(await _services.CouponService.GetAllPaginated(pagination));
 
         [HttpGet]
-        public async Task<IActionResult> Sales() => View(await _services.SaleService.GetList());
+        public async Task<IActionResult> Sales(PaginationBase pagination) => View(await _services.SaleService.GetAllPaginated(pagination));
     }
 }

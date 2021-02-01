@@ -2,8 +2,8 @@
 <link href="~/css/category/style.css" asp-append-version="true" rel="stylesheet" />
 
 <div class="container">
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-12 col-lg-12 col-md-12 mb-5">
             <!-- Start Filter Bar -->
             <h1>Busqueda de productos</h1>
             <form asp-action="Filter" method="get">
@@ -40,12 +40,12 @@
             <div class="row">
                 @foreach (var item in Model.Results)
                 {
-                    var pic = item.ProductPics.FirstOrDefault() != null ? item.ProductPics.FirstOrDefault().PicName : "default.png";
+                    var pic = item.ProductPics.FirstOrDefault() != null ? item.ProductPics.FirstOrDefault().Path : "/img/default.png";
 
                     <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-4">
                         <div class="card text-center card-product">
                             <div class="card-product__img">
-                                <img src="~/img/@pic" height="200" width="200" alt="@pic">
+                                <img src="@pic" height="200" width="200" alt="@pic">
                                 <ul class="card-product__imgOverlay">
                                     <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="see-product btn"><i class="fa fa-eye"></i></a></li>
                                 </ul>
@@ -59,6 +59,13 @@
                     </div>
                 }
             </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            @Html.RenderPagination(Model.Total.Value, Model.Qyt, new DefaultPaginationConfig
+            {
+             LinkClass = "page-link",
+             DoNotRenderForOnePage = true
+             })
         </div>
     </div>
 </div>

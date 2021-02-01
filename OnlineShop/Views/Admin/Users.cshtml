@@ -1,74 +1,73 @@
-﻿@model IEnumerable<Model.Models.ApplicationUser>
+﻿@model PaginationResult<ApplicationUser>
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Usuarios</h1>
 
-<div class="card mb-3">
-    <div class="card-header">
-        <i class="fas fa-table"></i>
-        Listado de usuarios
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Estado</th>
-                        <th>Numero</th>
-                        <th>Correo</th>
-                        <th>Dirreción</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Estado</th>
-                        <th>Numero</th>
-                        <th>Correo</th>
-                        <th>Dirreción</th>
-                        <th>Acciones</th>
-                    </tr>
-                </tfoot>
+<div class="row">
+    <div class="col-12">
 
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        if (item.UserName == User.Identity.Name)
-                        {
-                            continue;
-                        }
-                        <tr>
-                            <td>@item.FullName</td>
-                            @{
-                                string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
+        <h1>Usuarios</h1>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                                <th>Numero</th>
+                                <th>Correo</th>
+                                <th>Dirreción</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Results)
+                            {
+                                if (item.UserName == User.Identity.Name)
+                                {
+                                    continue;
+                                }
+                                <tr>
+                                    <td>@item.FullName</td>
+                                    @{
+                                        string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
+                                    }
+                                    <td>@state</td>
+                                    <td>@item.PhoneNumber</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Address</td>
+                                    <td>
+                                        @if (item.LockoutEnabled)
+                                        {
+                                            <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                                <b class="text-success">Desbloquear</b>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                                <b class="text-danger">Bloquear</b>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
                             }
-                            <td>@state</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>@item.Email</td>
-                            <td>@item.Address</td>
-                            <td>
-                                @if (item.LockoutEnabled)
-                                {
-                                    <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                        <b class="text-success">Desbloquear</b>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                        <b class="text-danger">Bloquear</b>
-                                    </a>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-12">
+        @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
+      {
+          LinkClass = "page-link",
+          DoNotRenderForOnePage = true
+      })
+    </div>
 </div>
+
 <partial name="_NotificationPartial" />

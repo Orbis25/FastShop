@@ -13,7 +13,7 @@
             <div class="row">
                 @foreach (var item in Model.Products)
                 {
-                    var img = item.ProductPics.FirstOrDefault() != null ? item.ProductPics.FirstOrDefault().Path : "default.png";
+                    var img = item.ProductPics.FirstOrDefault() != null ? item.ProductPics.FirstOrDefault().Path : "/img/default.png";
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="card text-center card-product">
                             <div class="card-product__img">
@@ -29,8 +29,16 @@
                             </div>
                         </div>
                     </div>
-                 }
+                }
             </div>
+            @if (!Model.Products.Any())
+            {
+                <div class="row">
+                    <div class="col">
+                        <h1>No hay productos en existencia.</h1>
+                    </div>
+                </div>
+            }
         </div>
     </section>
 </main>

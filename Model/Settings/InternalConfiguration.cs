@@ -8,5 +8,7 @@ namespace Model.Settings
     {
         public string AppName { get; set; }
         public string BaseUrl { get; set; }
+        public string Admin { get; set; }
+        public string AdminPws { get; set; }
     }
 }

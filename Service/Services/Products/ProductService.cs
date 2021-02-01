@@ -57,8 +57,8 @@ namespace Service.Svc
 
             return new ProductFilterVM
             {
-                Results = await results.Skip((filters.ActualPage - 1) * filters.Qyt).Take(filters.Qyt).ToListAsync(),
-                ActualPage = filters.ActualPage,
+                Results = await results.Skip((filters.Page - 1) * filters.Qyt).Take(filters.Qyt).ToListAsync(),
+                Page = filters.Page,
                 Total = results.Count(),
                 Qyt = filters.Qyt
             };

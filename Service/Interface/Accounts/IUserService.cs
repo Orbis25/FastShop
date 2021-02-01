@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using DataLayer.Utils.Paginations;
+using Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,5 +10,6 @@ namespace Service.Interface
     public interface IUserService
     {
         Task<IEnumerable<ApplicationUser>> GetUsers();
+        Task<PaginationResult<ApplicationUser>> GetAllPaginated(PaginationBase pagination);
     }
 }
