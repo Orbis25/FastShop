@@ -35,16 +35,21 @@
                         <li><a class="active" href="#"><span>Modelo</span> : @Model.Model </a></li>
                         <li><a class="active" href="#"><span>Marca</span> : @Model.Brand </a></li>
                     </ul>
-                    <div class="product_count">
-                        <label for="qty">Cantidad:</label>
-                        <input type="number" name="qty" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
-                        @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().Path : "default.png"; }
-                        <a class="button primary-btn" href="#" onclick="addToCar('@Model.Id', document.getElementById('qyt').value , '@Model.ProductName' , '@Model.Price', '@picp' , '@Model.Quantity')">Agregar al carrito</a>
+                    <div class="">
+                        <form method="post" asp-controller="CartItem" asp-action="Add">
+                            <label for="qty">Cantidad:</label>
+                            <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <input type="number" name="Quantity" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
+                            @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().Path : "default.png"; }
+
+                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="~/js/car/app.js" asp-append-version="true"></script>
+<partial name="_NotificationPartial" />
 

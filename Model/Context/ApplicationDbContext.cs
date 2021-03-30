@@ -1,4 +1,5 @@
-﻿using DataLayer.Models.Categories;
+﻿using DataLayer.Models.Cart;
+using DataLayer.Models.Categories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
@@ -19,12 +20,15 @@ namespace OnlineShop.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.Deleted);
-            modelBuilder.Entity<Product>().HasQueryFilter(x => x.State != State.Deleted);
+            modelBuilder.Entity<Product>()
+                .HasQueryFilter(x => x.State != State.Deleted)
+                .HasMany(x => x.CartItems)
+                .WithOne(x => x.Product)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ProductPic>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Sale>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Offert>().HasQueryFilter(x => x.State != State.Deleted);
-
         }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -37,5 +41,6 @@ namespace OnlineShop.Data
         public DbSet<ImageOffert> ImageOfferts { get; set; }
         public DbSet<Offert> Offerts { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
     }
 }

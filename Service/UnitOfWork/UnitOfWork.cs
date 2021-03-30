@@ -1,4 +1,6 @@
-﻿using BussinesLayer.Interface.ImageServer;
+﻿using BussinesLayer.Interface.CartItems;
+using BussinesLayer.Interface.ImageServer;
+using BussinesLayer.Services.Cart;
 using BussinesLayer.Services.ImageServer;
 using DataLayer.Settings.ImageServer;
 using Microsoft.AspNetCore.Identity;
@@ -35,6 +37,7 @@ namespace BussinesLayer.UnitOfWork
         private SaleService _saleService;
         private ProductService _productService;
         private ImageServerService _imageServerService;
+        private CartItemService _cartItemService;
         private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
@@ -81,5 +84,7 @@ namespace BussinesLayer.UnitOfWork
         public IProductService ProductService => _productService ??= new ProductService(_context);
 
         public IImageServerService ImageServerService => _imageServerService ??= new ImageServerService(_imageServerOptions);
+
+        public ICartItemService CartItemService => _cartItemService ??= new CartItemService(_context);
     }
 }

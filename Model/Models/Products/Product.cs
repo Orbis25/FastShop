@@ -1,4 +1,5 @@
 ﻿using DataLayer.Models.Base;
+using DataLayer.Models.Cart;
 using DataLayer.Models.Categories;
 using System;
 using System.Collections.Generic;
@@ -38,5 +39,6 @@ namespace Model.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public ICollection<ProductPic> ProductPics { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

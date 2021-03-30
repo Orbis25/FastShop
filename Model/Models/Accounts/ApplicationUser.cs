@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DataLayer.Models.Cart;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,5 +17,6 @@ namespace Model.Models
         public string Address { get; set; }
         [Display(Name = "Ventas")]
         public ICollection<Sale> Sales { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

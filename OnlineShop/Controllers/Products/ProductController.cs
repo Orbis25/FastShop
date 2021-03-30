@@ -74,8 +74,6 @@ namespace OnlineShop.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = nameof(AuthLevel.User))]
-        public IActionResult Car() => View();
 
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]

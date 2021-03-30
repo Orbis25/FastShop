@@ -158,19 +158,13 @@ $(function () {
 
 
 /*Custon**/
-/*Car*/
 $(document).ready(function () {
-    let products = JSON.parse(localStorage.getItem('products'));
-    if (products !== null && products !== undefined) {
-        $('#car-count').text(String(products.length));
-    }
-
-
+    
     /**
      *Mask for phone Numbers
      */
     $(".phone-number").mask("000-000-0000");
-
+    $('.money').mask("#,##0.00", { reverse: true });
 
 
 });

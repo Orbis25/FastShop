@@ -1,4 +1,5 @@
-﻿using BussinesLayer.Interface.ImageServer;
+﻿using BussinesLayer.Interface.CartItems;
+using BussinesLayer.Interface.ImageServer;
 using Service.Interface;
 
 namespace BussinesLayer.UnitOfWork
@@ -15,6 +16,7 @@ namespace BussinesLayer.UnitOfWork
         ISaleService SaleService { get; }
         IProductService ProductService { get; }
         IImageServerService ImageServerService { get; }
+        ICartItemService CartItemService { get; }
 
     }
 }

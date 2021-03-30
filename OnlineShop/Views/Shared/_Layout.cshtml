@@ -12,7 +12,7 @@
     <link rel="stylesheet" asp-append-version="true" href="~/lib/font-awesome/css/all.min.css">
     <link rel="stylesheet" asp-append-version="true" href="~/css/style.css">
 
-    <link rel="stylesheet" asp-append-version="true" href="~/lib/owl-carousel/owl.carousel.min.js">
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" />
     <link rel="stylesheet" asp-append-version="true" href="~/lib/owl-carousel/owl.theme.min.css">
 </head>
 <body>
@@ -36,7 +36,7 @@
                                    aria-expanded="false">Shop</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Index">Productos</a></li>
-                                    <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Car">Carrito</a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Cartitem" asp-action="Index">Carrito</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
@@ -45,7 +45,7 @@
                         </ul>
 
                         <ul class="nav-shop">
-                            <li class="nav-item"><button onclick="location.href = '/Product/Car'"><i class="fa fa-shopping-cart"></i><span class="nav-shop__circle" id="car-count">0</span></button> </li>
+                            <li class="nav-item"><button onclick="location.href = '/CartItem/index'"><i class="fa fa-shopping-cart"></i><span class="nav-shop__circle" id="car-count">0</span></button> </li>
                             @if (User.Identity.IsAuthenticated && User.IsInRole(nameof(AuthLevel.Admin)))
                             {
                                 <li class="nav-item"><a asp-action="Index" asp-controller="Admin"><i class="fas fa-tachometer-alt"></i></a> </li>
@@ -61,10 +61,11 @@
         <partial name="_CookieConsentPartial" />
         <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/lib/skrollr/skrollr.min.js" asp-append-version="true"></script>
         <script src="~/lib/jquery.mask/jquery.mask.min.js" asp-append-version="true"></script>
         <script src="~/lib/owl-carousel/owl.carousel.min.js" asp-append-version="true"></script>
+        <script src="~/lib/limonte-sweetalert2/sweetalert2.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -73,7 +74,7 @@
     <footer class="footer">
         <div class="footer-area">
             <div class="container">
-                
+
             </div>
         </div>
 

@@ -74,7 +74,7 @@ namespace BussinesLayer.Repository
             var results = _context.Set<TEntity>().AsQueryable();
             foreach (var include in includes) results = results.Include(include);
             if (filters == null) return results;
-            return _context.Set<TEntity>().Where(filters);
+            return results.Where(filters);
         }
 
         public virtual async Task<PaginationResult<TEntity>> GetAllPaginated(PaginationBase pagination,
