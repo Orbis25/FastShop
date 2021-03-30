@@ -4,3 +4,5 @@
 #wwwroot/
 files
 appsettings.Development.json
+wwwroot/uploads
+

@@ -1,6 +1,7 @@
 ﻿@model Model.Models.Product
+@inject IOptions<ImageServerOption> _options;
+
 @{
-    ViewData["Title"] = "GetById";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,8 +12,9 @@
                 <div class="owl-carousel owl-theme s_Product_carousel">
                     @foreach (var item in Model.ProductPics)
                     {
+                        var src = $@"{_options.Value.BasePath}\{item.Path}";
                         <div id="@item.Id" class="single-prd-item">
-                            <img class="img-fluid" height="200" src="@item.Path" alt="@item.Path">
+                            <img class="img-fluid" height="200" src="@src" alt="@item.Path">
                         </div>
                     }
                     @if (!Model.ProductPics.Any())

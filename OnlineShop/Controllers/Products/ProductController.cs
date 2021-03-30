@@ -2,6 +2,7 @@
 using DataLayer.Enums.Base;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Model.Models;
@@ -17,10 +18,13 @@ namespace OnlineShop.Controllers
     {
 
         private readonly IUnitOfWork _services;
-        public ProductController(IUnitOfWork services
+        private readonly IWebHostEnvironment _env;
+        public ProductController(IUnitOfWork services,
+            IWebHostEnvironment env
           )
         {
             _services = services;
+            _env = env;
         }
 
         [HttpGet]
@@ -114,7 +118,7 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadPic(ProductPic model)
         {
-            var file = await _services.ImageServerService.UploadImage(model.Img);
+            var file = await _services.ImageServerService.UploadImage(model.Img, _env.WebRootPath,nameof(Product));
             SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
             if (!string.IsNullOrEmpty(file))
             {

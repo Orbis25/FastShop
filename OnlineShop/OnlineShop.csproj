@@ -24,4 +24,9 @@
     <ProjectReference Include="..\Service\BussinesLayer.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

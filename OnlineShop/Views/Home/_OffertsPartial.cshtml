@@ -1,12 +1,14 @@
 ﻿@model Model.Models.Offert
 
+@inject IOptions<ImageServerOption> _options;
+
 <section class="hero-banner">
     <div class="container">
         <div class="row no-gutters align-items-center pt-60px">
             <div class="col-5 d-none d-sm-block">
                 <div class="hero-banner__img">
                     @{
-                        var image = Model == null || !Model.ImageOfferts.Any() ? "/img/default.png" : Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImagePath;
+                        var image = Model == null || !Model.ImageOfferts.Any() ? "/img/default.png" : $@"{_options.Value.BasePath}/" + Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImagePath;
                     }
                     <img class="img-fluid" height="700" src="@image" alt="@image">
                 </div>

@@ -12,5 +12,6 @@ namespace BussinesLayer.Interface.ImageServer
         /// <param name="image"></param>
         /// <returns></returns>
         Task<string> UploadImage(IFormFile image);
+        Task<string> UploadImage(IFormFile file, string path, string folder);
     }
 }

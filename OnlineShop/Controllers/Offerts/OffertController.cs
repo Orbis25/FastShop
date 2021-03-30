@@ -1,6 +1,7 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using OnlineShop.Controllers.Base;
@@ -13,10 +14,13 @@ namespace OnlineShop.Controllers
     public class OffertController : BaseController
     {
         private readonly IUnitOfWork _services;
+        private readonly IWebHostEnvironment _env;
 
-        public OffertController(IUnitOfWork services)
+        public OffertController(IUnitOfWork services,
+            IWebHostEnvironment env)
         {
             _services = services;
+            _env = env;
         }
 
         [HttpGet]
@@ -62,7 +66,7 @@ namespace OnlineShop.Controllers
 
         public async Task<IActionResult> UploadPic(ImageOffert model)
         {
-            string file = await _services.ImageServerService.UploadImage(model.Img);
+            string file = await _services.ImageServerService.UploadImage(model.Img, _env.WebRootPath,nameof(Offert));
             SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
             if (!string.IsNullOrEmpty(file))
             {

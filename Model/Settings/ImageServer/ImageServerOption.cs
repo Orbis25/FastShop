@@ -12,6 +12,8 @@ namespace DataLayer.Settings.ImageServer
         public string ClientSecret { get; set; }
         public string BaseUrl { get; set; }
         public string UploadUrl { get; set; }
+        public string[] Formats { get; set; }
+        public string BasePath { get; set; }
 
     }
 }
