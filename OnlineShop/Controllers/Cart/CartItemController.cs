@@ -1,6 +1,7 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
 using DataLayer.Models.Cart;
+using DataLayer.ViewModels.Cart;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,17 @@ namespace OnlineShop.Controllers.Cart
             var result = await _services.CartItemService.Remove(id);
             if (!result) return BadRequest("Ha ocurrido un error intente de nuevo mas tarde");
             return Ok(true);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTotal() => Ok(await _services.CartItemService.GetTotal(GetLoggedIdUser()));
+
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody]CartItemUpdateVM model)
+        {
+            var result = await _services.CartItemService.UpdateItem(model);
+            if (!result) return BadRequest(result);
+            return Ok(result);
         }
     }
 }

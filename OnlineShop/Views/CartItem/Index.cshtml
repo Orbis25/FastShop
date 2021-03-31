@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<DataLayer.Models.Cart.CartItem>
-@{ 
+@{
     double allTotal = 0;
 }
 
@@ -8,9 +8,9 @@
 
 <div class="container">
     <div class="cart_inner">
-        <div class="table-responsive">
-            @if (Model.Any())
-            {
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
 
                 <table class="table">
                     <thead>
@@ -23,19 +23,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                          
+
                         @foreach (var item in Model)
                         {
                             double total = item.Product.Price * item.Quantity;
-                            allTotal =+ total;
+                            allTotal += total;
+                            var spanId = item.Id + string.Empty+item.ProductId;
                             <tr>
                                 <td>@item.Product.ProductName</td>
                                 <td>@item.Product.Price.ToString("C")</td>
-                                <td><input value="@item.Quantity" type="number" min="1" /></td>
+                                <td>
+                                    <input value="@item.Quantity" 
+                                           id="@item.ProductId" 
+                                           onchange="handleChangeQyt(this,'@spanId')" 
+                                           onkeydown="return false;" 
+                                           onkeypress="return false;" 
+                                           type="number" 
+                                           min="1"
+                                           max="@item.MaxQuantity"/>
+                                    <span class="text-danger" style="display:none;" id="@spanId">Pulse el boton (<i class="fa fa-edit"></i>) para actualizar</span>
+                                </td>
                                 <td class="money">@total.ToString("C")</td>
                                 <td>
-                                    <i class="fa fa-trash-alt text-danger ml-2" style="cursor:pointer;"></i>
-                                    <i class="fa fa-edit text-primary ml-2" style="cursor:pointer;"></i>
+                                    <i class="fa fa-trash-alt text-danger ml-2" onclick="sweetRemove(`/cartItem/remove/@item.Id`)" style="cursor:pointer;"></i>
+                                    <i class="fa fa-edit text-primary ml-2" onclick="updateItem('@item.Id', `@item.ProductId`)" style="cursor:pointer;"></i>
                                 </td>
                             </tr>
                         }
@@ -48,26 +59,28 @@
                         </tr>
                     </tbody>
                 </table>
-            }
-            else
-            {
-                <div class="text-center">
-                    <h1><i class="far fa-sad-tear"></i></h1>
-                    <h2>No hay productos</h2>
-                </div>
-            }
-            @*<div class="alert alert-success alert-dismissible fade show" role="alert">
+            </div>
+
+            <div>
+                <partial name="_PaymentPartial" />
+            </div>
+        }
+        else
+        {
+            <div class="text-center">
+                <h1><i class="far fa-sad-tear"></i></h1>
+                <h2>No hay productos</h2>
+            </div>
+        }
+        @*<div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Cupón aplicado!</strong> Recuerda solo puedes aplicar un cupón a la vez
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>*@
-        </div>
     </div>
 
-    <div>
-        <partial name="_PaymentPartial" />
-    </div>
+
 </div>
+<script src="~/js/car/app.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />
-

@@ -39,6 +39,7 @@
                         <form method="post" asp-controller="CartItem" asp-action="Add">
                             <label for="qty">Cantidad:</label>
                             <input type="hidden" name="ProductId" value="@Model.Id" />
+                            <input type="hidden" name="MaxQuantity" value="@Model.Quantity" />
                             <input type="number" name="Quantity" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
                             @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().Path : "default.png"; }
 

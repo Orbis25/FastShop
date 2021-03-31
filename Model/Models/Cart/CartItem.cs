@@ -14,6 +14,7 @@ namespace DataLayer.Models.Cart
         [Required(ErrorMessage = "La {0} es requerida")]
         [Display(Name = "Cantidad")]
         public int Quantity { get; set; }
+        public int MaxQuantity { get; set; }
 
     }
 }

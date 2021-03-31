@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
+﻿
 function findMypass() {
     Swal.fire({
         title: "Ingresa tu correo",
@@ -157,14 +153,25 @@ $(function () {
 });
 
 
+
+
+
+const getTotalCountCartItems = async () => {
+    const fetch_result = await fetch("/cartItem/getTotal");
+    const result = await fetch_result.json();
+    $('#car-count').text(result);
+}
+
 /*Custon**/
-$(document).ready(function () {
+$(document).ready(async function () {
     
     /**
      *Mask for phone Numbers
      */
     $(".phone-number").mask("000-000-0000");
     $('.money').mask("#,##0.00", { reverse: true });
+    await getTotalCountCartItems();
+
 
 
 });
