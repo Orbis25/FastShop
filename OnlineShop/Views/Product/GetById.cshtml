@@ -34,6 +34,8 @@
                         <li><a class="active" href="#"><span>Compañia</span> : @Model.CompanyName </a></li>
                         <li><a class="active" href="#"><span>Modelo</span> : @Model.Model </a></li>
                         <li><a class="active" href="#"><span>Marca</span> : @Model.Brand </a></li>
+                        <li><a class="active" href="#"><span>Stock</span> : @Model.Quantity disponibles </a></li>
+
                     </ul>
                     <div class="">
                         <form method="post" asp-controller="CartItem" asp-action="Add">
@@ -43,7 +45,10 @@
                             <input type="number" name="Quantity" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text qty">
                             @{ var picp = Model.ProductPics.FirstOrDefault() != null ? Model.ProductPics.FirstOrDefault().Path : "default.png"; }
 
-                            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                            @if (User.IsInRole(nameof(AuthLevel.User)))
+                            {
+                                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                            }
                         </form>
 
                     </div>

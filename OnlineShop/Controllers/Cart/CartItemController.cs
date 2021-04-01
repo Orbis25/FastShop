@@ -21,8 +21,16 @@ namespace OnlineShop.Controllers.Cart
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string code)
         {
+            if (!string.IsNullOrEmpty(code))
+            {
+                var coupon = await _services.CouponService.GetByCupponCode(code);
+                if (coupon != null)
+                {
+                    ViewBag.coupon = coupon.Amount;
+                }
+            }
             var result = await _services.CartItemService.GetList(x => x.UserId == GetLoggedIdUser(), x => x.Product);
             return View(result);
         }
@@ -32,14 +40,15 @@ namespace OnlineShop.Controllers.Cart
         {
 
             var exist = _services.CartItemService.GetAll(x => x.ProductId == model.ProductId);
-            if(await exist.AnyAsync())
+            if (await exist.AnyAsync())
             {
                 SendNotification("Ya tienes este producto en tu carrito", null, NotificationEnum.Warning);
                 return RedirectToAction("GetById", "Product", new { id = model.ProductId });
             }
 
-            if (model.Quantity <= 0) {
-                SendNotification("Cantidad invalida", null,NotificationEnum.Error);
+            if (model.Quantity <= 0)
+            {
+                SendNotification("Cantidad invalida", null, NotificationEnum.Error);
                 return RedirectToAction("GetById", "Product", new { id = model.ProductId });
             }
             model.UserId = GetLoggedIdUser();
@@ -52,7 +61,7 @@ namespace OnlineShop.Controllers.Cart
             SendNotification("Producto agregado al carrito");
             return RedirectToAction(nameof(Index));
         }
-   
+
         [HttpPost]
         public async Task<IActionResult> Remove(int id)
         {
@@ -65,7 +74,7 @@ namespace OnlineShop.Controllers.Cart
         public async Task<IActionResult> GetTotal() => Ok(await _services.CartItemService.GetTotal(GetLoggedIdUser()));
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody]CartItemUpdateVM model)
+        public async Task<IActionResult> Update([FromBody] CartItemUpdateVM model)
         {
             var result = await _services.CartItemService.UpdateItem(model);
             if (!result) return BadRequest(result);

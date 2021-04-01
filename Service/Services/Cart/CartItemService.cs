@@ -15,8 +15,10 @@ namespace BussinesLayer.Services.Cart
 {
     public class CartItemService : BaseRepository<CartItem, ApplicationDbContext, int>, ICartItemService
     {
+        private readonly ApplicationDbContext _context;
         public CartItemService(ApplicationDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public async Task<int> GetTotal(string userId)
@@ -30,6 +32,13 @@ namespace BussinesLayer.Services.Cart
             if (exist == null) return false;
             exist.Quantity = model.Quantity;
             return await base.Update(exist);
+        }
+
+        public async Task<bool> ClearCart(string userId)
+        {
+            var results = _context.CartItems.Where(x => x.UserId == userId);
+            _context.RemoveRange(results);
+            return await CommitAsync();
         }
     }
 }

@@ -1,0 +1,65 @@
+﻿@model Sale
+
+<div class="container">
+    <div class="row ">
+        <div class="col-12 mt-3">
+
+            <h1>Detalle de compra</h1>
+
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-4 mt-5 mb-5">
+            <span>Usuario: <b>@Model.User.FullName.ToUpper()</b></span> <br />
+            <span>Fecha: <b>@Model.CreatedAtSrt</b></span> <br />
+            <span>Codigo de venta: <b>@Model.Code</b></span><br />
+            <span>Codigo de Cupón: <b>@(Model.CuponCode ?? "N/A")</b></span> <br />
+            <span>Dirreción: <b>@Model.User.Address</b></span> <br />
+            <a href="#" onclick="window.print()">Pulsar Imprimir <i class="fa fa-print" ></i></a>
+        </div>
+
+        <div class="col-12">
+            <div class="table-responsive">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.DetailSales)
+                        {
+                            double total = item.Product.Price * item.Quantity;
+                            <tr>
+                                <td>@item.Product.ProductName</td>
+                                <td>@item.Product.Price.ToString("C")</td>
+                                <td>
+                                    @item.Quantity
+                                </td>
+                                <td>@total.ToString("C")</td>
+
+                            </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                Total: <b>@Model.Total.ToString("C")</b>
+                                <br /> @(!string.IsNullOrEmpty(Model.CuponCode) ? $"<i>Cupón aplicado:{Model.CuponCode}</i>" : null)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<partial name="_NotificationPartial" />

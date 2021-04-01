@@ -92,7 +92,7 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Edit(Product product)
         {
             var exist = await _services.ProductService.Exist(product.Id);
-            if (exist) return new NotFoundView();
+            if (!exist) return new NotFoundView();
 
             var categories = await _services.CategoryService.GetList();
             ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });

@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using DataLayer.Models.Cart;
+using Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Service.Interface
 {
     public interface ISaleService : IBaseRepository<Sale , Guid>
     {
-        Task<bool> CreateSale(Sale sale, string userEmail);
+        Task<bool> CreateSale(List<CartItem> items,Sale sale, string userEmail);
     }
 }

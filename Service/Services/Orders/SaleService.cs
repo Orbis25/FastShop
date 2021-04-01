@@ -1,4 +1,5 @@
 ﻿using BussinesLayer.Repository;
+using DataLayer.Models.Cart;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Model.Models;
@@ -8,6 +9,7 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
@@ -34,23 +36,41 @@ namespace Service.Svc
         {
             //crete the order
             var order = new Order() { };
-            await _context.Orders.AddAsync(new());
+            await _context.Orders.AddAsync(order);
             var result = await CommitAsync();
             if (!result) return false;
             model.OrderId = order.Id;
             return await base.Add(model);
         }
 
-        public async Task<bool> CreateSale(Sale sale, string userEmail)
+        public async Task<bool> CreateSale(List<CartItem> items, Sale sale, string userEmail)
         {
+            var itemsToSale = new List<DetailSale>();
+            items.ForEach(item =>
+            {
+                itemsToSale.Add(new()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                });
+            });
+
+            var total = items.Sum(x => (x.Quantity * x.Product.Price));
+            var coupon = await _context.Cupons.FirstOrDefaultAsync(x => x.Code == sale.Code);
+            
+            if(coupon != null) total -= coupon.Amount;
+            
+            sale.Total = total;
             var result = await Add(sale);
             if (!result) return false;
-            if (await UpdateProducts(sale.DetailSales))
+            if (await UpdateProducts(itemsToSale))
             {
+                sale.DetailSales = itemsToSale;
                 await SendEmail(sale, userEmail);
-                if (!await AddDetailSale(sale.DetailSales)) return false;
+                if (!await AddDetailSale(itemsToSale)) return false;
             }
-            return await CommitAsync();
+
+            return true;
         }
 
         private async Task<bool> AddDetailSale(IEnumerable<DetailSale> model)

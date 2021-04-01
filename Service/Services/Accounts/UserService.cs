@@ -16,6 +16,8 @@ namespace Service.Svc
         private readonly ApplicationDbContext _context;
         public UserService(ApplicationDbContext context) => _context = context;
 
+        public async Task<ApplicationUser> Get(string id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
         public async Task<PaginationResult<ApplicationUser>> GetAllPaginated(PaginationBase pagination)
         {
             var result = _context.Users.AsQueryable();

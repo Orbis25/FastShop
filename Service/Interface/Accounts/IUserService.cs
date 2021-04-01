@@ -11,5 +11,6 @@ namespace Service.Interface
     {
         Task<IEnumerable<ApplicationUser>> GetUsers();
         Task<PaginationResult<ApplicationUser>> GetAllPaginated(PaginationBase pagination);
+        Task<ApplicationUser> Get(string id);
     }
 }

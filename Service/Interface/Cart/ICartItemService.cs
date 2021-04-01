@@ -13,6 +13,7 @@ namespace BussinesLayer.Interface.CartItems
     {
         Task<int> GetTotal(string userId);
         Task<bool> UpdateItem(CartItemUpdateVM model);
+        Task<bool> ClearCart(string userId);
     }
 
 }

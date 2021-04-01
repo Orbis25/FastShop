@@ -45,12 +45,16 @@
                         </ul>
 
                         <ul class="nav-shop">
-                            <li class="nav-item"><button onclick="location.href = '/CartItem/index'"><i class="fa fa-shopping-cart"></i><span class="nav-shop__circle" id="car-count">0</span></button> </li>
+
+                            @if (User.Identity.IsAuthenticated && User.IsInRole(nameof(AuthLevel.User)))
+                            {
+                                <li class="nav-item"><button onclick="location.href = '/CartItem/index'"><i class="fa fa-shopping-cart"></i><span class="nav-shop__circle" id="car-count">0</span></button> </li>
+                            }
+
                             @if (User.Identity.IsAuthenticated && User.IsInRole(nameof(AuthLevel.Admin)))
                             {
                                 <li class="nav-item"><a asp-action="Index" asp-controller="Admin"><i class="fas fa-tachometer-alt"></i></a> </li>
                             }
-                            <li class="nav-item"><a class="button button-header" asp-controller="Category" asp-action="Index">Productos</a></li>
                         </ul>
                     </div>
                 </div>

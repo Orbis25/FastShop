@@ -28,19 +28,19 @@
                         {
                             double total = item.Product.Price * item.Quantity;
                             allTotal += total;
-                            var spanId = item.Id + string.Empty+item.ProductId;
+                            var spanId = item.Id + string.Empty + item.ProductId;
                             <tr>
                                 <td>@item.Product.ProductName</td>
                                 <td>@item.Product.Price.ToString("C")</td>
                                 <td>
-                                    <input value="@item.Quantity" 
-                                           id="@item.ProductId" 
-                                           onchange="handleChangeQyt(this,'@spanId')" 
-                                           onkeydown="return false;" 
-                                           onkeypress="return false;" 
-                                           type="number" 
+                                    <input value="@item.Quantity"
+                                           id="@item.ProductId"
+                                           onchange="handleChangeQyt(this,'@spanId')"
+                                           onkeydown="return false;"
+                                           onkeypress="return false;"
+                                           type="number"
                                            min="1"
-                                           max="@item.MaxQuantity"/>
+                                           max="@item.MaxQuantity" />
                                     <span class="text-danger" style="display:none;" id="@spanId">Pulse el boton (<i class="fa fa-edit"></i>) para actualizar</span>
                                 </td>
                                 <td class="money">@total.ToString("C")</td>
@@ -54,16 +54,59 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td>Total : <b class="">@(allTotal.ToString("C"))</b></td>
+                            <td>
+                                @{ if (ViewBag.coupon != null)
+                                    {
+                                        allTotal -= (double)ViewBag.coupon;
+                                    }
+                                }
+                                Total : <b class="">@(allTotal.ToString("C"))</b>
+                                @{
+                                    if (ViewBag.coupon != null)
+                                    {
+                                        <p>
+                                            Cupón Aplicado: <b>@ViewBag.coupon</b>
+                                        </p>
+                                    }
+                                }
+                            </td>
+                            <td>
+
+                                @{
+                                    if (ViewBag.coupon == null)
+                                    {
+                                        <div>
+                                            <form method="get" asp-action="Index">
+                                                <label>¿Tienes un cupón?</label> <br />
+                                                <input name="code" placeholder="CD154X" />
+                                                <button class="btn btn-primary btn-sm">Aplicar</button>
+                                            </form>
+                                        </div>
+                                    }
+                                }
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div>
-                <partial name="_PaymentPartial" />
-            </div>
+            if (ViewBag.coupon != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Cupón aplicado!</strong> Recuerda solo puedes aplicar un cupón a la vez
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            <form method="post" asp-action="Add" asp-controller="Sale">
+                @if (ViewBag.coupon != null)
+                {
+                    <input name="Code" value="@ViewBag.coupon" />
+                }
+                <button class="btn btn-outline-dark btn-sm"> Procesar la compra! </button>
+            </form>
         }
         else
         {
@@ -72,12 +115,7 @@
                 <h2>No hay productos</h2>
             </div>
         }
-        @*<div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Cupón aplicado!</strong> Recuerda solo puedes aplicar un cupón a la vez
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>*@
+
     </div>
 
 
