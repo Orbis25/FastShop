@@ -79,10 +79,15 @@ namespace BussinesLayer.Repository
 
         public virtual async Task<PaginationResult<TEntity>> GetAllPaginated(PaginationBase pagination,
             Expression<Func<TEntity, bool>> filters = null,
+            Expression<Func<TEntity,bool>> relationsShipFilter = null,
             params Expression<Func<TEntity, object>>[] includes)
         {
             var result = GetAll(filters, includes);
-            var total = result.Count();
+
+            int total = 0;
+            if (relationsShipFilter != null) total = result.Count(relationsShipFilter);
+            else total = result.Count();
+            
             var pages = total / pagination.Qyt;
             result = result.Skip((pagination.Page - 1) * pagination.Qyt).Take(pagination.Qyt);
 

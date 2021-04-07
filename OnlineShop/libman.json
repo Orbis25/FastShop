@@ -53,6 +53,13 @@
       "files": [
         "jquery.mask.min.js"
       ]
+    },
+    {
+      "library": "animate.css@4.1.1",
+      "destination": "wwwroot/lib/animate.css/",
+      "files": [
+        "animate.min.css"
+      ]
     }
   ]
 }

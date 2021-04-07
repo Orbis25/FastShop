@@ -1,7 +1,9 @@
 ﻿using BussinesLayer.Repository;
+using DataLayer.Enums.Products;
 using DataLayer.Utils.Paginations;
 using DataLayer.ViewModels.Products;
 using Microsoft.EntityFrameworkCore;
+using Model.Enums;
 using Model.Models;
 using Model.ViewModels;
 using OnlineShop.Data;
@@ -46,7 +48,7 @@ namespace Service.Svc
                 
                 .Include(x => x.ProductPics)
                 .Include(x => x.Category)
-                .Where(x => x.Quantity > 0).AsQueryable();
+                .Where(x => x.Quantity > (int)ProductStatusEnum.SoldOut).AsQueryable();
 
             //get by name
             if (!string.IsNullOrEmpty(filters.Name)) results = results.Where(x => x.ProductName.Contains(filters.Name));
@@ -55,15 +57,31 @@ namespace Service.Svc
             //range of money
             if (filters.To > 0) results = results.Where(x => x.Price >= filters.From && x.Price <= filters.To);
 
+            switch (filters.Status)
+            {
+                case ProductStatusEnum.Spent:
+                    results = results.Where(x => x.Quantity <= (int)ProductStatusEnum.Spent);
+                    break;
+                case ProductStatusEnum.AlmostSpent:
+                    results = results.Where(x => x.Quantity == (int)ProductStatusEnum.AlmostSpent);
+                    break;
+                case ProductStatusEnum.Good:
+                    results = results.Where(x => x.Quantity >= (int)ProductStatusEnum.Good);
+                    break;
+
+          
+            }
+
             return new ProductFilterVM
             {
                 Results = await results.Skip((filters.Page - 1) * filters.Qyt).Take(filters.Qyt).ToListAsync(),
                 Page = filters.Page,
-                Total = results.Count(),
+                Total = results.Count(x => x.Category.State != State.Deleted),
                 Qyt = filters.Qyt
             };
 
         }
- 
+
+       
     }
 }

@@ -1,9 +1,11 @@
-﻿using DataLayer.Models.Base;
+﻿using DataLayer.Enums.Products;
+using DataLayer.Models.Base;
 using DataLayer.Models.Cart;
 using DataLayer.Models.Categories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Models
 {
@@ -11,7 +13,7 @@ namespace Model.Models
     {
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Nombre del Producto")]
-        [MaxLength(50,ErrorMessage = "El {0} es demaciado largo.")]
+        [MaxLength(50, ErrorMessage = "El {0} es demaciado largo.")]
         public string ProductName { get; set; }
 
         [Required(ErrorMessage = "El {0} es requerido")]
@@ -25,7 +27,7 @@ namespace Model.Models
 
         [Display(Name = "Marca")]
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        [MaxLength(30,ErrorMessage = "La {0} es demaciada larga")]
+        [MaxLength(30, ErrorMessage = "La {0} es demaciada larga")]
         public string Brand { get; set; }
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Modelo")]
@@ -40,5 +42,16 @@ namespace Model.Models
         public Category Category { get; set; }
         public ICollection<ProductPic> ProductPics { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
+
+
+        /// <summary>
+        /// NotMapped properties
+        /// </summary>
+        [NotMapped]
+        public ProductStatusEnum Status
+             => Quantity <= (int)ProductStatusEnum.Spent ? ProductStatusEnum.Spent : 
+                (Quantity == (int)ProductStatusEnum.AlmostSpent ? ProductStatusEnum.AlmostSpent : 
+                ProductStatusEnum.Good);
+
     }
 }

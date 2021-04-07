@@ -8,52 +8,89 @@
 
 <h1>Actualizar Producto</h1>
 <hr />
+
+
 <div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit" asp-controller="Product">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" oninput="this.value=this.value.replace(/[^0-9]/g,'');" id="price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" min="1" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompanyName" class="control-label"></label>
-                <input asp-for="CompanyName" class="form-control" />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label"></label>
-                <input asp-for="Brand" class="form-control" />
-                <span asp-validation-for="Brand" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
-                <span asp-validation-for="Model" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="CategoryId">Categoria</label>
-                <select class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
-                    <option selected>SELECCIONA UNA CATEGORIA</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Actualizar" class="btn btn-primary" />
-                <a asp-action="Products" asp-controller="Admin" class="btn btn-dark">Volver</a>
-            </div>
-        </form>
+    <div class="col">
+       <div class="card">
+           <div class="card-body">
+               <form asp-action="Edit" asp-controller="Product">
+                   <div class="row">
+                       <div class="col-12 col-md-4 col-lg-3">
+
+                           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                           <div class="form-group">
+                               <label asp-for="ProductName" class="control-label"></label>
+                               <input asp-for="ProductName" class="form-control" />
+                               <span asp-validation-for="ProductName" class="text-danger"></span>
+                           </div>
+                       </div>
+                       <div class="col-12  col-md-4 col-lg-3">
+
+                           <div class="form-group">
+                               <label asp-for="Price" class="control-label"></label>
+                               <input asp-for="Price" oninput="this.value=this.value.replace(/[^0-9]/g,'');" id="price" class="form-control" />
+                               <span asp-validation-for="Price" class="text-danger"></span>
+                           </div>
+                       </div>
+                       <div class="col-12  col-md-4 col-lg-3">
+
+                           <div class="form-group">
+                               <label asp-for="Quantity" class="control-label"></label>
+                               <input asp-for="Quantity" min="1" class="form-control" />
+                               <span asp-validation-for="Quantity" class="text-danger"></span>
+                           </div>
+
+                       </div>
+
+                       <div class="col-12  col-md-4 col-lg-3">
+                           <div class="form-group">
+                               <label asp-for="CompanyName" class="control-label"></label>
+                               <input asp-for="CompanyName" class="form-control" />
+                               <span asp-validation-for="CompanyName" class="text-danger"></span>
+                           </div>
+                       </div>
+
+                       <div class="col-12  col-md-4 col-lg-3">
+                           <div class="form-group">
+                               <label asp-for="Brand" class="control-label"></label>
+                               <input asp-for="Brand" class="form-control" />
+                               <span asp-validation-for="Brand" class="text-danger"></span>
+                           </div>
+                       </div>
+
+                       <div class="col-12  col-md-4 col-lg-3">
+                           <div class="form-group">
+                               <label asp-for="Model" class="control-label"></label>
+                               <input asp-for="Model" class="form-control" />
+                               <span asp-validation-for="Model" class="text-danger"></span>
+                           </div>
+                       </div>
+
+
+                       <div class="col-12  col-md-4 col-lg-3">
+                           <div class="form-group">
+                               <label for="CategoryId">Categoria</label>
+                               <select class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
+                                   <option selected>SELECCIONA UNA CATEGORIA</option>
+                               </select>
+                               <span asp-validation-for="CategoryId" class="text-danger"></span>
+                           </div>
+                       </div>
+                       
+                       <div class="col-12  mt-4">
+                           <div class="form-group">
+                               <input type="submit" value="Actualizar" class="btn btn-primary" />
+                               <a asp-action="Products" asp-controller="Admin" class="btn btn-dark">Volver</a>
+                           </div>
+                       </div>
+
+
+                   </div>
+                  
+               </form>
+           </div>
+       </div>
     </div>
 </div>
 <partial name="_NotificationPartial" />

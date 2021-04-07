@@ -1,6 +1,8 @@
-﻿using DataLayer.Utils.Paginations;
+﻿using DataLayer.Enums.Products;
+using DataLayer.Utils.Paginations;
 using Model.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataLayer.ViewModels.Products
 {
@@ -9,6 +11,7 @@ namespace DataLayer.ViewModels.Products
 
         public int? Category { get; set; }
         public string Name { get; set; }
+        public ProductStatusEnum Status { get; set; } = ProductStatusEnum.All;
 
         /// <summary>
         /// Money Range

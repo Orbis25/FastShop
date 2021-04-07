@@ -14,67 +14,63 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/admin/style.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/admin/style.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/style.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/animate.css/animate.min.css" rel="stylesheet" />
 </head>
 
-<body id="page-top">
+<body id="page-top" class="admin-body">
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-        <a class="navbar-brand mr-1" asp-action="Index">Administración</a>
-        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="~/#">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
 
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="sidebar navbar-nav">
+        <ul class="sidebar navbar-nav side-bar-admin  ">
             <li class="nav-item active">
-                <a class="nav-link" asp-controller="Admin" asp-action="Index">
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Inicio</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="Products">
+                <a class="nav-link animate__animated animate__fadeInLeft  animate__faster" asp-controller="Admin" asp-action="Products">
                     <i class="fas fa-boxes"></i>
                     <span>Productos</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="Users">
+                <a class="nav-link  animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Users">
                     <i class="fas fa-users"></i>
                     <span>Usuarios</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="Categories">
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Categories">
                     <i class="fas fa-th-large"></i>
                     <span>Categorias</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="Offerts">
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Offerts">
                     <i class="fas fa-laugh-beam"></i>
                     <span>Ofertas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="Cupons">
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Cupons">
                     <i class="fas fa-credit-card"></i>
                     <span>Cupones</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="Sales">
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Sales">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Ventas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="Home">
-                    <img src="~/img/favicon.ico" class="text-black-50" height="24" />
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-action="Index" asp-controller="Home">
+                    <i class="fa fa-fire"></i>
                     <span>Sitio web</span>
                 </a>
             </li>
@@ -88,10 +84,6 @@
                 <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
                 <script src="~/js/admin/index.js"></script>
                 <script asp-append-version="true" src="~/js/Base/genericSweetAlert.js"></script>
-                <!-- Breadcrumbs-->
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">@Url.Action().ToLower()</li>
-                </ol>
 
                 @RenderBody()
 
