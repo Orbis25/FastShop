@@ -19,6 +19,7 @@ namespace Service.Interface
         Task<bool> Update(TEntity model);
         Task<bool> SoftRemove(TIdentifier id);
         Task<bool> Exist(TIdentifier id);
+        Task<PaginationResult<TEntity>> CreatePagination(PaginationBase pagination, IQueryable<TEntity> result, Expression<Func<TEntity, bool>> relationsShipFilter = null);
 
     }
 }

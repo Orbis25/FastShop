@@ -60,6 +60,30 @@
       "files": [
         "animate.min.css"
       ]
+    },
+    {
+      "library": "bootstrap4-toggle@3.6.1",
+      "destination": "wwwroot/lib/bootstrap4-toggle/",
+      "files": [
+        "bootstrap4-toggle.min.js",
+        "bootstrap4-toggle.min.css"
+      ]
+    },
+    {
+      "library": "axios@0.21.1",
+      "destination": "wwwroot/lib/axios/",
+      "files": [
+        "axios.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap-datepicker@1.9.0",
+      "destination": "wwwroot/lib/bootstrap-datepicker/",
+      "files": [
+        "js/bootstrap-datepicker.min.js",
+        "css/bootstrap-datepicker.min.css",
+        "locales/bootstrap-datepicker.es.min.js"
+      ]
     }
   ]
 }

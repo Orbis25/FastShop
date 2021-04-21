@@ -87,13 +87,5 @@ namespace OnlineShop.Controllers
             return RedirectToAction("Offerts", "Admin");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Detail(int id)
-        {
-            var model = await _services.OffertService.GetById(id, x => x.ImageOfferts);
-            if (model != null) return View(model);
-            return new NotFoundView();
-        }
-
     }
 }

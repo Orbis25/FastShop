@@ -1,73 +1,108 @@
 ﻿@model PaginationResult<ApplicationUser>
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var total = Model.Total > 0 ? (Model.Total - 1) : 0;
 }
 
 
 <div class="row">
     <div class="col-12">
+        <h3>Usuarios</h3>
+        <i>@(total) Usuarios  </i>
+        <hr />
+    </div>
+    <div class="col-12 mb-2">
+        <form asp-action="Users" method="get">
+            <div class="row">
+                <div class="col-12 col-sm-3 col-md-4 mb-2">
+                    <input name="FullName" class="form-control form-control-sm" placeholder="Buscar... ej: Orbis" />
+                </div>
+                <div class="col-12 col-sm-3 col-md-4 mb-2">
+                    <select class="form-control form-control-sm" name="IsLocked">
+                        <option selected>Estado</option>
+                        <option value="false">Activo</option>
+                        <option value="true">Inactivo</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-3 col-md-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-sm"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-        <h1>Usuarios</h1>
-
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Estado</th>
-                                <th>Numero</th>
-                                <th>Correo</th>
-                                <th>Dirreción</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Results)
-                            {
-                                if (item.UserName == User.Identity.Name)
-                                {
-                                    continue;
-                                }
+    @if (total == 0)
+    {
+        <div class="col-12 mt-5 text-center">
+            <h1 class="fa fa-sad-cry"></h1>
+            <h1 class="text-center">No hay resultados</h1>
+        </div>
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered animate__animated animate__fadeInLeft" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
                                 <tr>
-                                    <td>@item.FullName</td>
-                                    @{
-                                        string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
-                                    }
-                                    <td>@state</td>
-                                    <td>@item.PhoneNumber</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.Address</td>
-                                    <td>
-                                        @if (item.LockoutEnabled)
-                                        {
-                                            <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                                <b class="text-success">Desbloquear</b>
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                                <b class="text-danger">Bloquear</b>
-                                            </a>
-                                        }
-                                    </td>
+                                    <th>Nombre</th>
+                                    <th>Estado</th>
+                                    <th>Numero</th>
+                                    <th>Correo</th>
+                                    <th>Dirreción</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Results)
+                                {
+                                    if (item.UserName == User.Identity.Name)
+                                    {
+                                        continue;
+                                    }
+                                    <tr>
+                                        <td>@item.FullName</td>
+                                        @{
+                                            string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
+                                        }
+                                        <td>@state</td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Address</td>
+                                        <td>
+                                            @if (item.LockoutEnabled)
+                                            {
+                                                <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                                    <b class="text-success">Desbloquear</b>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                                    <b class="text-danger">Bloquear</b>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-12">
-        @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
-      {
-          LinkClass = "page-link",
-          DoNotRenderForOnePage = true
-      })
-    </div>
+        <div class="col-12">
+            @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
+       {
+           LinkClass = "page-link",
+           DoNotRenderForOnePage = true
+       })
+        </div>
+    }
 </div>
+
 
 <partial name="_NotificationPartial" />

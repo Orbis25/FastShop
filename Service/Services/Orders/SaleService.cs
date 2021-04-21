@@ -1,5 +1,8 @@
 ﻿using BussinesLayer.Repository;
+using Commons.Helpers;
 using DataLayer.Models.Cart;
+using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Model.Models;
@@ -158,5 +161,37 @@ namespace Service.Svc
 
         private static async Task<string> ReadTemplateEmailAsString() => await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\email", "Template.html"));
 
+        public async Task<SaleFilterVM> GetSales(SaleFilterVM filters)
+        {
+            var result = GetAll(null,x=> x.Order,x => x.User);
+            if (!string.IsNullOrEmpty(filters.Param))
+            {
+                result = result.Where(x => x.Order.OrderCode.Contains(filters.Param)
+                || x.User.FullName.Contains(filters.Param)
+                || x.Total.ToString().Contains(filters.Param));
+            }
+            if(!string.IsNullOrEmpty(filters.DateFrom) && !string.IsNullOrEmpty(filters.DateTo))
+            {
+                result = result.Where(x => x.CreatedAt >= filters.DateFrom.ToDate() 
+                         && x.CreatedAt <= filters.DateTo.ToDate());
+            }
+
+            if (filters.State.HasValue) result = result.Where(x => x.Order.StateOrder == filters.State);
+
+            var total = result.Count();
+
+            var pages = total / filters.Qyt;
+            result = result.Skip((filters.Page - 1) * filters.Qyt).Take(filters.Qyt);
+
+            return new()
+            {
+                Pages = pages,
+                Total = total,
+                Qyt = filters.Qyt,
+                Page = filters.Page,
+                Sales = await result.ToListAsync()
+            };
+
+        }
     }
 }

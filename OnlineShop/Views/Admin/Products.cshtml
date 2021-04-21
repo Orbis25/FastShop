@@ -20,121 +20,133 @@
     </div>
     <div class="col-12 mb-2">
         <form asp-action="Products" method="get">
-           <div class="row">
-               <div class="col-12 col-sm-4 col-lg-4 mb-2">
-                   <input type="text" asp-for="Name" class="form-control" placeholder="Busqueda" />
-               </div>
-               <div class="col-12 col-sm-4 col-lg-4 mb-2">
-                   <select asp-for="Status" class="form-control">
-                       <option>Todos</option>
-                       <option value="@ProductStatusEnum.Good" class="text-success">Buena Cantidad *</option>
-                       <option value="@ProductStatusEnum.Spent" class="text-danger">Agotados *</option>
-                       <option value="@ProductStatusEnum.AlmostSpent" class="text-warning">Casi Agotados *</option>
-                   </select>
-                 
-               </div>
-               <div class="col-12 col-sm-4 col-lg-4 mb-2">
-                   <button class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
-               </div>
-           </div>
+            <div class="row">
+                <div class="col-12 col-sm-4 col-lg-4 mb-2">
+                    <input type="text" asp-for="Name" class="form-control form-control-sm" placeholder="Busqueda" />
+                </div>
+                <div class="col-12 col-sm-4 col-lg-4 mb-2">
+                    <select asp-for="Status" class="form-control form-control-sm">
+                        <option>Todos</option>
+                        <option value="@ProductStatusEnum.Good" class="text-success">Buena Cantidad *</option>
+                        <option value="@ProductStatusEnum.Spent" class="text-danger">Agotados *</option>
+                        <option value="@ProductStatusEnum.AlmostSpent" class="text-warning">Casi Agotados *</option>
+                    </select>
+
+                </div>
+                <div class="col-12 col-sm-4 col-lg-4 mb-2">
+                    <button class="btn btn-block btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
         </form>
     </div>
 
-    @foreach (var item in Model.Results)
+
+    @if (!Model.Results.Any())
     {
-        var backGround = (item.Status == ProductStatusEnum.Spent ? "text-danger" : (item.Status == ProductStatusEnum.AlmostSpent ? "text-warning" : "text-success"));
-        var img = item.ProductPics.FirstOrDefault();
-        <div class="col-12 mb-2 ">
-            <div class="card card-item-1 animate__animated animate__backInLeft">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-sm-3 col-md-3 col-lg-1 text-center">
-                            @if (img == null)
-                            {
-                                <img src="~/img/default.png" width="80" />
-                            }
-                            else
-                            {
-                                <img src="@( $@"{_options.Value.BasePath}/{img.Path}")" width="80" />
-                            }
+        <div class="col-12 mt-5 text-center">
+            <h1 class="fa fa-sad-cry"></h1>
+            <h1 class="text-center">No hay resultados</h1>
+        </div>
+    }
+    else
+    {
+
+
+        @foreach (var item in Model.Results)
+        {
+            var backGround = (item.Status == ProductStatusEnum.Spent ? "text-danger" : (item.Status == ProductStatusEnum.AlmostSpent ? "text-warning" : "text-success"));
+            var img = item.ProductPics.FirstOrDefault();
+            <div class="col-12 mb-2 ">
+                <div class="card card-item-1 animate__animated animate__fadeInLeft">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-sm-3 col-md-3 col-lg-1 text-center">
+                                @if (img == null)
+                                {
+                                    <img src="~/img/default.png" width="80" />
+                                }
+                                else
+                                {
+                                    <img src="@( $@"{_options.Value.BasePath}/{img.Path}")" width="80" />
+                                }
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
+                                <span class="mb-2 ">Nombre</span>
+                                <p class="text-center">
+                                    <b>@item.ProductName</b>
+                                </p>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
+                                <span>Cantidad</span>
+                                <p>
+                                    <b>@item.Quantity</b>
+                                </p>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
+                                <span>Precio</span>
+                                <p>
+                                    <b>@item.Price.ToString("C")</b>
+                                </p>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3  col-lg-2 text-center">
+                                <span>Compañia</span>
+                                <p>
+                                    <b>@item.CompanyName</b>
+                                </p>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3 col-lg-1 text-center">
+                                <span>Estatus</span>
+                                <p class="@backGround">
+                                    <b style="">*</b>
+                                </p>
+                            </div>
+                            <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
+                                <span>Acciones</span>
+                                <p>
+                                    <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/product/remove/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
+                                    <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
+                                    <a class="no-link color-text-1" asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
+                                        <i class="fas fa-edit " style="cursor:pointer;"></i>
+                                    </a>
+                                </p>
+                            </div>
                         </div>
-                        <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
-                            <span class="mb-2 ">Nombre</span>
-                            <p class="text-center">
-                                <b>@item.ProductName</b>
-                            </p>
-                        </div>
-                        <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
-                            <span>Cantidad</span>
-                            <p>
-                                <b>@item.Quantity</b>
-                            </p>
-                        </div>
-                        <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
-                            <span>Precio</span>
-                            <p>
-                                <b>@item.Price.ToString("C")</b>
-                            </p>
-                        </div>
-                        <div class="col-6 col-sm-3 col-md-3  col-lg-2 text-center">
-                            <span>Compañia</span>
-                            <p>
-                                <b>@item.CompanyName</b>
-                            </p>
-                        </div>
-                        <div class="col-6 col-sm-3 col-md-3 col-lg-1 text-center">
-                            <span>Estatus</span>
-                            <p class="@backGround">
-                                <b style="">*</b>
-                            </p>
-                        </div>
-                        <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
-                            <span>Acciones</span>
-                            <p>
-                                <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/product/remove/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
-                                <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
-                                <a class="no-link color-text-1" asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
-                                    <i class="fas fa-edit " style="cursor:pointer;"></i>
-                                </a>
-                            </p>
-                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col">
+            @Html.RenderPagination(Model.Total.Value, Model.Qyt, new DefaultPaginationConfig
+       {
+           LinkClass = "page-link",
+           DoNotRenderForOnePage = true
+       })
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Subir imagen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-action="UploadPic" enctype="multipart/form-data" asp-controller="Product" class="form-group" method="post">
+                            <input class="form-control mb-5 mt-5" type="file" name="Img" />
+                            <input class="form-control mb-5 mt-5" type="hidden" name="ProductId" id="idimg" />
+                            <button type="submit" class="btn btn-block btn-success"> Subir</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
     }
-
-    <div class="col">
-        @Html.RenderPagination(Model.Total.Value, Model.Qyt, new DefaultPaginationConfig
-                  {
-                      LinkClass = "page-link",
-                      DoNotRenderForOnePage = true
-                  })
-    </div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Subir imagen</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form asp-action="UploadPic" enctype="multipart/form-data" asp-controller="Product" class="form-group" method="post">
-                        <input class="form-control mb-5 mt-5" type="file" name="Img" />
-                        <input class="form-control mb-5 mt-5" type="hidden" name="ProductId" id="idimg" />
-                        <button type="submit" class="btn btn-block btn-success"> Subir</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script src="~/js/product/app.js" asp-append-version="true"></script>

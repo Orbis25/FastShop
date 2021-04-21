@@ -4789,7 +4789,6 @@ a {
     color: white !important;
 }
 
-
 :root {
     --color-1: #413c69;
     --color-2: #4a47a3;
@@ -4854,4 +4853,9 @@ a {
     .btn-primary:hover {
         background: var(--color-1)
     }
+
+
+.bg-primary-ct {
+    background: var(--color-1) !important;
+}
 

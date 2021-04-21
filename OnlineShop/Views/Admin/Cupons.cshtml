@@ -2,30 +2,67 @@
 @{
     ViewData["Title"] = "Cupons";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var filters = ViewBag.Filter as CouponFilterVM;
 }
 
 
 <div class="row">
     <div class="col-12">
+        <h3>Cupones</h3>
+        <a asp-action="Add" asp-controller="Cuppon">Nuevo</a>
+        <i>@Model.Total Cupones</i>
+        <hr />
+    </div>
+    <div class="col-12">
+        <form method="get">
+            <div class="row justify-content-end">
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4 mb-2">
+                    <input placeholder="Buscar" class="form-control form-control-sm" name="Q" value="@filters?.Q" />
+                </div>
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2 mb-2">
+                    @if (filters?.State == StateCuppon.Valid)
+                    {
+                        <input type="checkbox" name="State" value="@StateCuppon.Valid" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="State" value="@StateCuppon.Valid" />
+                    }
+                    <label class="text-success">* Valido</label>
 
-        <h1>Cupones</h1>
+                    @if (filters?.State == StateCuppon.Invalid)
+                    {
+                        <input type="checkbox" name="State" value="@StateCuppon.Invalid" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="State" value="@StateCuppon.Invalid" />
+                    }
+                    <label class="text-danger">* Invalido</label>
+                </div>
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2 mb-2">
+                    <button class="btn btn-block btn-primary btn-sm"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-12">
+
 
 
         <div class="card mb-3">
-            <div class="card-header">
-                <a asp-action="Add" asp-controller="Cuppon" class="btn btn-primary ml-3 btn-sm">
-                    <i class="fas fa-plus-circle"></i>
-                </a>
-            </div>
+
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <div class="table-responsive animate__animated animate__fadeInLeft">
+                    <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Codigo</th>
                                 <th>Monto</th>
                                 <th>Descripción</th>
-                                <th>Estado</th>
+                                <th>¿Es valido?</th>
                                 <th>Acciones</th>
 
                             </tr>
@@ -33,13 +70,28 @@
                         <tbody>
                             @foreach (var item in Model.Results)
                             {
-                                var state = item.StateOfCuppon == 0 ? "Activo" : "Inactivo";
                                 <tr>
                                     <td>@item.Code</td>
-                                    <td>@item.Amount</td>
+                                    <td>@item.Amount.ToString("C")</td>
                                     <td>@item.Concept</td>
                                     <td>
-                                        @state
+
+                                        @if (item.IsValid)
+                                        {
+                                            <input id="toggle" name="StateOfCuppon" type="checkbox"
+                                                   onchange="changeState(this,'@item.Id', '@item.StateOfCuppon')"
+                                                   checked data-toggle="toggle"
+                                                   data-on="Si" data-off="No"
+                                                   data-size="xs" />
+                                        }
+                                        else
+                                        {
+                                            <input id="toggle" name="StateOfCuppon" type="checkbox"
+                                                   onchange="changeState(this, '@item.Id', '@item.StateOfCuppon')"
+                                                   data-toggle="toggle"
+                                                   data-on="Si" data-off="No"
+                                                   data-size="xs" />
+                                        }
                                     </td>
                                     <td>
                                         <a asp-action="Update" asp-controller="Cuppon" asp-route-Id="@item.Id">
@@ -65,6 +117,8 @@
     </div>
 </div>
 
-
+<script src="~/js/Base/const/fetch.const.js" asp-append-version="true"></script>
+<script src="~/js/coupon/index.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />
+
 

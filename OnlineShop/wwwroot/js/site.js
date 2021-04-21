@@ -173,6 +173,17 @@ $(document).ready(async function () {
     await getTotalCountCartItems();
 
 
+    $(".input-date").datepicker({
+        languaje: "es",
+        format: "dd/mm/yyyy"
+    })
+
+    $('.input-date-now').datepicker({
+        format: "dd/mm/yyyy",
+        maxDate: new Date(),
+        languaje:"es"
+    })
+
 
 });
 

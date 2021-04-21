@@ -32,7 +32,10 @@ namespace Model.Models
         [Display(Name = "Tipo de pago")]
         [Required]
         public PaymentType PaymentType { get; set; } = PaymentType.Cash;
-        
+
+        [NotMapped]
+        public string WithCoupon => CuponCode ?? "N/A";
+
     }
 
     public class DetailSale : BaseModel<Guid>

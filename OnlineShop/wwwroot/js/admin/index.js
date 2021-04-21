@@ -38,4 +38,19 @@
         event.preventDefault();
     });
 
-})(jQuery); // End of use strict
+})(jQuery);
+
+$(document).ready(() => {
+    $(".input-date").datepicker({
+        languaje: "es",
+        format: "dd/mm/yyyy",
+        autoclose: true,
+        endDate:new Date()
+    });
+    $('.input-date-now').datepicker({
+        format: "dd/mm/yyyy",
+        endDate: new Date(),
+        languaje: "es",
+        autoclose: true
+    });
+});

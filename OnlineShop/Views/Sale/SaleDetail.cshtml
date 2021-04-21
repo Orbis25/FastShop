@@ -3,50 +3,104 @@
 @{
     ViewData["Title"] = "SaleDetail";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    //status
+    var bgClass = Model.Order.StateOrder == StateOrder.Canceled ?
+                                                "bg-danger" : Model.Order.StateOrder == StateOrder.Delivered ?
+                                                "bg-success" : string.Empty;
 }
-<h1 class="text-center">DETALLE DE ORDEN @Model.CreatedAt.ToShortDateString()</h1>
 
-<div class="row justify-content-sm-start">
-    <div class="col-xs-12 col-3 ml-3">
-        <b><label asp-for="Total"></label> : @Model.Total</b><br />
-        <b><label asp-for="User.FullName">Usuario</label> : @Model.User.FullName</b><br />
-        <b><label asp-for="User.UserName"> Correo </label> : @Model.User.UserName</b><br />
-        <b><label asp-for="Description"> Dirección </label> : @Model.Description </b><br />
-        <b><label asp-for="PaymentType"> Tipo de pago </label> : @Model.PaymentType </b><br />
+<div class="container">
+    <div class="row ">
+        <div class="col mb-2">
+            <div class="card">
+                <div class="card-body">
 
-        @if (!string.IsNullOrEmpty(Model.CuponCode))
-        {
-            <b><label asp-for="CuponCode">Cupón</label> : @Model.CuponCode</b>
-        }
-    </div>
+                    <div class="row">
+                        <div class="col-12 ">
+                            <h5 class="mb-3">DETALLE DE ORDEN #@Model.Order.OrderCode</h5>
+                            <b class="text-dark"><label asp-for="PaymentType"> Fecha </label> </b> <span>(@Model.CreatedAtSrt)</span><br />
+                            <b class="text-dark"><label asp-for="User.FullName">Cliente</label></b> <span>(@Model.User.FullName)</span><br />
+                            <b class="text-dark"><label asp-for="User.UserName"> Correo </label></b> <span>(@Model.User.UserName)</span><br />
+                            <b class="text-dark"><label asp-for="Total">Total de la orden</label></b> <span>(@Model.Total)</span><br />
+                            <b class="text-dark"><label asp-for="Description"> Dirección </label> </b> <span>(@Model.Description)</span><br />
+                            <b class="text-dark"><label asp-for="PaymentType"> Tipo de pago </label> </b> <span>(@Model.PaymentType.GetDisplayName())</span><br />
+                            @if (!string.IsNullOrEmpty(Model.CuponCode))
+                            {
+                                <b class="text-dark"><label asp-for="CuponCode">Cupón</label> <span>(@Model.CuponCode)</span></b>
+                            }
+                        </div>
+                        <div class="col-12 mb-4">
+                            <h4 class="mt-5 mb-2">Productos</h4>
+                            <div class="table-responsive mt-2">
+                                <table class="table table-sm table-bordered" id="dataTable" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.DetailSales)
+                                        {
+                                            <tr>
+                                                <td>@item.Product.ProductName</td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.Product.Price</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-12">
 
-    <div class="col-xs-12 col-12">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.DetailSales)
-                        {
-                            <tr>
-                                <td>@item.Product.ProductName</td>
-                                <td>@item.Quantity</td>
-                                <td>@item.Product.Price</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                            <h4 class="mb-4">
+                                ESTADO DE LA ORDEN  <span class="mb-5 ml-5">
+                                    <i class="fas fa-calendar-week"></i>
+                                    Ultima actualización @Model.UpdatedAt.ToShortDateString()
+                                </span>
+                            </h4>
+
+                        </div>
+                        <div class="col-12">
+                            <div class="progress" style="height: 40px;">
+                                <div class="progress-bar @bgClass" role="progressbar" style="width: @ViewData["StatusPercent"]%;" aria-valuenow="@ViewData["StatusPercent"]" aria-valuemin="0" aria-valuemax="100">
+                                    @Model.Order.StateOrder.GetDisplayName()
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <form method="POST" asp-action="UpdateOrder" asp-controller="Sale">
+                                <div class="row ">
+                                    <div class="col-12 mb-2">
+                                        <input type="hidden" name="saleId" value="@Model.Order.Sale.Id" />
+                                        <input type="hidden" name="Id" value="@Model.Order.Id" />
+                                        <div class="form-group mt-4">
+                                            <label>Estatus</label>
+                                            <select name="StateOrder" asp-items="Html.GetEnumSelectList<StateOrder>()" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Mensaje</label>
+                                            <textArea class="form-control" asp-for="Description"></textArea>
+                                            <span asp-validation-for="Description"></span><br />
+                                            <button class="btn btn-sm btn-primary mt-1">Actualizar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-12 col-12">
-        <partial name="_StatusOrderPartial" model="Model.Order" />
     </div>
 </div>
+

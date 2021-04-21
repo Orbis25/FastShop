@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.ViewModels.Coupon;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
@@ -68,5 +69,14 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = nameof(AuthLevel.User))]
         [HttpGet]
         public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _services.CouponService.GetByCupponCode(code));
+   
+        [HttpPost]
+        public async Task<IActionResult> UpdateState([FromBody]CouponUpdateVM model)
+        {
+            if (model == null) return BadRequest("Error");
+            var result = await _services.CouponService.SetValidOrInvalid(model);
+            if (!result) return BadRequest("Error, intenta de nuevo");
+            return Ok(result);
+        }
     }
 }

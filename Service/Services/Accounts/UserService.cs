@@ -1,4 +1,5 @@
 ﻿using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Accounts;
 using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using OnlineShop.Data;
@@ -6,6 +7,7 @@ using Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,16 +20,19 @@ namespace Service.Svc
 
         public async Task<ApplicationUser> Get(string id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<PaginationResult<ApplicationUser>> GetAllPaginated(PaginationBase pagination)
+        public async Task<PaginationResult<ApplicationUser>> GetAllPaginated(UserFilterVM userFilter, Expression<Func<ApplicationUser, bool>> expression = null)
         {
-            var result = _context.Users.AsQueryable();
+            var result = expression == null ? _context.Users.AsQueryable() : _context.Users.Where(expression);
+            if (!string.IsNullOrEmpty(userFilter.FullName)) result = result.Where(x => x.FullName.Contains(userFilter.FullName));
+            if (userFilter.IsLocked.HasValue) result = result.Where(x => x.LockoutEnabled == userFilter.IsLocked.Value);
             int total = result.Count();
-            var pages = total / pagination.Qyt;
-            result = result.Skip((pagination.Page - 1) * pagination.Qyt).Take(pagination.Qyt).OrderByDescending(x => x.UserName);
+            var pages = total / userFilter.Qyt;
+            result = result.Skip((userFilter.Page - 1) * userFilter.Qyt)
+                .Take(userFilter.Qyt).OrderByDescending(x => x.UserName);
             return new()
             {
-                ActualPage = pagination.Page,
-                Qyt = pagination.Qyt,
+                ActualPage = userFilter.Page,
+                Qyt = userFilter.Qyt,
                 Pages = pages,
                 Total = total,
                 Results = await result.ToListAsync()

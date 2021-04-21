@@ -1,15 +1,23 @@
 ﻿using BussinesLayer.UnitOfWork;
+using Commons.Helpers;
 using DataLayer.Enums.Base;
+using DataLayer.Models.Categories;
 using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Accounts;
+using DataLayer.ViewModels.Coupon;
+using DataLayer.ViewModels.Orders;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Model.Enums;
+using OnlineShop.Controllers.Base;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
     [Authorize(Roles = nameof(AuthLevel.Admin))]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         private readonly IUnitOfWork _services;
 
@@ -22,21 +30,38 @@ namespace OnlineShop.Controllers
         public IActionResult Index() => View(_services.AdminService.GetAllCountServices());
 
         [HttpGet]
-        public async Task<IActionResult> Users(PaginationBase pagination) => View(await _services.UserService.GetAllPaginated(pagination));
+        public async Task<IActionResult> Users(UserFilterVM pagination) => View(await _services.UserService.GetAllPaginated(pagination));
 
         [HttpGet]
         public async Task<IActionResult> Products(ProductFilterVM filters) => View(await _services.ProductService.GetAllPaginateProducts(filters));
-        
-        [HttpGet]
-        public async Task<IActionResult> Categories(PaginationBase pagination) => View(await _services.CategoryService.GetAllPaginated(pagination));
 
         [HttpGet]
-        public async Task<IActionResult> Offerts(PaginationBase pagination) => View(await _services.OffertService.GetAllPaginated(pagination, null,null, x => x.ImageOfferts));
+        public async Task<IActionResult> Categories(PaginationBase pagination, string name)
+        {
+            ViewBag.Name = name;
+            var result = await _services.CategoryService.GetAllPaginated(pagination,
+                         (string.IsNullOrEmpty(name) ? null : x => x.Name.Contains(name)));
+            return View(result);
+        }
 
         [HttpGet]
-        public async Task<IActionResult> Cupons(PaginationBase pagination) => View(await _services.CouponService.GetAllPaginated(pagination));
+        public async Task<IActionResult> Offerts(PaginationBase pagination, string q)
+        {
+            ViewBag.Q = q;
+            return View(await _services.OffertService.filter(pagination, q));
+        }
 
         [HttpGet]
-        public async Task<IActionResult> Sales(PaginationBase pagination) => View(await _services.SaleService.GetAllPaginated(pagination));
+        public async Task<IActionResult> Cupons(PaginationBase pagination, CouponFilterVM filters)
+        {
+            ViewBag.Filter = filters;
+            return View(await _services.CouponService.GetFiltered(pagination, filters));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Sales(SaleFilterVM filters)
+        {
+            return View(await _services.SaleService.GetSales(filters));
+        }
     }
 }

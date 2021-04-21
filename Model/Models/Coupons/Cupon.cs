@@ -2,6 +2,7 @@
 using DataLayer.Models.Base;
 using Model.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Models
 {
@@ -19,5 +20,8 @@ namespace Model.Models
         [Display(Name = "Estado del cupón")]
         [Required]
         public StateCuppon StateOfCuppon { get; set; }
+
+        [NotMapped]
+        public bool IsValid => StateOfCuppon == StateCuppon.Valid;
     }
 }

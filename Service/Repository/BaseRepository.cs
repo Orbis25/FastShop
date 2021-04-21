@@ -83,11 +83,25 @@ namespace BussinesLayer.Repository
             params Expression<Func<TEntity, object>>[] includes)
         {
             var result = GetAll(filters, includes);
+            return await CreatePagination(pagination, result ,relationsShipFilter);
+        }
 
+        public virtual async Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>> filters = null, params Expression<Func<TEntity, object>>[] includes)
+        {
+            return await GetAll(filters, includes).ToListAsync();
+        }
+
+        public virtual async Task<TEntity> GetById(TIdentifier id, params Expression<Func<TEntity, object>>[] includes)
+           => await GetAll(null, includes).FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+        public async Task<bool> Exist(TIdentifier id) => await _context.Set<TEntity>().AnyAsync(x => x.Id.Equals(id));
+
+        public virtual async Task<PaginationResult<TEntity>> CreatePagination(PaginationBase pagination,IQueryable<TEntity> result,
+             Expression<Func<TEntity, bool>> relationsShipFilter = null)
+        {
             int total = 0;
-            if (relationsShipFilter != null) total = result.Count(relationsShipFilter);
-            else total = result.Count();
-            
+            if (relationsShipFilter == null) total = result.Count();
+            else result.Count(relationsShipFilter);
             var pages = total / pagination.Qyt;
             result = result.Skip((pagination.Page - 1) * pagination.Qyt).Take(pagination.Qyt);
 
@@ -100,15 +114,5 @@ namespace BussinesLayer.Repository
                 Results = await result.ToListAsync()
             };
         }
-
-        public virtual async Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>> filters = null, params Expression<Func<TEntity, object>>[] includes)
-        {
-            return await GetAll(filters, includes).ToListAsync();
-        }
-
-        public virtual async Task<TEntity> GetById(TIdentifier id, params Expression<Func<TEntity, object>>[] includes)
-           => await GetAll(null, includes).FirstOrDefaultAsync(x => x.Id.Equals(id));
-
-        public async Task<bool> Exist(TIdentifier id) => await _context.Set<TEntity>().AnyAsync(x => x.Id.Equals(id));
     }
 }

@@ -1,4 +1,4 @@
-﻿@model PaginationResult<Sale>
+﻿@model SaleFilterVM
 @{
     ViewData["Title"] = "Sales";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -7,37 +7,80 @@
 
 <div class="row">
     <div class="col-12">
-        <h1>Ventas</h1>
-
-
+        <h3>Ventas</h3>
+        <i>@Model.Total Ventas</i>
+        <hr />
+    </div>
+    <div class="col-12 mb-2">
+       <div class="card">
+           <div class="card-body">
+               <form method="get" asp-action="Sales">
+                   <div class="row justify-content-end">
+                       <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                           <label>Busqueda</label>
+                           <input asp-for="Param" class="form-control form-control-sm" placeholder="Buscar" />
+                       </div>
+                       <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+                           <label>Estatus</label>
+                           <select asp-for="State" class="form-control form-control-sm">
+                               <option value="null">SELECCIONE</option>
+                               <option value="@StateOrder.Storage">@StateOrder.Storage.GetDisplayName()</option>
+                               <option value="@StateOrder.Send">@StateOrder.Send.GetDisplayName()</option>
+                               <option value="@StateOrder.Delivered">@StateOrder.Delivered.GetDisplayName()</option>
+                               <option value="@StateOrder.Canceled">@StateOrder.Canceled.GetDisplayName()</option>
+                           </select>
+                       </div>
+                       <div class="col-12 col-sm-12 col-md-6 col-lg-2">
+                           <label asp-for="DateFrom">Fecha desde</label>
+                           <input asp-for="DateFrom" class="input-date form-control form-control-sm" />
+                       </div>
+                       <div class="col-12 col-sm-12 col-md-6 col-lg-2">
+                           <label asp-for="DateTo">Fecha hasta</label>
+                           <input asp-for="DateTo" class="input-date-now form-control form-control-sm" />
+                       </div>
+                       <div class="col-12 col-sm-12 col-md-6 col-lg-2 mt-4">
+                           <button class="btn btn-success btn-sm mt-2"><i class="fa fa-search"></i></button>
+                           <a asp-action="Sales" class="btn mt-2 btn-sm btn-danger">
+                               <i class="fa fa-ban"></i>
+                           </a>
+                       </div>
+                   </div>
+               </form>
+           </div>
+       </div>
+    </div>
+    <div class="col-12">
         <div class="card mb-3">
-            <div class="card-header">
-                <i class="fas fa-table"></i>
-            </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <div class="table-responsive animate__animated animate__fadeInLeft">
+                    <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Total</th>
+                                <th>No. Orden</th>
                                 <th>Fecha</th>
-                                <th>Cupon Aplicado</th>
+                                <th>Total</th>
+                                <th>Cliente</th>
+                                <th>Estatus</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Results)
+                            @foreach (var item in Model.Sales)
                             {
-                                var cuppon = !string.IsNullOrEmpty(item.CuponCode) ? item.CuponCode : "Ninguno";
                                 <tr>
-                                    <td>@item.Total</td>
+                                    <td>@item.Order.OrderCode</td>
                                     <td>@item.CreatedAtSrt</td>
-                                    <td>@cuppon</td>
+                                    <td>@item.Total.ToString("C")</td>
+                                    <td>@item.User.FullName</td>
+                                    <td>
+                                        
+                                        @item.Order.StateOrder.GetDisplayName()
+                                        
+                                    </td>
                                     <td>
                                         <a asp-action="SaleDetail" asp-controller="Sale" asp-route-Id="@item.Id">
                                             <i class="fas fa-eye text-primary m-2 " style="cursor:pointer;"></i>
                                         </a>
-                                        <i class="fas fa-trash text-danger" onclick="sweetRemove('/sale/remove/@item.Id')" style="cursor:pointer;"></i>
                                     </td>
                                 </tr>
                             }
@@ -48,7 +91,7 @@
         </div>
     </div>
     <div class="col-12">
-        @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
+        @Html.RenderPagination(Model.Total.Value, Model.Qyt, new DefaultPaginationConfig
            {
                LinkClass = "page-link",
                DoNotRenderForOnePage = true

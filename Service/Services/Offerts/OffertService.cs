@@ -25,6 +25,13 @@ namespace Service.Svc
 
         }
 
+        public async Task<PaginationResult<Offert>> filter(PaginationBase pagination, string q)
+        {
+            var result = await GetAllPaginated(pagination, (string.IsNullOrEmpty(q) ? null :  x => x.Concept.Contains(q)));
+            if (!result.Results.Any()) result = await GetAllPaginated(pagination, x => x.Description.Contains(q));
+            return result;
+        }
+
         public async Task<Offert> GetActiveOffert() => await _context.Offerts.Include(x => x.ImageOfferts).FirstOrDefaultAsync(x => x.State != Model.Enums.State.Deleted);
 
 
@@ -44,5 +51,7 @@ namespace Service.Svc
             }
             return false;
         }
+
+
     }
 }
