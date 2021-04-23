@@ -80,7 +80,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var product = await _services.ProductService.GetById(id);
+            var product = await _services.ProductService.GetById(id, x => x.ProductPics);
             if (product == null) return new NotFoundView();
             var categories = await _services.CategoryService.GetList();
             ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });

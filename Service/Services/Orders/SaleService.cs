@@ -37,7 +37,7 @@ namespace Service.Svc
         }
         public override async Task<bool> Add(Sale model)
         {
-            //crete the order
+            //create the order
             var order = new Order() { };
             await _context.Orders.AddAsync(order);
             var result = await CommitAsync();
@@ -69,7 +69,7 @@ namespace Service.Svc
             if (await UpdateProducts(itemsToSale))
             {
                 sale.DetailSales = itemsToSale;
-                await SendEmail(sale, userEmail);
+                await SendOrderEmail(sale, userEmail);
                 if (!await AddDetailSale(itemsToSale)) return false;
             }
 
@@ -108,14 +108,14 @@ namespace Service.Svc
             return model;
         }
 
-        private async Task<bool> SendEmail(Sale model, string userEmail)
+        public async Task<bool> SendOrderEmail(Sale model, string userEmail)
         {
 
             var html = await ReadTemplateEmailAsString();
-            html = html.Replace("{date}", model.CreatedAt.ToString());
+            html = html.Replace("{date}", model.CreatedAtSrt);
             html = html.Replace("{user}", userEmail);
             html = html.Replace("{cuppon}", !string.IsNullOrEmpty(model.CuponCode) ? model.CuponCode : "N/A");
-            html = html.Replace("{total}", model.Total.ToString());
+            html = html.Replace("{total}", model.Total.ToString("C"));
             html = html.Replace("{code}", model.Code);
             html = html.Replace("{orderCode}", model.Order.OrderCode);
             html = html.Replace("{paymentType}", model.PaymentType.ToString());
@@ -125,13 +125,10 @@ namespace Service.Svc
                 var prd = await _context.Products.FirstOrDefaultAsync(x => x.Id == item.ProductId);
                 table += $"<tr><td style='border: 1px solid #dddddd;text-align: left;padding: 8px;'>{prd.ProductName}</td>" +
                     $"<td style='border: 1px solid #dddddd;text-align: left;padding: 8px;'>{item.Quantity}</td>" +
-                    $"<td style='border: 1px solid #dddddd;text-align: left;padding: 8px;' >{prd.Price}</td></tr>";
+                    $"<td style='border: 1px solid #dddddd;text-align: left;padding: 8px;' >{prd.Price.ToString("C")}</td></tr>";
             }
             html = html.Replace("{body}", table);
             html = html.Replace("{AppName}", _internalOptions.AppName);
-
-
-
 
             var smtp = new SmtpClient()
             {
@@ -149,7 +146,7 @@ namespace Service.Svc
                 };
                 mailMessage.To.Add(userEmail);
                 mailMessage.IsBodyHtml = true;
-                mailMessage.Subject = $"{_internalOptions.AppName} --- Bill";
+                mailMessage.Subject = $"{_internalOptions.AppName} --- Order #{model.Order.OrderCode}";
                 mailMessage.Body = html;
 
                 await smtp.SendMailAsync(mailMessage);

@@ -14,5 +14,6 @@ namespace Service.Interface
         Task<IEnumerable<ApplicationUser>> GetUsers();
         Task<PaginationResult<ApplicationUser>> GetAllPaginated(UserFilterVM userFilter, Expression<Func<ApplicationUser,bool>> expression = null);
         Task<ApplicationUser> Get(string id);
+        Task<bool> Update(ApplicationUser model);
     }
 }

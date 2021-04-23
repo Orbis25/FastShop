@@ -16,6 +16,7 @@ namespace Model.Models
         [Display(Name = "Dirreción")]
         public string Address { get; set; }
         [Display(Name = "Ventas")]
+        public string ProfileImage { get; set; }
         public ICollection<Sale> Sales { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
     }

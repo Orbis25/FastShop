@@ -8,8 +8,7 @@
 {
 
     <a class="nav-link" href="#" title="Manage">
-        <i class="fas fa-user"></i>
-        @User.Identity.Name.ToLower().Substring(0, 3)...
+        Usuario
     </a>
 }
 else
@@ -21,7 +20,8 @@ else
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name.ToLower()</a></li>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
+        </li>
 
 
         <li class="nav-item">

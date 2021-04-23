@@ -13,5 +13,6 @@ namespace Service.Interface
     {
         Task<bool> CreateSale(List<CartItem> items,Sale sale, string userEmail);
         Task<SaleFilterVM> GetSales(SaleFilterVM filters);
+        Task<bool> SendOrderEmail(Sale model, string userEmail);
     }
 }

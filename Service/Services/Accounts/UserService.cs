@@ -40,5 +40,11 @@ namespace Service.Svc
         }
 
         public async Task<IEnumerable<ApplicationUser>> GetUsers() => await _context.Users.ToListAsync();
+
+        public async Task<bool> Update(ApplicationUser model)
+        {
+            _context.Update(model);
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

@@ -16,19 +16,20 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="row">
+                    <div class="row" id="content">
                         <div class="col-12 ">
                             <h5 class="mb-3">DETALLE DE ORDEN #@Model.Order.OrderCode</h5>
                             <b class="text-dark"><label asp-for="PaymentType"> Fecha </label> </b> <span>(@Model.CreatedAtSrt)</span><br />
                             <b class="text-dark"><label asp-for="User.FullName">Cliente</label></b> <span>(@Model.User.FullName)</span><br />
                             <b class="text-dark"><label asp-for="User.UserName"> Correo </label></b> <span>(@Model.User.UserName)</span><br />
-                            <b class="text-dark"><label asp-for="Total">Total de la orden</label></b> <span>(@Model.Total)</span><br />
-                            <b class="text-dark"><label asp-for="Description"> Dirección </label> </b> <span>(@Model.Description)</span><br />
+                            <b class="text-dark"><label asp-for="Total">Total de la orden</label></b> <span>(@Model.Total.ToString("C"))</span><br />
+                            <b class="text-dark"><label asp-for="Description"> Dirección de envio </label> </b> <span>(@Model.Description)</span><br />
                             <b class="text-dark"><label asp-for="PaymentType"> Tipo de pago </label> </b> <span>(@Model.PaymentType.GetDisplayName())</span><br />
                             @if (!string.IsNullOrEmpty(Model.CuponCode))
                             {
                                 <b class="text-dark"><label asp-for="CuponCode">Cupón</label> <span>(@Model.CuponCode)</span></b>
                             }
+
                         </div>
                         <div class="col-12 mb-4">
                             <h4 class="mt-5 mb-2">Productos</h4>
@@ -47,13 +48,17 @@
                                             <tr>
                                                 <td>@item.Product.ProductName</td>
                                                 <td>@item.Quantity</td>
-                                                <td>@item.Product.Price</td>
+                                                <td>@item.Product.Price.ToString("C")</td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+
+
+                    </div>
+                    <div class="row">
                         <div class="col-12">
 
                             <h4 class="mb-4">
@@ -88,7 +93,9 @@
                                             <label>Mensaje</label>
                                             <textArea class="form-control" asp-for="Description"></textArea>
                                             <span asp-validation-for="Description"></span><br />
-                                            <button class="btn btn-sm btn-primary mt-1">Actualizar</button>
+                                            <button id="btnSubmit" class="btn btn-sm btn-primary">Actualizar</button>
+                                            <button class="btn btn-dark btn-sm" type="button" onclick="toPrint('#content')">Imprimir</button>
+                                            <button class="btn btn-dark btn-sm" onclick="sendOrderEmail('@Model.Id')" type="button">Enviar por correo</button>
                                         </div>
                                     </div>
                                 </div>
@@ -104,3 +111,4 @@
     </div>
 </div>
 
+<script src="~/js/order/sale/sale-detail.js" asp-append-version="true"></script>

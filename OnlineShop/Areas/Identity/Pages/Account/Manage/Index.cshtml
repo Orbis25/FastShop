@@ -1,50 +1,116 @@
 ﻿@page
 @model IndexModel
+@inject IOptions<ImageServerOption> _options;
 @{
     ViewData["Title"] = "Perfil";
     ViewData["ActivePage"] = ManageNavPages.Index;
+
+    var profileImage = !string.IsNullOrEmpty(Model.Input.Img)
+        ? $@"{_options.Value.BasePath}\{Model.Input.Img}" : "/img/default.png";
 }
 
-<h4>@ViewData["Title"]</h4>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username">Usuario</label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                @if (Model.IsEmailConfirmed)
-                {
-                    <div class="input-group">
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                    </div>
-                }
-                else
-                {
-                    <input asp-for="Input.Email" class="form-control" />
-                }
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="Input.Address"></label>
-                <textarea asp-for="Input.Address" class="form-control"></textarea>
-                <span asp-validation-for="Input.Address" class="text-danger"></span>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-lg-center">
+                        <div class="col-12 col-sm-12 col-md-6 text-center">
+                            <img class="img-fluid" src="@profileImage" height="300" width="300" />
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6">
+                            <p>
+                                Personaliza tu cuenta agregando una foto de perfil fantastica,
+                                asi podremos reconocerte mucho mas rapido cuando te entreguemos tu pedido.
+                                Si no la haz cambiado cambiala ahora!
+                            </p>
+                            <form asp-action="UploadImageProfile"
+                                  enctype="multipart/form-data"
+                                  method="post" asp-controller="Account" id="form-upload" style="display:none;">
+                                <input type="hidden" name="Id" value="@User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value" />
+                                <input type="file" name="Img" />
+                                <button class="btn btn-success btn-sm">Subir</button>
+                                <button class="btn btn-danger btn-sm" type="reset" onclick="showOrHideUploadImageButton()">Cancelar</button>
+                            </form>
+                            <button class="btn btn-primary btn-sm" id="btnUpload" onclick="showOrHideUploadImageButton()">Nueva foto</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Perfil</a>
+                        </li>
+                        @if (User.IsInRole(nameof(AuthLevel.User)))
+                        {
+                            <span>
+                                others links
+                            </span>
+                        }
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-12 mt-2">
+                                    <partial name="_StatusMessage" for="StatusMessage" />
+                                </div>
+                                <div class="col-12 mb-4" id="content">
+
+                                    <form class="mt-4" id="profile-form" method="post">
+                                        <div asp-validation-summary="All" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Username">Usuario</label>
+                                            <input asp-for="Username" class="form-control" disabled />
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Input.Email"></label>
+                                            @if (Model.IsEmailConfirmed)
+                                            {
+                                                <div class="input-group">
+                                                    <input asp-for="Input.Email" class="form-control" />
+                                                    <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="Input.Email" class="form-control" />
+                                            }
+                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nombre completo</label>
+                                            <input asp-for="Input.FullName" class="form-control" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Input.Address"></label>
+                                            <textarea asp-for="Input.Address" class="form-control"></textarea>
+                                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Input.PhoneNumber"></label>
+                                            <input asp-for="Input.PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                        <button id="update-profile-button" type="submit" class="btn btn-primary">Actualizar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Actualizar</button>
-        </form>
+        </div>
     </div>
 </div>
+<script src="~/js/profile/index.js" asp-append-version="true"></script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

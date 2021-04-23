@@ -31,6 +31,9 @@
         </form>
     </div>
 
+
+
+
     @if (total == 0)
     {
         <div class="col-12 mt-5 text-center">
@@ -51,19 +54,20 @@
                                     <th>Estado</th>
                                     <th>Numero</th>
                                     <th>Correo</th>
-                                    <th>Dirreción</th>
+                                    <th>Dirreción de envio</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.Results)
                                 {
-                                    if (item.UserName == User.Identity.Name)
-                                    {
-                                        continue;
-                                    }
+                                    if (item.UserName == User.Identity.Name) continue;
+
                                     <tr>
-                                        <td>@item.FullName</td>
+                                        <td>
+                                            <img id="@item.Id" onclick="showImageInViewver('@item.Id')" src="@(string.IsNullOrEmpty(item.ProfileImage) ? "/img/default.png" : item.ProfileImage )" style="cursor:pointer;" width="50" />
+                                            <a href="#">@item.FullName</a>
+                                        </td>
                                         @{
                                             string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
                                         }
@@ -80,10 +84,20 @@
                                             }
                                             else
                                             {
-                                                <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                                    <b class="text-danger">Bloquear</b>
+                                                <a class="btn btn-sm btn-danger"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="Bloquear al usuario"
+                                                   asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                                    <i class="fa fa-ban"></i>
                                                 </a>
                                             }
+                                            <button data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Enviar correo"
+                                                    class="btn btn-sm btn-primary">
+                                                <i class="fa fa-envelope"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 }

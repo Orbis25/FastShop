@@ -84,6 +84,28 @@
         "css/bootstrap-datepicker.min.css",
         "locales/bootstrap-datepicker.es.min.js"
       ]
+    },
+    {
+      "library": "viewerjs@1.9.0",
+      "destination": "wwwroot/lib/viewerjs/",
+      "files": [
+        "viewer.min.js",
+        "viewer.min.css"
+      ]
+    },
+    {
+      "library": "printThis@1.15.0",
+      "destination": "wwwroot/lib/printThis/",
+      "files": [
+        "printThis.min.js"
+      ]
+    },
+    {
+      "library": "popper.js@2.9.2",
+      "destination": "wwwroot/lib/popper.js/",
+      "files": [
+        "umd/popper.min.js"
+      ]
     }
   ]
 }

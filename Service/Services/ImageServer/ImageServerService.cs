@@ -49,11 +49,17 @@ namespace BussinesLayer.Services.ImageServer
             return false;
         }
 
-        public async Task<string> UploadImage(IFormFile file, string path, string folder)
+        public async Task<string> UploadImage(IFormFile file, string path, string folder, string lastFile = null)
         {
             string _path = $@"{path}{_options.BasePath}\{folder}";
             if (!IsValidFormat(file)) return string.Empty;
             if (!Directory.Exists(_path)) Directory.CreateDirectory(_path);
+
+            if (!string.IsNullOrEmpty(lastFile))
+            {
+                File.Delete($@"{path}{_options.BasePath}\{lastFile}");
+            }
+
             try
             {
                 string fileExtension = Path.GetExtension(file.FileName).ToLower();

@@ -1,4 +1,6 @@
 ﻿
+
+
 (function ($) {
     "use strict"; // Start of use strict
 
@@ -40,12 +42,12 @@
 
 })(jQuery);
 
-$(document).ready(() => {
+$(document).ready(async () => {
     $(".input-date").datepicker({
         languaje: "es",
         format: "dd/mm/yyyy",
         autoclose: true,
-        endDate:new Date()
+        endDate: new Date()
     });
     $('.input-date-now').datepicker({
         format: "dd/mm/yyyy",
@@ -53,4 +55,25 @@ $(document).ready(() => {
         languaje: "es",
         autoclose: true
     });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    await getImageProfile();
 });
+
+/**
+ * get profile image in admin
+ * */
+const getImageProfile = async () => {
+    const img = $("#profile-img");
+    const result = await axios.get("/account/getImageProfile");
+    if (result.data !== null) {
+        img[0].src = `/uploads/${result.data}`;
+    }
+};
+
+const showImageInViewver = (id) => {
+    new Viewer(document.getElementById(`${id}`), { navbar:false});
+}

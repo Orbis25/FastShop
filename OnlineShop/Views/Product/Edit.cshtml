@@ -1,5 +1,5 @@
 ﻿@model Product
-
+@inject IOptions<ImageServerOption> _options;
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -11,7 +11,22 @@
 
 
 <div class="row">
-    <div class="col">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Galeria de Imagenes</h3>
+                <div class="row mt-2">
+                    @foreach (var item in Model.ProductPics)
+                    {
+                        <div class="col-6 col-sm-6 col-md-3">
+                            <img id="@item.Id" style="cursor:pointer;" onclick="showImageInViewver('@item.Id')" class="img-fluid" src="@($"{_options.Value.BasePath}/{item.Path}")" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
        <div class="card">
            <div class="card-body">
                <form asp-action="Edit" asp-controller="Product">

@@ -38,8 +38,6 @@ function findMypass() {
     }).catch((e) => console.log("erro => " + e));
 }
 
-
-
 $(function () {
     "use strict";
 
@@ -150,12 +148,16 @@ $(function () {
 
     }
 
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
 });
 
 
-
-
-
+/**
+ * get count items of cart
+ * */
 const getTotalCountCartItems = async () => {
     const fetch_result = await fetch("/cartItem/getTotal");
     const result = await fetch_result.json();
@@ -172,7 +174,7 @@ $(document).ready(async function () {
     $('.money').mask("#,##0.00", { reverse: true });
     await getTotalCountCartItems();
 
-
+    /*Date pickers configuration*/
     $(".input-date").datepicker({
         languaje: "es",
         format: "dd/mm/yyyy"

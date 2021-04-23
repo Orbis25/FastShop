@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BussinesLayer.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,15 +16,17 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
-
+        private readonly IUnitOfWork _services;
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUnitOfWork services)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _services = services;
         }
 
         public string Username { get; set; }
@@ -47,6 +50,11 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
             [Display(Name = "Dirrección")]
             public string Address { get; set; }
+
+            [Display(Name = "Nombre completo")]
+            [Required(ErrorMessage = "El {0} es requerido")]
+            public string FullName { get; set; }
+            public string Img { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -68,7 +76,9 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
             {
                 Email = email,
                 PhoneNumber = phoneNumber,
-                Address = account.Address
+                Address = account.Address,
+                FullName = user.FullName,
+                Img = user.ProfileImage
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -111,8 +121,20 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            //update Other Props User
+            if (string.IsNullOrEmpty(Input.FullName))
+            {
+                StatusMessage = "Nombre requerido, intente de nuevo";
+            }
+            else
+            {
+                user.FullName = Input.FullName;
+                var resultUpdate = await _services.UserService.Update(user);
+                if (!resultUpdate) StatusMessage = "Ha ocurido un error, Intente de nuevo";
+                StatusMessage = "Perfil Actualizado";
+            }
+
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }
 

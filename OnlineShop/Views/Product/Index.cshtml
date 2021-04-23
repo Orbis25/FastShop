@@ -5,47 +5,70 @@
 <link href="~/css/category/style.css" asp-append-version="true" rel="stylesheet" />
 
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-12 col-xl-12 col-lg-12 col-md-12 mb-5">
-            <!-- Start Filter Bar -->
-            <h1>Busqueda de productos</h1>
-            <form asp-action="Filter" method="get">
-                <div class="filter-bar d-flex flex-wrap align-items-center">
-                    <div class="sorting">
-                        <span>
-                            Desde $
-                            <input type="number" min="1" class="inputPrice" name="From" />
-                        </span>
-                        <div id="lower-value"></div>
-                        <br />
-                        <span>
-                            Hasta $
-                            <input type="number" min="1" class="inputPrice" name="To" />
-                        </span>
-
-                    </div>
-                    <div class="sorting mr-auto">
-
-                    </div>
-                    <div class="">
-                        <div class="input-group filter-bar-search">
-                            <select class="form-control mb-3" asp-for="Category" name="category" asp-items="ViewBag.Categories">
-                                <option selected>SELECCIONA UNA CATEGORIA</option>
-                            </select>
-                            <input type="text" name="parameter" placeholder="Search">
-                            <button type="submit" class="btn btn"><i class="ti-search"></i></button>
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 col-sm-12 col-md-3 mb-5">
+            <h1 class="mb-4">Busqueda</h1>
+            <form asp-controller="Product" method="get">
+                <div class="row">
+                    <div class="col-12">
+                        <hr />
+                        <p><b>Parametro de busqueda</b></p>
+                        <div class="form-group">
+                            <input type="text" asp-for="Name" class="form-control form-control-sm" placeholder="Buqueda">
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <hr />
+                            <p><b>Rango de precios</b></p>
+                            <span>
+                                Desde
+                                <input type="number" min="0" class="form-control form-control-sm" asp-for="From" />
+                            </span>
+                            <div id="lower-value"></div>
+                            <br />
+                            <span>
+                                Hasta
+                                <input type="number" min="0" class="form-control form-control-sm" asp-for="To" />
+                            </span>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p><b>Categoria</b></p>
+                        <div class="form-group">
+                            <select class="form-control form-control-sm mb-3" asp-for="Category" name="category" asp-items="ViewBag.Categories">
+                                <option selected>SELECCIONA UNA CATEGORIA</option>
+                            </select>
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+                            <a asp-action="Index" class="btn btn-danger btn-sm">Limpiar</a>
+                        </div>
+                    </div>
+
                 </div>
             </form>
         </div>
-        <div class="col-12 mb-5">
+        @if (!Model.Results.Any()) {
+            <div class="col-12 col-sm-12 col-md-9 text-center">
+                <h2>
+                    No se encontraron resultados 
+                </h2>
+
+                <img src="~/img/base/not-found.png" width="600" loading="lazy" alt="404" />
+            </div>
+        }
+        <div class="col-12 col-sm-12 col-md-9 mb-5">
             <div class="row">
                 @foreach (var item in Model.Results)
                 {
                     var pic = item.ProductPics.FirstOrDefault() != null ? $@"{_options.Value.BasePath}/{item.ProductPics.FirstOrDefault().Path}" : "/img/default.png";
 
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-4">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
                         <div class="card text-center card-product">
                             <div class="card-product__img">
                                 <img src="@pic" height="200" width="200" alt="@pic">
@@ -63,13 +86,14 @@
                 }
             </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        <div class="col-12 col-sm-12 col-md-4 ">
             @Html.RenderPagination(Model.Total.Value, Model.Qyt, new DefaultPaginationConfig
             {
              LinkClass = "page-link",
              DoNotRenderForOnePage = true
              })
         </div>
+
     </div>
 </div>
 

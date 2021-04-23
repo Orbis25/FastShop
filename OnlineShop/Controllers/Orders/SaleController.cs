@@ -69,6 +69,7 @@ namespace OnlineShop.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
         public async Task<IActionResult> UpdateOrder(Order model, Guid saleId)
         {
@@ -86,6 +87,17 @@ namespace OnlineShop.Controllers
             if (model == null) return new NotFoundView();
             ViewData["StatusPercent"] = _services.OrderService.OrderStatusPercent(model.Order.StateOrder);
             return View(model);
+        }
+
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
+        [HttpGet]
+        public async Task<IActionResult> SendOrderEmail(Guid id)
+        {
+            var order = await _services.SaleService.GetById(id, x=> x.User,x => x.Order);
+            if (order == null) return BadRequest("Orden no encontrada");
+            var result = await _services.SaleService.SendOrderEmail(order, order.User.Email);
+            if (!result) return BadRequest("Ha ocurrido un error, intente de nuevo mas tarde");
+            return Ok("Orden Enviada");
         }
     
     }

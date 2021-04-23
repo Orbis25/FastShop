@@ -1,16 +1,29 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.ViewModels.Accounts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Controllers.Base;
+using OnlineShop.ExtensionMethods;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IUnitOfWork _services;
-        public AccountController(IUnitOfWork services) => _services = services;
+        private readonly IWebHostEnvironment _env;
+
+        public AccountController(IUnitOfWork services, IWebHostEnvironment environment)
+        {
+            _env = environment;
+            _services = services;
+        }
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]
         public async Task<IActionResult> BlockOrUnlockAccount(Guid id)
@@ -19,7 +32,7 @@ namespace OnlineShop.Controllers
             return RedirectToAction("Users", "Admin");
         }
 
-        [Authorize(Roles =  nameof(AuthLevel.Admin) + "," + nameof(AuthLevel.User))]
+        [Authorize(Roles = nameof(AuthLevel.Admin) + "," + nameof(AuthLevel.User))]
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
@@ -42,6 +55,31 @@ namespace OnlineShop.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadImageProfile(UserUploadImageVM model)
+        {
+            if (model.Img != null && !string.IsNullOrEmpty(model.Id))
+            {
+                var user = await _services.UserService.Get(model.Id);
+                if (user == null) return new NotFoundView();
+                var result = await _services.ImageServerService
+                    .UploadImage(model.Img, _env.WebRootPath, nameof(User),user.ProfileImage);
+                user.ProfileImage = result;
+                await _services.UserService.Update(user);
+            }
+
+            return Redirect("/Identity/Account/Manage");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetImageProfile()
+        {
+            var id = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            if (id == null) return BadRequest("");
+            var user = await _services.UserService.Get(id);
+            return Ok(user.ProfileImage);
         }
     }
 }
