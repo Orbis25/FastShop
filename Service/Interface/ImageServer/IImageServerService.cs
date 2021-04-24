@@ -13,5 +13,6 @@ namespace BussinesLayer.Interface.ImageServer
         /// <returns></returns>
         Task<string> UploadImage(IFormFile image);
         Task<string> UploadImage(IFormFile file, string path, string folder, string lastFile = null);
+        void RemoveFile(string webRootPath,string path);
     }
 }

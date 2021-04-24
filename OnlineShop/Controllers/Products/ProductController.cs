@@ -1,6 +1,7 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
 using DataLayer.ViewModels.Products;
+using DataLayer.ViewModels.Products.ProductPics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -116,7 +117,7 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadPic(ProductPic model)
         {
-            var file = await _services.ImageServerService.UploadImage(model.Img, _env.WebRootPath,nameof(Product));
+            var file = await _services.ImageServerService.UploadImage(model.Img, _env.WebRootPath, nameof(Product));
             SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
             if (!string.IsNullOrEmpty(file))
             {
@@ -156,5 +157,15 @@ namespace OnlineShop.Controllers
             return new NotFoundView();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(ProductPicRemoveVM model)
+        {
+            var result = await _services.ProductService.RemoveProductPic(model.Id);
+            if (result)
+            {
+                _services.ImageServerService.RemoveFile(_env.WebRootPath, model.Path);
+            }
+            return RedirectToAction(nameof(Edit), nameof(Product), new { Id = model.ProductId });
+        }
     }
 }

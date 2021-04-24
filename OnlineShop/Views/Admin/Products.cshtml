@@ -103,11 +103,34 @@
                             <div class="col-6 col-sm-3 col-md-3 col-lg-2 text-center">
                                 <span>Acciones</span>
                                 <p>
-                                    <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/product/remove/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
-                                    <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
-                                    <a class="no-link color-text-1" asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id">
+                                    <a class="btn btn-sm btn-primary mb-1"
+                                       asp-action="Edit"
+                                       asp-controller="Product"
+                                       asp-route-id="@item.Id"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       title="Editar">
                                         <i class="fas fa-edit " style="cursor:pointer;"></i>
                                     </a>
+                                    <button class="btn btn-sm btn-danger mb-1"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Eliminar">
+                                        <i class="fas fa-trash"
+                                           style="cursor:pointer;"
+                                           onclick="sweetRemove('/product/remove/@item.Id')"></i>
+                                    </button>
+
+                                    <button class="btn btn-sm btn-dark mb-1" data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Subir imagen">
+                                        <i class="fas fa-camera "
+                                           data-toggle="modal"
+                                           data-target="#exampleModal"
+                                           onclick="setIdModal('@item.Id')"
+                                           style="cursor:pointer;"></i>
+                                    </button>
+
                                 </p>
                             </div>
                         </div>

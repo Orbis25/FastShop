@@ -57,6 +57,7 @@ namespace OnlineShop.Controllers
             return View();
         }
 
+        [Authorize(Roles = nameof(AuthLevel.Admin)+","+nameof(AuthLevel.User))]
         [HttpPost]
         public async Task<IActionResult> UploadImageProfile(UserUploadImageVM model)
         {
@@ -73,6 +74,7 @@ namespace OnlineShop.Controllers
             return Redirect("/Identity/Account/Manage");
         }
 
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpGet]
         public async Task<IActionResult> GetImageProfile()
         {
@@ -80,6 +82,15 @@ namespace OnlineShop.Controllers
             if (id == null) return BadRequest("");
             var user = await _services.UserService.Get(id);
             return Ok(user.ProfileImage);
+        }
+
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
+        [HttpGet]
+        public async Task<IActionResult> GetById(string id)
+        {
+            var result = await _services.UserService.Get(id);
+            if (result == null) return BadRequest("Usuario no encontrado");
+            return PartialView("_UserDetailPartial",result);
         }
     }
 }

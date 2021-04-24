@@ -50,11 +50,29 @@
                                     @if (item.State == State.Active)
                                     {
                                         <td>
-                                            <i class="fas fa-trash text-danger" style="cursor:pointer;" onclick="sweetRemove('/Offert/delete/@item.Id')" data-toggle="tooltip" data-placement="top" title="ELIMINAR"></i>
-                                            <a asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
-                                                <i class="fas fa-pencil-alt text-primary m-2 "></i>
+
+                                            <a class="btn btn-sm btn-primary mb-1" data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="Actualizar"
+                                               asp-action="Update" asp-controller="Offert" asp-route-id="@item.Id">
+                                                <i class="fas fa-edit "></i>
                                             </a>
-                                            <i class="fas fa-camera " data-toggle="modal" data-target="#exampleModal" onclick="setIdModal('@item.Id')" style="cursor:pointer;"></i>
+                                            <button class="btn btn-sm mb-1 btn-danger"
+                                                    data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                                <i class="fas fa-trash"
+                                                   onclick="sweetRemove('/Offert/delete/@item.Id')"></i>
+                                            </button>
+                                            <button class="btn mb-1 btn-sm btn-dark"
+                                                     data-toggle="modal"
+                                                   data-target="#exampleModal"
+                                                     onclick="setIdModal('@item.Id')"
+                                                  >
+                                                <i class="fas fa-camera " 
+                                                   data-toggle="tooltip"
+                                                  data-placement="top"
+                                                   title="Subir imagen"
+                                                  ></i>
+                                            </button>
 
                                         </td>
                                     }

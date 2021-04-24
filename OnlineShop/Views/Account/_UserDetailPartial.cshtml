@@ -1,0 +1,29 @@
+﻿@model ApplicationUser
+@inject IOptions<ImageServerOption> _options;
+
+
+<div class="row">
+    <div class="col-12 text-center">
+        <img class="img-fluid" 
+             width="200"
+             src="@(!string.IsNullOrEmpty(Model.ProfileImage) ? $@"{_options.Value.BasePath}/{Model.ProfileImage}" : "/img/default.png")" loading="lazy" alt="profile" />
+    </div>
+    <div class="col-12">
+        <div class="form-group">
+            <label>Nombre</label>
+            <input disabled asp-for="FullName" value="@Model.FullName" class="form-control form-control-sm" />
+        </div>
+        <div class="form-group">
+            <label>Correo</label>
+            <input disabled asp-for="Email" class="form-control form-control-sm" />
+        </div>
+        <div class="form-group">
+            <label>Numero</label>
+            <input disabled asp-for="PhoneNumber"  class="form-control form-control-sm" />
+        </div>
+        <div class="form-group">
+            <label>Dirreción de envio</label>
+            <textarea disabled class="form-control form-control-sm">@Model.Address</textarea>
+        </div>
+    </div>
+</div>

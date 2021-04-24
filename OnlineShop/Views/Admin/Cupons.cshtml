@@ -94,10 +94,22 @@
                                         }
                                     </td>
                                     <td>
-                                        <a asp-action="Update" asp-controller="Cuppon" asp-route-Id="@item.Id">
-                                            <i class="fas fa-pencil-alt text-primary m-2 " style="cursor:pointer;"></i>
-                                        </a>
-                                        <i class="fas fa-trash text-danger" onclick="sweetRemove('/Cuppon/remove/@item.Id')" style="cursor:pointer;"></i>
+                                        <button class="btn btn-sm btn-primary mb-1"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Editar"
+                                                asp-action="Update" asp-controller="Cuppon" asp-route-Id="@item.Id">
+                                            <i class="fas fa-pencil-alt" style="cursor:pointer;"></i>
+                                        </button>
+
+
+                                        <button class="btn btn-sm btn-danger mb-1"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Eliminar">
+                                            <i class="fas fa-trash"
+                                               onclick="sweetRemove('/Cuppon/remove/@item.Id')" style="cursor:pointer;"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             }

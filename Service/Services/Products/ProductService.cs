@@ -82,6 +82,12 @@ namespace Service.Svc
 
         }
 
-       
+        public async Task<bool> RemoveProductPic(int id)
+        {
+            var result = await _context.ProductPics.FindAsync(id);
+            if (result == null) return false;
+            _context.Remove(result);
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

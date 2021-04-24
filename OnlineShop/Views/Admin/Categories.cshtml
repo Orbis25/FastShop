@@ -49,8 +49,21 @@
                                     <td>@item.Name</td>
                                     <td>@item.CreatedAtSrt</td>
                                     <td>
-                                        <i class="fas fa-pencil-alt text-primary m-2 " onclick="edit('@item.Id')" style="cursor:pointer;"></i>
-                                        <i class="fas fa-trash text-danger" onclick="sweetRemove('/category/remove/@item.Id')" style="cursor:pointer;"></i>
+                                        <button class="btn btn-sm btn-primary mb-1">
+                                            <i class="fas fa-edit"
+                                               onclick="edit('@item.Id')"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="Editar"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger mb-1">
+                                            <i class="fas fa-trash"
+                                               onclick="sweetRemove('/category/remove/@item.Id')"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="Eliminar"></i>
+                                        </button>
+                                        
                                     </td>
                                 </tr>
                             }

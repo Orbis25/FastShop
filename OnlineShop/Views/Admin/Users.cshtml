@@ -4,6 +4,8 @@
     var total = Model.Total > 0 ? (Model.Total - 1) : 0;
 }
 
+@inject IOptions<ImageServerOption> _options;
+
 
 <div class="row">
     <div class="col-12">
@@ -30,8 +32,6 @@
             </div>
         </form>
     </div>
-
-
 
 
     @if (total == 0)
@@ -65,8 +65,10 @@
 
                                     <tr>
                                         <td>
-                                            <img id="@item.Id" onclick="showImageInViewver('@item.Id')" src="@(string.IsNullOrEmpty(item.ProfileImage) ? "/img/default.png" : item.ProfileImage )" style="cursor:pointer;" width="50" />
-                                            <a href="#">@item.FullName</a>
+                                            <img id="@item.Id" onclick="showImageInViewver('@item.Id')" 
+                                                 loading="lazy"
+                                                 src="@(string.IsNullOrEmpty(item.ProfileImage) ? "/img/default.png" : $@"{_options.Value.BasePath}/{item.ProfileImage}" )" style="cursor:pointer;" width="50" />
+                                            <span>@item.FullName</span>
                                         </td>
                                         @{
                                             string state = item.LockoutEnabled == false ? "Activo" : "Inactivo";
@@ -78,13 +80,13 @@
                                         <td>
                                             @if (item.LockoutEnabled)
                                             {
-                                                <a asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
-                                                    <b class="text-success">Desbloquear</b>
+                                                <a class="btn btn-sm btn-warning mb-1" asp-controller="Account" asp-action="BlockOrUnlockAccount" asp-route-Id="@item.Id">
+                                                    <i class=" fa fa-unlock"></i>
                                                 </a>
                                             }
                                             else
                                             {
-                                                <a class="btn btn-sm btn-danger"
+                                                <a class="btn btn-sm btn-danger mb-1"
                                                    data-toggle="tooltip"
                                                    data-placement="top"
                                                    title="Bloquear al usuario"
@@ -95,9 +97,19 @@
                                             <button data-toggle="tooltip"
                                                     data-placement="top"
                                                     title="Enviar correo"
-                                                    class="btn btn-sm btn-primary">
+                                                    class="btn btn-sm btn-dark mb-1">
                                                 <i class="fa fa-envelope"></i>
                                             </button>
+                                            <span data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Mas información">
+                                                <button type="button" data-toggle="modal" data-target="#userModal"
+                                                        onclick="LoadPartialView('userDetail','/Account/GetById?id=@item.Id')"
+                                                        class="btn btn-sm btn-primary mb-1">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </span>
+
                                         </td>
                                     </tr>
                                 }
@@ -114,6 +126,30 @@
            LinkClass = "page-link",
            DoNotRenderForOnePage = true
        })
+        </div>
+        <div class="col-12">
+            <!-- Modal User -->
+            <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cliente</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" >
+                            <div class="row justify-content-center">
+                                <div class="col-12" id="userDetail">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </div>
