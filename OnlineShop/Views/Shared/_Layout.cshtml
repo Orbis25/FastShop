@@ -11,9 +11,11 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" rel="stylesheet" />
     <link rel="stylesheet" asp-append-version="true" href="~/lib/font-awesome/css/all.min.css">
     <link rel="stylesheet" asp-append-version="true" href="~/css/style.css">
+    <link href="~/lib/viewerjs/viewer.min.css" rel="stylesheet" />
 
     <link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" />
     <link rel="stylesheet" asp-append-version="true" href="~/lib/owl-carousel/owl.theme.min.css">
+
 </head>
 <body>
     <header class="header_area">
@@ -36,7 +38,6 @@
                                    aria-expanded="false">Shop</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Index">Productos</a></li>
-                                    <li class="nav-item"><a class="nav-link" asp-controller="Cartitem" asp-action="Index">Carrito</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
@@ -72,6 +73,8 @@
         <script src="~/lib/limonte-sweetalert2/sweetalert2.js" asp-append-version="true"></script>
         <script src="~/js/Base/genericSweetAlert.js" asp-append-version="true"></script>
         <script src="~/lib/printThis/printThis.min.js"></script>
+        <script src="~/lib/viewerjs/viewer.min.js" asp-append-version="true"></script>
+
         <script src="~/js/Base/helpers.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <main role="main" class="pb-3">

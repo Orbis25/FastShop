@@ -20,6 +20,12 @@
     <link href="~/lib/bootstrap4-toggle/bootstrap4-toggle.min.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <link href="~/lib/viewerjs/viewer.min.css" rel="stylesheet" />
+
+    <!--Quilljs-->
+    <link href="~/lib/quilljs/quill.bubble.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/quilljs/quill.core.css" rel="stylesheet"  asp-append-version="true"  />
+    <link href="~/lib/quilljs/quill.snow.css" rel="stylesheet"  asp-append-version="true"  />
+
 </head>
 
 <body id="page-top" class="admin-body">
@@ -59,6 +65,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link  animate__animated animate__fadeInLeft animate__faster" asp-controller="Email" asp-action="Index">
+                    <i class="fas fa-mail-bulk"></i>
+                    <span>Correos</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Admin" asp-action="Categories">
                     <i class="fas fa-th-large"></i>
                     <span>Categorias</span>
@@ -83,6 +95,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-controller="Configuration" asp-action="Index">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link animate__animated animate__fadeInLeft animate__faster" asp-action="Index" asp-controller="Home">
                     <i class="fa fa-fire"></i>
                     <span>Sitio web</span>
@@ -104,6 +122,10 @@
                 <script src="~/lib/printThis/printThis.min.js"></script>
                 <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js" asp-append-version="true"></script>
                 <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js" asp-append-version="true"></script>
+
+                <!--Quilljs-->
+                <script src="~/lib/quilljs/quill.core.js" asp-append-version="true"></script>
+                <script src="~/lib/quilljs/quill.min.js"  asp-append-version="true"></script>
 
                 <script src="~/js/Base/helpers.js" asp-append-version="true"></script>
                 <script src="~/js/admin/index.js" asp-append-version="true"></script>

@@ -1,0 +1,57 @@
+﻿@model PaginationResult<Email>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Correos enviados</h3>
+        <i>@Model.Total correos</i>
+        <hr />
+    </div>
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="card mb-3">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered animate__animated animate__fadeInLeft" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Cuerpo</th>
+                                    <th>Correo</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Results)
+                                {
+
+                                    <tr>
+                                        <td>@item.Subject</td>
+                                        <td>@item.Body</td>
+                                        <td>@item.To</td>
+                                        <td>@item.CreatedAtSrt</td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-12">
+        @Html.RenderPagination(Model.Total, Model.Qyt, new DefaultPaginationConfig
+   {
+       LinkClass = "page-link",
+       DoNotRenderForOnePage = true
+   })
+    </div>
+</div>

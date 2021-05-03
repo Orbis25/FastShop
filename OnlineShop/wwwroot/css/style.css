@@ -4789,9 +4789,12 @@ a {
     color: white !important;
 }
 
+
+/*custommm-----------------------------*/
+
 :root {
-    --color-1: #413c69;
-    --color-2: #4a47a3;
+    --color-1: #404b69;
+    --color-2: #283149;
     --color-3: #709fb0;
     --color-4: #a7c5eb;
     --color-text-1: #364547;
@@ -4857,4 +4860,9 @@ a {
 
 .bg-primary-ct {
     background: var(--color-1) !important;
+}
+
+
+.image-hovered:hover{
+    background:var(--color-1);
 }

@@ -1,6 +1,12 @@
 ﻿using BussinesLayer.Interface.CartItems;
+using BussinesLayer.Interface.Configurations;
+using BussinesLayer.Interface.Emails;
+using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
 using BussinesLayer.Services.Cart;
+using BussinesLayer.Services.Configurations;
+using BussinesLayer.Services.Emails;
+using BussinesLayer.Services.Emails.Templates;
 using BussinesLayer.Services.ImageServer;
 using DataLayer.Settings.ImageServer;
 using Microsoft.AspNetCore.Identity;
@@ -38,6 +44,9 @@ namespace BussinesLayer.UnitOfWork
         private ProductService _productService;
         private ImageServerService _imageServerService;
         private CartItemService _cartItemService;
+        private ConfigurationService _configurationService;
+        private EmailService _emailService;
+        private EmailTemplateService _emailTemplateService;
         private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
@@ -53,8 +62,7 @@ namespace BussinesLayer.UnitOfWork
             IOptions<EmailSetting> emailOptions,
             IOptions<InternalConfiguration> internalOptions,
             IOptions<ImageServerOption> imageServerOptions,
-
-             UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             _context = dbContext;
             _emailOptions = emailOptions;
@@ -86,5 +94,11 @@ namespace BussinesLayer.UnitOfWork
         public IImageServerService ImageServerService => _imageServerService ??= new ImageServerService(_imageServerOptions);
 
         public ICartItemService CartItemService => _cartItemService ??= new CartItemService(_context);
+
+        public IConfigurationService ConfigurationService => _configurationService ??= new ConfigurationService(_context);
+
+        public IEmailService EmailService => _emailService ??= new EmailService(_context, _emailOptions);
+
+        public IEmailTemplateServices EmailTemplateService => _emailTemplateService ??= new EmailTemplateService(_context);
     }
 }

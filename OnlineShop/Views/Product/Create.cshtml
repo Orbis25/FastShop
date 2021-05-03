@@ -66,6 +66,7 @@
                                 <span asp-validation-for="Model" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="col-12  col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="CategoryId">Categoria</label>
@@ -74,7 +75,15 @@
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
-                           
+
+                        </div>
+                        <div class="col-12  col-md-6 col-lg-6">
+
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
                         </div>
                         <div class="col-12 mt-4">
                             <div class="form-group">

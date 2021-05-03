@@ -22,4 +22,10 @@ const updateItem = async (id, productId) => {
     if (fetch_result.status === 200) {
         window.location.reload();
     }
-} 
+};
+
+
+const newShop = () => {
+    $('#alert-await').show();
+    $("#proccess-sale").hide();
+};

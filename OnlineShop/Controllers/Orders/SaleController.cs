@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.Utils.Paginations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
@@ -25,26 +26,29 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Sale model)
         {
-            var cartItems = await _services.CartItemService.GetList(x => x.UserId == GetLoggedIdUser(),x => x.Product);
+            var cartItems = await _services.CartItemService.GetList(x => x.UserId == GetLoggedIdUser(), x => x.Product);
             if (!cartItems.Any())
             {
                 SendNotification("no hay items", null, NotificationEnum.Error);
                 return RedirectToAction("Index", "CartItem");
             }
             var user = await _services.UserService.Get(GetLoggedIdUser());
-            if(string.IsNullOrEmpty(user.Address))
+            if (string.IsNullOrEmpty(user.Address))
             {
                 SendNotification("este usuario necesita tener una dirrección valida", null, NotificationEnum.Error);
                 return RedirectToAction("Index", "CartItem");
             }
             model.Description = user.Address;
             model.ApplicationUserId = GetLoggedIdUser();
-            var result = await _services.SaleService.CreateSale(cartItems.ToList(),model, User.Identity.Name);
-            if (!result) 
+            var result = await _services.SaleService.CreateSale(cartItems.ToList(), model, User.Identity.Name);
+            if (result == null)
             {
-                SendNotification("Ha ocurrido un error, intente de nuevo mas tarde",null,NotificationEnum.Error);
+                SendNotification("Ha ocurrido un error, intente de nuevo mas tarde", null, NotificationEnum.Error);
                 return RedirectToAction("Index", "CartItem");
             }
+
+            var templateResult = await _services.SaleService.GetTemplateEmail(result, user.Email);
+            await _services.EmailService.Send(new() { Body = templateResult, To = user.Email, Subject = $"Orden #{result.Order.OrderCode}" });
             await _services.CartItemService.ClearCart(GetLoggedIdUser());
             SendNotification("Compra exitosa!");
             return RedirectToAction(nameof(ShoppingDetail), new { id = model.Id });
@@ -81,9 +85,9 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet("shoppingDetail/{id}")]
-        public async Task<IActionResult> ShoppingDetail([Required]Guid id)
+        public async Task<IActionResult> ShoppingDetail([Required] Guid id)
         {
-            var model = await _services.SaleService.GetById(id, x => x.DetailSales, x=> x.User);
+            var model = await _services.SaleService.GetById(id, x => x.DetailSales, x => x.User);
             if (model == null) return new NotFoundView();
             ViewData["StatusPercent"] = _services.OrderService.OrderStatusPercent(model.Order.StateOrder);
             return View(model);
@@ -93,12 +97,20 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> SendOrderEmail(Guid id)
         {
-            var order = await _services.SaleService.GetById(id, x=> x.User,x => x.Order);
+            var order = await _services.SaleService.GetById(id, x => x.User, x => x.Order);
             if (order == null) return BadRequest("Orden no encontrada");
-            var result = await _services.SaleService.SendOrderEmail(order, order.User.Email);
+            var template = await _services.SaleService.GetTemplateEmail(order, order.User.Email);
+            if (string.IsNullOrEmpty(template)) return BadRequest("Ha ocurrido un error");
+            var result = await _services.EmailService.Send(new() { Body = template, To = order.User.Email, Subject = $"Orden #{order.Code}" });
             if (!result) return BadRequest("Ha ocurrido un error, intente de nuevo mas tarde");
             return Ok("Orden Enviada");
         }
-    
+
+        [HttpGet]
+        public async Task<IActionResult> GetPurchaseHistory(PaginationBase pagination, string userId)
+        {
+            var result = await _services.SaleService.GetPurcharseHistory(pagination, userId);
+            return PartialView("_PurchaseHistoryPartial", result);
+        }
     }
 }

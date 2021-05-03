@@ -1,0 +1,92 @@
+﻿@model PaginationResult<Sale>
+@inject IOptions<ImageServerOption> _options
+
+@{
+    var nextPage = Model.ActualPage + 1;
+    var showNextPageButton = true;
+    if (Model.ActualPage == Model.Pages + 1 || Model.Pages == 0)
+    {
+        showNextPageButton = false;
+    }
+    var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+}
+
+<div class="row justify-content-center">
+    <div class="col-12 mb-2 mt-2">
+        <h2>Historial de compras</h2>
+    </div>
+    <div class="col-12 mb-4">
+
+        @foreach (var item in Model.Results)
+        {
+
+            var imagePath = item.DetailSales?.FirstOrDefault().Product?.ProductPics?.FirstOrDefault()?.Path;
+            imagePath = string.IsNullOrEmpty(imagePath) ? "/img/default.png" : $@"{_options.Value.BasePath}//{imagePath}";
+            <div class="card mb-2">
+                <div class="card-body mb-2">
+                    <div class="row text-center">
+                        <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                            <img src="@imagePath" alt="@imagePath"  width="100"/>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-2 col-lg-2">
+                            <p>
+                                <b>
+                                    No. Orden
+                                </b>
+                            </p>
+                            <p>@item.Order.OrderCode</p>
+                        </div>   <div class="col-4 col-sm-4 col-md-2 col-lg-2">
+                            <p>
+                                <b>
+                                    Fecha
+                                </b>
+                            </p>
+                            <p>@item.CreatedAtSrt</p>
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-2 col-lg-2">
+                            <p>
+                                <b>
+                                    Total
+                                </b>
+                            </p>
+                            <p>@item.Total.ToString("C")</p>
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-2 col-lg-2">
+                            <p>
+                                <b>
+                                    Estado
+                                </b>
+                            </p>
+                            <p>@item.Order.StateOrder.GetDisplayName()</p>
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-2 col-lg-2">
+                            <p>
+                                <b>
+                                    Detalle
+                                </b>
+                            </p>
+                            <p><a asp-action="ShoppingDetail" asp-controller="Sale" asp-route-Id="@item.Id">ver</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="col-12 text-center mb-3">
+        <b>Pagina:@Model.ActualPage de @(Model.Pages + 1)</b>
+    </div>
+    @if (showNextPageButton)
+    {
+        <div class="col-1">
+            <button class="btn btn-sm btn-default btn-primary" onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId&Page=@nextPage')">Siguiente</button>
+        </div>
+    }
+    else if (!showNextPageButton && Model.Pages > 0)
+    {
+        <div class="col-1">
+            <button class="btn btn-sm btn-default btn-primary" onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId')">Inicio</button>
+        </div>
+    }
+</div>

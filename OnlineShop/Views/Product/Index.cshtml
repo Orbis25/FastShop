@@ -80,7 +80,7 @@
                             <div class="card-body">
                                 <p>@item.Category.Name</p>
                                 <h4 class="card-product__title"><a href="#">@item.ProductName</a></h4>
-                                <p class="card-product__price">$@item.Price</p>
+                                <p class="card-product__price">@item.Price.ToString("C")</p>
                             </div>
                         </div>
                     </div>

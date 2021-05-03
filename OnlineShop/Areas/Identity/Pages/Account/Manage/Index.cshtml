@@ -7,6 +7,8 @@
 
     var profileImage = !string.IsNullOrEmpty(Model.Input.Img)
         ? $@"{_options.Value.BasePath}\{Model.Input.Img}" : "/img/default.png";
+
+    var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 }
 
 
@@ -50,9 +52,12 @@
                         </li>
                         @if (User.IsInRole(nameof(AuthLevel.User)))
                         {
-                            <span>
-                                others links
-                            </span>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="container-tbs" 
+                                   data-toggle="tab" href="#container-tabs" 
+                                   role="tab" aria-controls="home" 
+                                   onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId')" >Historial de compras</a>
+                            </li>
                         }
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -103,6 +108,9 @@
                                     </form>
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade show" id="container-tabs" role="tabpanel" aria-labelledby="container-tabs">
+                         ...
                         </div>
                     </div>
                 </div>

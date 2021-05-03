@@ -105,7 +105,8 @@
                 {
                     <input name="Code" value="@ViewBag.coupon" />
                 }
-                <button class="btn btn-outline-dark btn-sm"> Procesar la compra! </button>
+                <p style="display:none" id="alert-await" class="alert alert-info">Espere un momento...</p>
+                <button id="proccess-sale" onclick="newShop()" class="btn btn-outline-dark btn-sm"> Procesar la compra! </button>
             </form>
         }
         else

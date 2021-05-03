@@ -152,6 +152,11 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(Guid id)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Review = await _services.SaleService.CantReview(id,GetLoggedIdUser());
+            }
+
             var model = await _services.ProductService.GetById(id, x => x.Category, x => x.ProductPics);
             if (model != null) return View(model);
             return new NotFoundView();

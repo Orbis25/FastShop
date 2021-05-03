@@ -1,0 +1,50 @@
+﻿@model EmailTemplate
+
+
+<div class="row">
+    <div class="col">
+        <form id="form" onsubmit="SubmitForm()" asp-action="Update" method="post">
+            <div class="form-group">
+                <label>Titulo</label>
+                <input asp-for="Title" class="form-control form-control-sm" />
+                <input type="hidden" asp-for="Body" />
+                <input type="hidden" asp-for="Id"  />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Tipo</label>
+                <select disabled onchange="getParameters(this.value)" class="form-control form-control-sm" asp-items="@Html.GetEnumSelectList<TemplateTypeEnum>()" asp-for="Type"></select>
+            </div>
+            <div class="alert alert-warning">
+                <p>Los parametros requeridos en esta plantilla son : <b id="params"></b></p>
+            </div>
+            <div class="form-group">
+                <label>Contenido</label>
+                <div id="editor"></div>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+            <button class="btn btn-primary btn-sm">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+    quill.setText('@Model.Body');
+
+    var SubmitForm = () => {
+        $("#Body").val(quill.getText().trim());
+        $("form").submit();
+    };
+
+    var getParameters = async (type) => {
+        const result = await axios.get("/emailTemplate/getParameters?type=" + type);
+        if (result.status === 200) {
+            $("#params").text(result.data);
+        }
+    };
+    getParameters('@Model.Type');
+</script>

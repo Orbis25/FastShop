@@ -1,4 +1,7 @@
 ﻿using BussinesLayer.Interface.CartItems;
+using BussinesLayer.Interface.Configurations;
+using BussinesLayer.Interface.Emails;
+using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
 using Service.Interface;
 
@@ -17,6 +20,9 @@ namespace BussinesLayer.UnitOfWork
         IProductService ProductService { get; }
         IImageServerService ImageServerService { get; }
         ICartItemService CartItemService { get; }
+        IConfigurationService ConfigurationService { get; }
+        IEmailService EmailService { get; }
+        IEmailTemplateServices EmailTemplateService { get; }
 
     }
 }

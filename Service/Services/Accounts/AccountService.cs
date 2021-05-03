@@ -22,8 +22,7 @@ namespace Service.Svc
         public AccountService(ApplicationDbContext context,
             IOptions<EmailSetting> options,
             IOptions<InternalConfiguration> internalOptions,
-            UserManager<ApplicationUser> userManager
-            )
+            UserManager<ApplicationUser> userManager)
         { 
             _context = context;
             _options = options.Value;
@@ -63,39 +62,6 @@ namespace Service.Svc
             return null;
         }
 
-        public async Task<bool> SendEmailConfirmation(string email, string userId)
-        {
-            var html = $"Porfavor pulsa el siguiente boton para confirmar tu cuenta <br /> <br><br> " +
-                $"<a style='text-decoration:none;border:none;border-radius:5px;font-size:15px;background:#1976d2;padding:10px;color:#fff;cursor:pointer;' " +
-                $"href={_internalOptions.BaseUrl}{_options.UrlConfirmEmail}{userId}>CONFIRMAR</a> <br /><br><br> @copyright  {_internalOptions.AppName}";
-
-            using var smtp = new SmtpClient(_options.Smtp,_options.Port)
-            {
-                Host = _options.Smtp,
-                EnableSsl = true,
-                UseDefaultCredentials = _options.DefaultCredentials,
-                Credentials = new NetworkCredential(_options.User, _options.Password),
-                DeliveryMethod = SmtpDeliveryMethod.Network
-            };
-
-            try
-            {
-                using var mailMessage = new MailMessage
-                {
-                    From = new MailAddress(_options.User)
-                };
-                mailMessage.To.Add(email);
-                mailMessage.IsBodyHtml = true;
-                mailMessage.Subject = $"{_internalOptions.AppName} Account";
-                mailMessage.Body = html;
-                await smtp.SendMailAsync(mailMessage);
-            }
-            catch (Exception)
-            { return false; }
-            return true;
-        }
-
-
         private async Task<ApplicationUser> FindUserByCode(string code) => await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.ConcurrencyStamp == code);
 
         public async Task<bool> ChangePassword(string code, string newPassword)
@@ -108,37 +74,20 @@ namespace Service.Svc
             return true;
         }
 
-        public async Task<bool> SendEmailRecoveryPass(string email)
+        public async Task<string> GetEmailTemplateToCreateAccount(string userId)
         {
-            var model = await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Email == email);
-            var html = $"Porfavor pulsa el siguiente boton para cambiar tu contraseña <br /> <a style='border:none;border-radius:5px;font-size:15px;background:red;padding:10px;color:#fff;cursor:pointer;' " +
-                $" href={_internalOptions.BaseUrl}{_options.UrlRecovery}{model.ConcurrencyStamp}>PULSAME<a/> " +
-                $"<br /> @copyright  {_internalOptions.AppName}";
-
-            var smtp = new SmtpClient()
-            {
-                Host = _options.Smtp,
-                EnableSsl = true,
-                UseDefaultCredentials = _options.DefaultCredentials,
-                Credentials = new NetworkCredential(_options.User, _options.Password)
-            };
-
-            try
-            {
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress(_options.User)
-                };
-                mailMessage.To.Add(email);
-                mailMessage.IsBodyHtml = true;
-                mailMessage.Subject = $"{_internalOptions.AppName} Account";
-                mailMessage.Body = html;
-                await smtp.SendMailAsync(mailMessage);
-            }
-            catch (Exception)
-            { return false; }
-            return true;
+            var html = string.Empty;
+            var template = await _context.EmailTemplates.FirstOrDefaultAsync(x => x.Type == DataLayer.Enums.Base.TemplateTypeEnum.AccountConfirmed);
+            html = template.Body.Replace("{url}",$"{_internalOptions.BaseUrl}{_options.UrlConfirmEmail}{userId}");
+            return html;
         }
 
+        public async Task<string> GetEmailTemplateToRecoveryAccount(string currencyStamUser)
+        {
+            var html = string.Empty;
+            var template = await _context.EmailTemplates.FirstOrDefaultAsync(x => x.Type == DataLayer.Enums.Base.TemplateTypeEnum.PasswordRecovery);
+            html = template.Body.Replace("{url}", $"{_internalOptions.BaseUrl}{_options.UrlRecovery}{currencyStamUser}");
+            return html;
+        }
     }
 }

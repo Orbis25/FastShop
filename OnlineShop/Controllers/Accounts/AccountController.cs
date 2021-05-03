@@ -28,6 +28,19 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = nameof(AuthLevel.Admin))]
         public async Task<IActionResult> BlockOrUnlockAccount(Guid id)
         {
+            var user = await _services.UserService.Get(id.ToString());
+            if (!user.LockoutEnabled)
+            {
+                var template = await _services.EmailTemplateService.GetByType(TemplateTypeEnum.LockedUser);
+                if (template == null)
+                {
+                    SendNotification("Ha ocurrido un error, intente de nuevo mas tarde", null, NotificationEnum.Error);
+                }
+                else
+                {
+                    await _services.EmailService.Send(new() { Body = template.Body, Subject = "Account Locked", To = user.Email });
+                }
+            }
             await _services.AccountService.BlockAndUnlockAccount(id);
             return RedirectToAction("Users", "Admin");
         }
@@ -57,7 +70,7 @@ namespace OnlineShop.Controllers
             return View();
         }
 
-        [Authorize(Roles = nameof(AuthLevel.Admin)+","+nameof(AuthLevel.User))]
+        [Authorize(Roles = nameof(AuthLevel.Admin) + "," + nameof(AuthLevel.User))]
         [HttpPost]
         public async Task<IActionResult> UploadImageProfile(UserUploadImageVM model)
         {
@@ -66,7 +79,7 @@ namespace OnlineShop.Controllers
                 var user = await _services.UserService.Get(model.Id);
                 if (user == null) return new NotFoundView();
                 var result = await _services.ImageServerService
-                    .UploadImage(model.Img, _env.WebRootPath, nameof(User),user.ProfileImage);
+                    .UploadImage(model.Img, _env.WebRootPath, nameof(User), user.ProfileImage);
                 user.ProfileImage = result;
                 await _services.UserService.Update(user);
             }
@@ -90,7 +103,7 @@ namespace OnlineShop.Controllers
         {
             var result = await _services.UserService.Get(id);
             if (result == null) return BadRequest("Usuario no encontrado");
-            return PartialView("_UserDetailPartial",result);
+            return PartialView("_UserDetailPartial", result);
         }
     }
 }

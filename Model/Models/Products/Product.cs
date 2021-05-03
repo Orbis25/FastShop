@@ -40,6 +40,12 @@ namespace Model.Models
         public int Quantity { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        [Display(Name = "Descripción")]
+        [Required(ErrorMessage = "El campo {0} es requerido")]
+        [MinLength(100,ErrorMessage = "Ingrese un minimo de 100 caracteres")]
+        public string Description { get; set; }
+
         public ICollection<ProductPic> ProductPics { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
 

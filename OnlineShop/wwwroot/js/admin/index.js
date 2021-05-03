@@ -74,6 +74,3 @@ const getImageProfile = async () => {
     }
 };
 
-const showImageInViewver = (id) => {
-    new Viewer(document.getElementById(`${id}`), { navbar:false});
-}

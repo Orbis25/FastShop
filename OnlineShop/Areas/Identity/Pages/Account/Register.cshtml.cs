@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using BussinesLayer.Interface.Emails;
 using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Model.Models;
+using Model.Settings;
 using Service.Interface;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
@@ -22,16 +25,25 @@ namespace OnlineShop.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IAccountService _service;
+        private readonly EmailSetting _options;
+        private readonly InternalConfiguration _internalOptions;
+        private readonly IUnitOfWork _services;
+
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             ILogger<RegisterModel> logger,
-            IUnitOfWork service
+            IUnitOfWork service,
+            IOptions<EmailSetting> options,
+            IOptions<InternalConfiguration> internalConfiguration
             )
         {
             _userManager = userManager;
             _logger = logger;
             _service = service.AccountService;
+            _options = options.Value;
+            _internalOptions = internalConfiguration.Value;
+            _services = service;
         }
 
         [BindProperty]
@@ -84,7 +96,9 @@ namespace OnlineShop.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Address = Input.Address, PhoneNumber = Input.PhoneNumber, FullName = Input.FullName };
-                var emailSended = await _service.SendEmailConfirmation(Input.Email, user.Id);
+                var template = await _services.AccountService.GetEmailTemplateToCreateAccount(user.Id);
+                var emailSended = await _services.EmailService.Send(new() { Body = template, Subject = $"{_internalOptions.AppName} Account", To = user.Email });
+
                 if (!emailSended)
                 {
                     ModelState.AddModelError(string.Empty, "Ocurrio un error, intente de nuevo mas tarde");

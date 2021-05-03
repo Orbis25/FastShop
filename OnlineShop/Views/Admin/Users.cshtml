@@ -65,7 +65,7 @@
 
                                     <tr>
                                         <td>
-                                            <img id="@item.Id" onclick="showImageInViewver('@item.Id')" 
+                                            <img id="@item.Id" onclick="showImageInViewver('@item.Id')"
                                                  loading="lazy"
                                                  src="@(string.IsNullOrEmpty(item.ProfileImage) ? "/img/default.png" : $@"{_options.Value.BasePath}/{item.ProfileImage}" )" style="cursor:pointer;" width="50" />
                                             <span>@item.FullName</span>
@@ -94,12 +94,16 @@
                                                     <i class="fa fa-ban"></i>
                                                 </a>
                                             }
-                                            <button data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Enviar correo"
-                                                    class="btn btn-sm btn-dark mb-1">
-                                                <i class="fa fa-envelope"></i>
-                                            </button>
+                                            <span data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Enviar correo">
+                                                <button type="button"
+                                                        onclick="LoadPartialView('send-email-container', '/Email/Create?userId=@item.Id')"
+                                                        data-toggle="modal" data-target="#email-modal"
+                                                        class="btn btn-sm btn-dark mb-1">
+                                                    <i class="fa fa-envelope"></i>
+                                                </button>
+                                            </span>
                                             <span data-toggle="tooltip"
                                                   data-placement="top"
                                                   title="Mas información">
@@ -138,9 +142,33 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" >
+                        <div class="modal-body">
                             <div class="row justify-content-center">
                                 <div class="col-12" id="userDetail">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <!-- Modal Email -->
+            <div class="modal fade" id="email-modal" tabindex="-1" aria-labelledby="email-modal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Nuevo mensaje</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center">
+                                <div class="col-12" id="send-email-container">
                                 </div>
                             </div>
                         </div>

@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Commons\Commons.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Emails\" />
+  </ItemGroup>
+
 </Project>

@@ -5,12 +5,13 @@
  * Print by specific id of tag
  * @param {string} id
  */
-const toPrint = (id) => {
+var toPrint = (id) => {
     $(id).printThis();
 };
 
-const LoadPartialView = async (contentId, url) => {
+var LoadPartialView = async (contentId, url) => {
     const content = $(`#${contentId}`);
+    content.empty();
     content.append("cargando...");
     try {
         const result = await fetch(url, { method: "GET" });
@@ -25,3 +26,20 @@ const LoadPartialView = async (contentId, url) => {
         content.append(`Error al cargar la información, intente de nuevo mas tarde`);
     }
 };
+
+
+/**
+ * Convert form to json
+ * @param {Event} event evento del formulario
+ */
+var FormToJson = async (event,url) => {
+    event.preventDefault();
+    const data = new FormData(event.target)
+    const values = Object.fromEntries(data.entries());
+    return values;
+}
+
+
+var showImageInViewver = (id) => {
+    new Viewer(document.getElementById(`${id}`), { navbar: false });
+}

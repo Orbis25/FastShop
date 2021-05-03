@@ -40,7 +40,7 @@ namespace OnlineShop
                 app.UseHsts();
             }
 
-            DataSeeder.SeedService(app,Configuration);
+            DataSeeder.SeedService(app, Configuration, env.WebRootPath);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

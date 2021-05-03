@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.Repository;
 using Commons.Helpers;
+using DataLayer.Enums.Base;
 using DataLayer.Models.Cart;
 using DataLayer.Utils.Paginations;
 using DataLayer.ViewModels.Orders;
@@ -46,8 +47,9 @@ namespace Service.Svc
             return await base.Add(model);
         }
 
-        public async Task<bool> CreateSale(List<CartItem> items, Sale sale, string userEmail)
+        public async Task<Sale> CreateSale(List<CartItem> items, Sale sale, string userEmail)
         {
+            ///TODO: OBTIMIZAR ESTO PORQUE PUEDEN AGREGARSE A LA DB SIN HACER FOR_EARCH
             var itemsToSale = new List<DetailSale>();
             items.ForEach(item =>
             {
@@ -60,20 +62,19 @@ namespace Service.Svc
 
             var total = items.Sum(x => (x.Quantity * x.Product.Price));
             var coupon = await _context.Cupons.FirstOrDefaultAsync(x => x.Code == sale.Code);
-            
-            if(coupon != null) total -= coupon.Amount;
-            
+
+            if (coupon != null) total -= coupon.Amount;
+
             sale.Total = total;
             var result = await Add(sale);
-            if (!result) return false;
+            if (!result) return null;
             if (await UpdateProducts(itemsToSale))
             {
                 sale.DetailSales = itemsToSale;
-                await SendOrderEmail(sale, userEmail);
-                if (!await AddDetailSale(itemsToSale)) return false;
+                if (!await AddDetailSale(itemsToSale)) return null;
             }
 
-            return true;
+            return sale;
         }
 
         private async Task<bool> AddDetailSale(IEnumerable<DetailSale> model)
@@ -108,10 +109,11 @@ namespace Service.Svc
             return model;
         }
 
-        public async Task<bool> SendOrderEmail(Sale model, string userEmail)
+        public async Task<string> GetTemplateEmail(Sale model, string userEmail)
         {
 
-            var html = await ReadTemplateEmailAsString();
+            var template = await _context.EmailTemplates.FirstOrDefaultAsync(x => x.Type == TemplateTypeEnum.Bill);
+            var html = template.Body;
             html = html.Replace("{date}", model.CreatedAtSrt);
             html = html.Replace("{user}", userEmail);
             html = html.Replace("{cuppon}", !string.IsNullOrEmpty(model.CuponCode) ? model.CuponCode : "N/A");
@@ -130,46 +132,22 @@ namespace Service.Svc
             html = html.Replace("{body}", table);
             html = html.Replace("{AppName}", _internalOptions.AppName);
 
-            var smtp = new SmtpClient()
-            {
-                Host = _settings.Smtp,
-                EnableSsl = true,
-                UseDefaultCredentials = _settings.DefaultCredentials,
-                Credentials = new NetworkCredential(_settings.User, _settings.Password)
-            };
-
-            try
-            {
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress(_settings.User)
-                };
-                mailMessage.To.Add(userEmail);
-                mailMessage.IsBodyHtml = true;
-                mailMessage.Subject = $"{_internalOptions.AppName} --- Order #{model.Order.OrderCode}";
-                mailMessage.Body = html;
-
-                await smtp.SendMailAsync(mailMessage);
-            }
-            catch
-            { }
-            return true;
+            return html;
         }
 
-        private static async Task<string> ReadTemplateEmailAsString() => await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\email", "Template.html"));
 
         public async Task<SaleFilterVM> GetSales(SaleFilterVM filters)
         {
-            var result = GetAll(null,x=> x.Order,x => x.User);
+            var result = GetAll(null, x => x.Order, x => x.User);
             if (!string.IsNullOrEmpty(filters.Param))
             {
                 result = result.Where(x => x.Order.OrderCode.Contains(filters.Param)
                 || x.User.FullName.Contains(filters.Param)
                 || x.Total.ToString().Contains(filters.Param));
             }
-            if(!string.IsNullOrEmpty(filters.DateFrom) && !string.IsNullOrEmpty(filters.DateTo))
+            if (!string.IsNullOrEmpty(filters.DateFrom) && !string.IsNullOrEmpty(filters.DateTo))
             {
-                result = result.Where(x => x.CreatedAt >= filters.DateFrom.ToDate() 
+                result = result.Where(x => x.CreatedAt >= filters.DateFrom.ToDate()
                          && x.CreatedAt <= filters.DateTo.ToDate());
             }
 
@@ -189,6 +167,24 @@ namespace Service.Svc
                 Sales = await result.ToListAsync()
             };
 
+        }
+
+        public async Task<PaginationResult<Sale>> GetPurcharseHistory(PaginationBase pagination, string userId)
+        {
+            var list = GetAll(x => x.ApplicationUserId == userId, x => x.Order);
+            list = list
+                .Include(x => x.Order)
+                .Include(x => x.DetailSales)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.ProductPics).AsNoTracking();
+            return await CreatePagination(pagination, list);
+        }
+
+        public async Task<bool> CantReview(Guid productId, string userId)
+        {
+            var result = await _context.Sales
+                                .Include(x => x.DetailSales).ToListAsync();
+            return result.Any(x => x.ApplicationUserId == userId && x.DetailSales.Any(x => x.ProductId == productId));
         }
     }
 }

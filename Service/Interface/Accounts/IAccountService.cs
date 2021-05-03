@@ -1,7 +1,5 @@
 ﻿using Model.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Interface
@@ -11,9 +9,9 @@ namespace Service.Interface
         Task<bool> BlockAndUnlockAccount(Guid id);
         Task<ApplicationUser> GetByEmail(string email);
         Task<bool> ValidateUser(string id);
-        Task<bool> SendEmailConfirmation(string email, string userId);
         Task<bool> ChangePassword(string code, string newPassword);
-        Task<bool> SendEmailRecoveryPass(string email);
+        Task<string> GetEmailTemplateToCreateAccount(string userId);
+        Task<string> GetEmailTemplateToRecoveryAccount(string currencyStamUser);
 
     }
 }

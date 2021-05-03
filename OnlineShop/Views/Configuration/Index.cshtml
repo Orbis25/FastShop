@@ -1,0 +1,64 @@
+﻿@model ConfigurationEmailVM
+@{ 
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h4>Configuración General</h4>
+        <hr />
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Correos</a>
+                        <a class="nav-link" id="nav-profile-tab" 
+                           data-toggle="tab" 
+                           href="#tab-container" 
+                           role="tab" 
+                           aria-controls="tab-container" 
+                           aria-selected="false"
+                           onclick="LoadPartialView('tab-container','/emailTemplate/GetAll')">Plantillas</a>
+                        <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#tab-container" role="tab" aria-controls="tab-container" aria-selected="false">Notificaciones</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="row">
+                            <div class="col mt-4">
+                                @if (Model == null)
+                                {
+                                    <p class="alert alert-warning">Es importante que configure una dirrección de correo para que las alertas lleguen a los usuarios.</p>
+                                }
+                                <form asp-action="UpdateEmail" method="post">
+                                    <div class="form-group">
+                                        <label>Correo desde donde se emitiran los demas</label>
+                                        <input type="email" autocomplete="off" asp-for="EmailSender" class="form-control form-control-sm" />
+                                        <span class="text-danger" asp-validation-for="EmailSender"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contraseña</label>
+                                        <input type="password" autocomplete="off" asp-for="PasswordEmail" value="@Model.PasswordEmailPlain" class="form-control form-control-sm" />
+                                        <span class="text-danger" asp-validation-for="PasswordEmail"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-sm">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="tab-container" 
+                         role="tabpanel" 
+                         aria-labelledby="tab-container">
+                       ...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_NotificationPartial" />

@@ -1,0 +1,23 @@
+﻿@model Email
+
+
+<div class="row">
+    <div class="col">
+        <form method="post" asp-action="Create" asp-controller="Email">
+            <div class="form-group">
+                <label asp-for="Subject">Titulo </label>
+                <input required class="form-control form-control-sm" type="text" asp-for="Subject" />
+                <input class="form-control form-control-sm" type="hidden" name="UserId" value="@ViewBag.UserId" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Body">Cuerpo del mensaje</label>
+                <textarea required
+                          class="form-control form-control-sm" type="text" asp-for="Body"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-sm btn-primary">Enviar</button>
+            </div>
+        </form>
+    </div>
+</div>
