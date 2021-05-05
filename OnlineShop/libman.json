@@ -106,6 +106,14 @@
       "files": [
         "umd/popper.min.js"
       ]
+    },
+    {
+      "library": "rateYo@2.3.4",
+      "destination": "wwwroot/lib/rateYo/",
+      "files": [
+        "jquery.rateyo.min.js",
+        "jquery.rateyo.min.css"
+      ]
     }
   ]
 }

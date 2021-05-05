@@ -69,21 +69,17 @@
                 {
                     var pic = item.ProductPics.FirstOrDefault() != null ? $@"{_options.Value.BasePath}/{item.ProductPics.FirstOrDefault().Path}" : "/img/default.png";
 
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
-                        <div class="card text-center card-product">
-                            <div class="card-product__img">
-                                <img src="@pic" height="200" width="200" alt="@pic">
-                                <ul class="card-product__imgOverlay">
-                                    <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="see-product btn"><i class="fa fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <p>@item.Category.Name</p>
-                                <h4 class="card-product__title"><a href="#">@item.ProductName</a></h4>
-                                <p class="card-product__price">@item.Price.ToString("C")</p>
-                            </div>
-                        </div>
-                    </div>
+
+                    <a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" style="cursor:pointer;" class=" zoomeable col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 text-center">
+                        <img height="200" width="200" src="@pic" alt="">
+                        <h4 class="mt-2">@item.ProductName</h4>
+                        <p class="mt-2">
+                            @item.Category.Name <br />
+                            <b class="text-success">@item.Price.ToString("C")</b>
+                        </p>
+                    </a>
+
+                   
                 }
             </div>
         </div>

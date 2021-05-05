@@ -44,8 +44,8 @@ namespace Service.Svc
 
         public async Task<ProductFilterVM> GetAllPaginateProducts(ProductFilterVM filters)
         {
-            var results =  _context.Products.OrderBy(x => x.CreatedAt)
-                
+            var results = _context.Products.OrderBy(x => x.CreatedAt)
+
                 .Include(x => x.ProductPics)
                 .Include(x => x.Category)
                 .Where(x => x.Quantity > (int)ProductStatusEnum.SoldOut).AsQueryable();
@@ -69,7 +69,7 @@ namespace Service.Svc
                     results = results.Where(x => x.Quantity >= (int)ProductStatusEnum.Good);
                     break;
 
-          
+
             }
 
             return new ProductFilterVM
@@ -88,6 +88,16 @@ namespace Service.Svc
             if (result == null) return false;
             _context.Remove(result);
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<IEnumerable<Product>> GetSimilarItems(Guid id,int categoryId)
+        {
+            var result = await _context.Products.Include(x => x.ProductPics)
+                        .Where(x => x.CategoryId == categoryId && x.Id != id)
+                        .OrderBy(x => Guid.NewGuid())
+                        .Take(8)
+                        .ToListAsync();
+            return result;
         }
     }
 }

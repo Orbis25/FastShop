@@ -4866,3 +4866,7 @@ a {
 .image-hovered:hover{
     background:var(--color-1);
 }
+
+.zoomeable:hover {
+    transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}

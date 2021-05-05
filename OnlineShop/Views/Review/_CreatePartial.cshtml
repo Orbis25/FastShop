@@ -1,0 +1,54 @@
+﻿@model DataLayer.Models.Products.Review
+
+
+@{
+    var isUpdate = (Model.Id > 0);
+    var action = (isUpdate) ? "Update" : "Create";
+}
+
+
+<div class="row">
+    <div class="col">
+        <form asp-action="@action" asp-controller="Review">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Rating"></label>
+                        <input type="hidden" asp-for="Rating" id="rating" />
+                        @if (isUpdate)
+                        {
+                            <input type="hidden" asp-for="Id" />
+                        }
+                        <div id="rateYo"></div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Comment"></label>
+                        @if (isUpdate)
+                        {
+                            <input type="hidden" asp-for="ProductId" />
+                        }
+                        else
+                        {
+                            <input type="hidden" value="@ViewBag.ProductId" name="ProductId" class="form-control form-control-sm" />
+                        }
+
+                        <textarea class="form-control form-control-sm" asp-for="Comment"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-primary">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#rateYo").rateYo({
+        rating: 0
+    }).on("rateyo.change", function (e, data) {
+        var rating = data.rating;
+        $("#rating").val(Number(rating));
+    });
+</script>

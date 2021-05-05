@@ -186,5 +186,7 @@ namespace Service.Svc
                                 .Include(x => x.DetailSales).ToListAsync();
             return result.Any(x => x.ApplicationUserId == userId && x.DetailSales.Any(x => x.ProductId == productId));
         }
+
+       
     }
 }

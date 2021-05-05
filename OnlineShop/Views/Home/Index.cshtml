@@ -12,25 +12,19 @@
                 <p>Productos populares</p>
                 <h2> <span class="section-intro__style">Productos</span></h2>
             </div>
-            <div class="row">
+            <div class="row animate__animated animate__fadeInLeft">
                 @foreach (var item in Model.Products)
                 {
                     var img = item.ProductPics.FirstOrDefault() != null ? $@"{_options.Value.BasePath}\{item.ProductPics.FirstOrDefault().Path}" : "/img/default.png";
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="card text-center card-product">
-                            <div class="card-product__img">
-                                <img class="card-img" height="200" width="200" src="@img" alt="">
-                                <ul class="card-product__imgOverlay">
-                                    <li><a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" class="see-product btn"><i class="fa fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <p>@item.Category.Name</p>
-                                <h4 class="card-product__title"><a href="#">@item.ProductName</a></h4>
-                                <p class="card-product__price">$@item.Price</p>
-                            </div>
-                        </div>
-                    </div>
+
+                    <a asp-action="GetById" asp-controller="Product" asp-route-id="@item.Id" style="cursor:pointer;" class=" zoomeable col-md-6 col-lg-4 col-xl-3 text-center">
+                        <img height="200" width="200" src="@img" alt="">
+                        <h4 class="mt-2">@item.ProductName</h4>
+                        <p class="mt-2">
+                            @item.Category.Name <br />
+                            <b class="text-success">@item.Price.ToString("C")</b>
+                        </p>
+                    </a>
                 }
             </div>
             @if (!Model.Products.Any())

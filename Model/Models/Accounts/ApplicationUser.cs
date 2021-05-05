@@ -1,4 +1,5 @@
 ﻿using DataLayer.Models.Cart;
+using DataLayer.Models.Products;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,6 @@ namespace Model.Models
         public string ProfileImage { get; set; }
         public ICollection<Sale> Sales { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }

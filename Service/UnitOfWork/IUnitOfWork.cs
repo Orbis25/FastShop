@@ -3,6 +3,7 @@ using BussinesLayer.Interface.Configurations;
 using BussinesLayer.Interface.Emails;
 using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
+using BussinesLayer.Interface.Products;
 using Service.Interface;
 
 namespace BussinesLayer.UnitOfWork
@@ -22,7 +23,8 @@ namespace BussinesLayer.UnitOfWork
         ICartItemService CartItemService { get; }
         IConfigurationService ConfigurationService { get; }
         IEmailService EmailService { get; }
-        IEmailTemplateServices EmailTemplateService { get; }
+        IEmailTemplateService EmailTemplateService { get; }
+        IReviewService ReviewService { get; }
 
     }
 }

@@ -3,11 +3,13 @@ using BussinesLayer.Interface.Configurations;
 using BussinesLayer.Interface.Emails;
 using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
+using BussinesLayer.Interface.Products;
 using BussinesLayer.Services.Cart;
 using BussinesLayer.Services.Configurations;
 using BussinesLayer.Services.Emails;
 using BussinesLayer.Services.Emails.Templates;
 using BussinesLayer.Services.ImageServer;
+using BussinesLayer.Services.Products;
 using DataLayer.Settings.ImageServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -47,6 +49,7 @@ namespace BussinesLayer.UnitOfWork
         private ConfigurationService _configurationService;
         private EmailService _emailService;
         private EmailTemplateService _emailTemplateService;
+        private ReviewService _reviewService;
         private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
@@ -99,6 +102,8 @@ namespace BussinesLayer.UnitOfWork
 
         public IEmailService EmailService => _emailService ??= new EmailService(_context, _emailOptions);
 
-        public IEmailTemplateServices EmailTemplateService => _emailTemplateService ??= new EmailTemplateService(_context);
+        public IEmailTemplateService EmailTemplateService => _emailTemplateService ??= new EmailTemplateService(_context);
+
+        public IReviewService ReviewService => _reviewService ??= new ReviewService(_context);
     }
 }

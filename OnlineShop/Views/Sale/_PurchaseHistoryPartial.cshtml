@@ -2,14 +2,7 @@
 @inject IOptions<ImageServerOption> _options
 
 @{
-    var nextPage = Model.ActualPage + 1;
-    var showNextPageButton = true;
-    if (Model.ActualPage == Model.Pages + 1 || Model.Pages == 0)
-    {
-        showNextPageButton = false;
-    }
     var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
 }
 
 <div class="row justify-content-center">
@@ -75,18 +68,15 @@
 
     </div>
     <div class="col-12 text-center mb-3">
-        <b>Pagina:@Model.ActualPage de @(Model.Pages + 1)</b>
+        <partial name="_PaginationPartial"
+                 model='new PaginationPartialModel() {
+                    Total = Model.Total,
+                    Qyt = Model.Qyt,
+                    RenderOneInFirstPage = true ,
+                    Url = $"/sale/GetPurchaseHistory?userId={userId}",
+                    ActualPage = Model.ActualPage,
+                    IdToLoad = "container-tabs"
+                    }' />
     </div>
-    @if (showNextPageButton)
-    {
-        <div class="col-1">
-            <button class="btn btn-sm btn-default btn-primary" onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId&Page=@nextPage')">Siguiente</button>
-        </div>
-    }
-    else if (!showNextPageButton && Model.Pages > 0)
-    {
-        <div class="col-1">
-            <button class="btn btn-sm btn-default btn-primary" onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId')">Inicio</button>
-        </div>
-    }
+
 </div>

@@ -1,0 +1,59 @@
+﻿@model PaginationResult<DataLayer.Models.Products.Review>
+
+@inject IOptions<ImageServerOption> _options;
+
+@{
+    var userId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+}
+
+
+<div class="row">
+    <div class="col-12 mt-2 mb-2">
+        <h3>Reseñas</h3>
+    </div>
+    @if (!Model.Results.Any())
+    {
+        <div class="col-12 text-center">
+            <img src="~/img/base/not-found.png" height="400" />
+            <h1>Este item no tiene reseñas</h1>
+        </div>
+    }
+
+    @foreach (var item in Model.Results)
+    {
+
+        var src = $@"{_options.Value.BasePath}\{item.User.ProfileImage}";
+        <div class="col-3 text-center mb-2 mt-2">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="@src" style="border-radius:40px;" width="100" height="100" />
+                    <p class="mt-2"><b>@item.User?.FullName</b></p>
+                    <p><div id="@item.Id"></div></p>
+                    <p>@item.Comment</p>
+                    @if (item.UserId == userId){<button onclick="" class="btn btn-sm btn-info">Editar</button>}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $("#@item.Id").rateYo({
+                readOnly: true,
+                rating: Number('@item.Rating')
+            });
+        </script>
+    }
+</div>
+<div class="row">
+    <div class="col-12">
+        <partial name="_PaginationPartial"
+                 model='new PaginationPartialModel() {
+                    Total = Model.Total,
+                    Qyt = Model.Qyt,
+                    RenderOneInFirstPage = true ,
+                    Url = "/Review/GetAll?Qyt=8&productId="+Model.Results.FirstOrDefault()?.ProductId,
+                    ActualPage = Model.ActualPage,
+                    IdToLoad = "tab-container"
+                    }' />
+    </div>
+</div>
+

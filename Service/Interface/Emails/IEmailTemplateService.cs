@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Interface.Emails.Templates
 {
-    public interface IEmailTemplateServices : IBaseRepository<EmailTemplate,Guid>
+    public interface IEmailTemplateService : IBaseRepository<EmailTemplate,Guid>
     {
         string GetParameters(TemplateTypeEnum types);
         bool HaveRequireParameters(string body, TemplateTypeEnum types);

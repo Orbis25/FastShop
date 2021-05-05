@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Services.Emails.Templates
 {
-    public class EmailTemplateService : BaseRepository<EmailTemplate,ApplicationDbContext,Guid> , IEmailTemplateServices
+    public class EmailTemplateService : BaseRepository<EmailTemplate,ApplicationDbContext,Guid> , IEmailTemplateService
     {
         private readonly ApplicationDbContext _dbContext;
         public EmailTemplateService(ApplicationDbContext context) : base(context)

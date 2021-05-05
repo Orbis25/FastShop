@@ -3,6 +3,7 @@ using DataLayer.Models.Categories;
 using DataLayer.Models.Configurations;
 using DataLayer.Models.Emails;
 using DataLayer.Models.Emails.Templates;
+using DataLayer.Models.Products;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
@@ -49,5 +50,7 @@ namespace OnlineShop.Data
         public DbSet<Configuration> Configurations { get; set; }
         public DbSet<Email> Emails { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
     }
 }

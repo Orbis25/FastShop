@@ -3,119 +3,185 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var similarItems = ViewBag.SimilarProducts as IEnumerable<Model.Models.Product>;
 }
 
-<div class="product_image_area">
-    <div class="container">
-        <div class="row s_product_inner">
-            <div class="col-lg-6">
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner" id="images">
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-lg-6">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" id="images">
 
-                        @foreach (var item in Model.ProductPics)
-                        {
-                            var src = $@"{_options.Value.BasePath}\{item.Path}";
-                            var active = Model.ProductPics.FirstOrDefault() == item ? "active" : string.Empty;
+                    @foreach (var item in Model.ProductPics)
+                    {
+                        var src = $@"{_options.Value.BasePath}\{item.Path}";
+                        var active = Model.ProductPics.FirstOrDefault() == item ? "active" : string.Empty;
 
-                            <div class="carousel-item @active">
-                                <img style="cursor:pointer;"
-                                     class="d-block w-100"
-                                     height="400" src="@src" alt="@item.Path">
-                            </div>
-                        }
-                        @if (!Model.ProductPics.Any())
-                        {
-                            <div class="single-prd-item">
-                                <img class="img-fluid" height="200" src="~/img/default.png" alt="default">
-                            </div>
-                        }
+                        <div class="carousel-item @active">
+                            <img style="cursor:pointer;"
+                                 class="d-block w-100"
+                                 height="400" src="@src" alt="@item.Path">
+                        </div>
+                    }
+                    @if (!Model.ProductPics.Any())
+                    {
+                        <div class="single-prd-item">
+                            <img class="img-fluid" height="200" src="~/img/default.png" alt="default">
+                        </div>
+                    }
 
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-5 offset-lg-1">
+            <div class="">
+                <h1 class="mb-2">@Model.ProductName.ToUpper()</h1>
+
+                <p>
+                    <b><span>Marca - @Model.Brand</span></b>
+                </p>
+                <p>
+                    <b>Puntuación</b>
+                    <div id="rating-1"></div>
+                </p>
+                <p style="word-break:break-all;">
+                    <b>Descripción</b> <br />
+                    @Model.Description
+                </p>
+
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            <b>Compañia <br /> </b> <span>@Model.CompanyName.ToUpper()</span>
+                        </p>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    <div class="col">
+                        <p>
+                            <b>Modelo <br /> </b> <span>@Model.Model</span>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p>
+                            <b>Stock <br /> </b> <span>@Model.Quantity</span>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p>
+                            <b>Marca <br /> </b> <span>@Model.Brand</span>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p>
+                            <b>Marca <br /> </b> <span>@Model.Brand</span>
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="">
+                    <form method="post" asp-controller="CartItem" asp-action="Add">
+                        <div class="row">
+                            @if (User.IsInRole(nameof(AuthLevel.User)))
+                            {
+                                <div class="col-12 mb-2">
+                                    <label for="qty">Cantidad:</label>
+                                    <input type="hidden" name="ProductId" value="@Model.Id" />
+                                    <input type="hidden" name="MaxQuantity" value="@Model.Quantity" />
+                                    <input type="number" name="Quantity" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text form-control form-control-sm qty">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-sm btn-block btn-primary">Agregar al carrito</button>
+
+                                    @if (ViewBag.Review != null && ViewBag.Review)
+                                    {
+                                        <button onclick="LoadPartialView('modal-content','/Review/Create?productId=@Model.Id')"
+                                                data-toggle="modal" data-target="#exampleModal"
+                                                type="button" class="btn btn-sm btn-block btn-primary">
+                                            Dejar una reseña
+                                        </button>
+                                    }
+                                </div>
+                            }
+
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="col-lg-5 offset-lg-1">
-                <div class="">
-                    <h1 class="mb-2">@Model.ProductName.ToUpper()</h1>
+        </div>
 
-                    <p>
-                        <b><span>Marca - @Model.Brand</span></b>
-                    </p>
-
-                    <p style="word-break:break-all;">
-                        <b>Descripción</b> <br />
-                        @Model.Description
-                    </p>
-
-                    <div class="row">
-                        <div class="col">
-                            <p>
-                                <b>Compañia <br /> </b> <span>@Model.CompanyName.ToUpper()</span>
-                            </p>
+        <div class="col-12">
+            <!--Modal-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reseña</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class="col">
-                            <p>
-                                <b>Modelo <br /> </b> <span>@Model.Model</span>
-                            </p>
+                        <div class="modal-body" id="modal-content">
+                            ...
                         </div>
-                        <div class="col">
-                            <p>
-                                <b>Stock <br /> </b> <span>@Model.Quantity</span>
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>
-                                <b>Marca <br /> </b> <span>@Model.Brand</span>
-                            </p>
-                        </div>
-                        <div class="col">
-                            <p>
-                                <b>Marca <br /> </b> <span>@Model.Brand</span>
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="">
-                        <form method="post" asp-controller="CartItem" asp-action="Add">
-                            <div class="row">
-                                @if (User.IsInRole(nameof(AuthLevel.User)))
-                                {
-                                    <div class="col-12 mb-2">
-                                        <label for="qty">Cantidad:</label>
-                                        <input type="hidden" name="ProductId" value="@Model.Id" />
-                                        <input type="hidden" name="MaxQuantity" value="@Model.Quantity" />
-                                        <input type="number" name="Quantity" id="qyt" min="1" max="@Model.Quantity" size="2" maxlength="12" value="1" title="Cantidad:" class="input-text form-control form-control-sm qty">
-                                    </div>
-
-                                    <div class="col-12">
-
-                                        <button type="submit" class="btn btn-sm btn-block btn-primary">Agregar al carrito</button>
-
-                                        @if (ViewBag.Review != null && ViewBag.Review)
-                                        {
-                                            <button type="submit" class="btn btn-sm btn-block btn-primary">Dejar un review</button>
-                                        }
-                                    </div>
-                                }
-
-                            </div>
-
-
-                        </form>
-
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-12 mt-4">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Productos Similares</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" 
+                       id="profile-tab"
+                       data-toggle="tab" 
+                       href="#tab-container"
+                       onclick="LoadPartialView('tab-container','/review/GetAll?Qyt=8&productId=@Model.Id')"
+                       role="tab" aria-controls="profile" aria-selected="false">Reseñas</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row mb-2 animate__animated animate__fadeInLeft">
+                        <div class="col-12 mt-3 mb-5">
+                            <h3>Productos Similares</h3>
+                        </div>
+                        @foreach (var item in similarItems)
+                        {
+                            var img = item.ProductPics.FirstOrDefault() != null ? $@"{_options.Value.BasePath}\{item.ProductPics.FirstOrDefault().Path}" : "/img/default.png";
+
+                            <a asp-action="GetById" asp-route-id="@item.Id" style="cursor:pointer;" class=" zoomeable col-3 mb-5 text-center">
+                                <img height="200" width="200" src="@img" alt="">
+                                <h4 class="mt-2">@item.ProductName</h4>
+                                <p class="mt-2">
+                                    @item.Category.Name <br />
+                                    <b class="text-success">@item.Price.ToString("C")</b>
+                                </p>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tab-container" role="tabpanel" aria-labelledby="profile-tab">...</div>
+            </div>
+        </div>
     </div>
+
 </div>
 <partial name="_NotificationPartial" />
+<script>
+    $("#rating-1").rateYo({
+        rating: '@ViewBag.Rating',
+        readOnly:true
+    });
+</script>
 <script src="~/js/product/get-by-id.js" asp-append-version="true"></script>

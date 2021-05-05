@@ -154,10 +154,14 @@ namespace OnlineShop.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                ViewBag.Review = await _services.SaleService.CantReview(id,GetLoggedIdUser());
+                ViewBag.Review = await _services.SaleService.CantReview(id, GetLoggedIdUser());
             }
 
+            ViewBag.Rating = _services.ReviewService.GetAverage(id);
+
             var model = await _services.ProductService.GetById(id, x => x.Category, x => x.ProductPics);
+            ViewBag.SimilarProducts = await _services.ProductService.GetSimilarItems(id,model.CategoryId);
+            
             if (model != null) return View(model);
             return new NotFoundView();
         }
