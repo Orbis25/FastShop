@@ -30,7 +30,24 @@
                     <p class="mt-2"><b>@item.User?.FullName</b></p>
                     <p><div id="@item.Id"></div></p>
                     <p>@item.Comment</p>
-                    @if (item.UserId == userId){<button onclick="" class="btn btn-sm btn-info">Editar</button>}
+                    @if (item.UserId == userId)
+                    {
+                        <button onclick="LoadPartialView('modal-content', '/Review/Update?id=@item.Id')"
+                                data-toggle="modal" data-target="#exampleModal"
+                                type="button"
+                                class="btn btn-sm btn-info">
+                            Editar
+                        </button>
+                    }
+                    @if (User.IsInRole(nameof(AuthLevel.Admin)))
+                    {
+                        <button onclick="sweetRemove('/Review/Remove?id=@item.Id')"
+                 
+                                type="button"
+                                class="btn btn-danger btn-info">
+                            Eliminar
+                        </button>
+                    }
                 </div>
             </div>
         </div>

@@ -31,6 +31,9 @@
                             <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span><br />
                         </div>
                         <div class="col-md-12 form-group">
+                            <label>Pais</label>
+                        </div>
+                        <div class="col-md-12 form-group">
                             <label>Dirreción</label>
                             <textarea class="form-control" id="email" asp-for="Input.Address" placeholder="ej:street #14..."></textarea>
                             <span asp-validation-for="Input.Address" class="text-danger"></span>
@@ -66,3 +69,4 @@
 
 <partial name="_ValidationScriptsPartial" />
 
+<script src="~/js/Areas/Identity/Pages/Account/register.js" asp-append-version="true"></script>

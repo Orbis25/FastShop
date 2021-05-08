@@ -60,6 +60,8 @@ $(document).ready(async () => {
         $('[data-toggle="tooltip"]').tooltip()
     })
 
+    $(".select-search").selectpicker();
+
     await getImageProfile();
 });
 

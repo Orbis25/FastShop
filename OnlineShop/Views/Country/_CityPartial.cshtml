@@ -1,0 +1,64 @@
+﻿@model PaginationResult<AvaibleCity>
+
+@{
+    Layout = null;
+}
+
+
+<div class="row mt-3">
+    <div class="col-12 mb-2">
+        <h3> <button onclick="LoadPartialView('tab-container','/Country/Index')" class="btn btn-dark"><i class="fa fa-arrow-left"></i></button> Ciudades Permitidas</h3>
+    </div>
+    <div class="col-12 col-md-4 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <form onsubmit="return false;">
+                    <div class="form-group">
+                        <label>Ciudad</label>
+                        <select data-live-search="true"
+                                id="select-search"
+                                class="form-control form-control-sm select-search">
+                            <option>Seleccione la ciudad</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button onclick="addCity()" class="btn btn-sm btn-primary">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive animate__animated animate__fadeInLeft">
+            <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Codigo</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Results)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.CountryCode</td>
+                            <td>
+                                <button onclick="sweetRemove('/Country/RemoveCity?id=@item.Id', 'tab-container', '/Country/GetAvaibleCity?code=@item.CountryCode')" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/countries/city-partial.js" asp-append-version="true"></script>
+<script asp-append-version="true">
+    getAllCountries('@ViewBag.CountryCode');
+</script>

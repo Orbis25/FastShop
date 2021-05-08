@@ -33,14 +33,11 @@
                                 <td>@item.Product.ProductName</td>
                                 <td>@item.Product.Price.ToString("C")</td>
                                 <td>
-                                    <input value="@item.Quantity"
-                                           id="@item.ProductId"
-                                           onchange="handleChangeQyt(this,'@spanId')"
-                                           onkeydown="return false;"
-                                           onkeypress="return false;"
-                                           type="number"
-                                           min="1"
-                                           max="@item.MaxQuantity" />
+                                    <input type="hidden" id="max-value-product" value="@item.MaxQuantity" />
+                                    <input 
+                                           disabled
+                                           value="@item.Quantity"
+                                           />
                                     <span class="text-danger" style="display:none;" id="@spanId">Pulse el boton (<i class="fa fa-edit"></i>) para actualizar</span>
                                 </td>
                                 <td class="money">@total.ToString("C")</td>

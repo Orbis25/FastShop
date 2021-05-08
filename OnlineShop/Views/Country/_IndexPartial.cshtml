@@ -1,0 +1,65 @@
+﻿@model PaginationResult<AvaibleCountry>
+
+@{
+    Layout = null;
+}
+
+
+<div class="row mt-3">
+    <div class="col-12 mb-2">
+        <h3>Ubicaciones Permitidas</h3>
+    </div>
+    <div class="col-12 col-md-4 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <form onsubmit="return false;">
+                    <div class="form-group">
+                        <label>Pais</label>
+                        <select data-live-search="true"
+                                id="select-search"
+                                class="form-control form-control-sm select-search">
+                            <option>Seleccione un pais</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button onclick="addCountry()" class="btn btn-sm btn-primary">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="table-responsive animate__animated animate__fadeInLeft">
+            <table class="table table-sm table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Codigo</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Results)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Iso3</td>
+                            <td>
+                                <button onclick="sweetRemove('/Country/Remove?id=@item.Id','tab-container','/Country/Index')" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <button class="btn btn-sm btn-dark" onclick="LoadPartialView('tab-container', '/Country/GetAvaibleCity?code=@item.Iso3')">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/countries/index-partial.js" asp-append-version="true"></script>

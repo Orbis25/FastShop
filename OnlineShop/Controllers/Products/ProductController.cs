@@ -83,6 +83,7 @@ namespace OnlineShop.Controllers
         {
             var product = await _services.ProductService.GetById(id, x => x.ProductPics);
             if (product == null) return new NotFoundView();
+            ViewBag.Rating = _services.ReviewService.GetAverage(id);
             var categories = await _services.CategoryService.GetList();
             ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
             return View(product);

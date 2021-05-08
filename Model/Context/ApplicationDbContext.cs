@@ -1,6 +1,7 @@
 ﻿using DataLayer.Models.Cart;
 using DataLayer.Models.Categories;
 using DataLayer.Models.Configurations;
+using DataLayer.Models.Countries;
 using DataLayer.Models.Emails;
 using DataLayer.Models.Emails.Templates;
 using DataLayer.Models.Products;
@@ -52,5 +53,9 @@ namespace OnlineShop.Data
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<AvaibleCountry> AvaibleCountries { get; set; }
+        public DbSet<AvaibleCity> AvaibleCities { get; set; }
+
+
     }
 }

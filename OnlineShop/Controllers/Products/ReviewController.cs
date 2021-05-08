@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers.Products
 {
-    [Authorize(Roles = nameof(AuthLevel.User))]
+    [Authorize]
     public class ReviewController : BaseController
     {
         private readonly IUnitOfWork _services;
@@ -71,13 +71,6 @@ namespace OnlineShop.Controllers.Products
         [HttpPost]
         public async Task<IActionResult> Update(Review model)
         {
-            var exist = await _services.ReviewService.ExistReview(model.ProductId, GetLoggedIdUser());
-            if (exist)
-            {
-                SendNotification("Ya ha compartido su reseña", "Lo sentimos pero solo puede brindar su reseña 1 sola vez", NotificationEnum.Info);
-                return RedirectToAction(nameof(ProductController.GetById), "Product", new { Id = model.ProductId });
-
-            }
             if (!ModelState.IsValid)
             {
                 SendNotification("Algunos valores son requeridos", GetModelStateErrorSummary(ModelState), NotificationEnum.Warning);
@@ -85,7 +78,7 @@ namespace OnlineShop.Controllers.Products
             else
             {
                 model.UserId = GetLoggedIdUser();
-                var result = await _services.ReviewService.Add(model);
+                var result = await _services.ReviewService.Update(model);
                 if (!result)
                 {
                     SendNotification("Ha ocurrido un error, intente de nuevo mas tarde", null, NotificationEnum.Error);
@@ -108,6 +101,13 @@ namespace OnlineShop.Controllers.Products
         }
 
  
+        [HttpPost]
+        public async Task<IActionResult> Remove(int id)
+        {
+            var result = await _services.ReviewService.Remove(id);
+            if (!result) return BadRequest("Ha ocurrido un error, intente de nuevo mas tarde");
+            return Ok(result);
+        }
 
     }
 }

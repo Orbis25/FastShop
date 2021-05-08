@@ -77,7 +77,12 @@
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
                         </div>
-
+                        <div class="col-12  col-md-4 col-lg-3">
+                            <div class="form-group">
+                                <label>Rating</label>
+                                 <div id="rating"></div>
+                            </div>
+                        </div>
                         <div class="col-12  col-md-6 col-lg-6">
 
                             <div class="form-group">
@@ -159,5 +164,12 @@
     </div>
 </div>
 <partial name="_NotificationPartial" />
+
+<script>
+    $("#rating").rateYo({
+        readOnly: true,
+        rating: Number('@ViewBag.Rating')
+    });
+</script>
 
 

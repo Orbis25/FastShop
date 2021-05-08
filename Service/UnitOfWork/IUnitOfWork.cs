@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.Interface.CartItems;
 using BussinesLayer.Interface.Configurations;
+using BussinesLayer.Interface.Countries;
 using BussinesLayer.Interface.Emails;
 using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
@@ -25,6 +26,8 @@ namespace BussinesLayer.UnitOfWork
         IEmailService EmailService { get; }
         IEmailTemplateService EmailTemplateService { get; }
         IReviewService ReviewService { get; }
+        ICountryService CountryService { get; }
+        ICityService CityService { get; }
 
     }
 }

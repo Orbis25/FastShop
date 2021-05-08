@@ -2,7 +2,7 @@
 
 
 @{
-    var isUpdate = (Model.Id > 0);
+    var isUpdate = (Model?.Id > 0);
     var action = (isUpdate) ? "Update" : "Create";
 }
 
@@ -44,11 +44,28 @@
     </div>
 </div>
 
-<script>
+
+@if (isUpdate)
+{
+    <script asp-append-version="true">
     $("#rateYo").rateYo({
-        rating: 0
+        rating:  Number('@Model.Rating')
     }).on("rateyo.change", function (e, data) {
         var rating = data.rating;
         $("#rating").val(Number(rating));
     });
-</script>
+    </script>
+}
+else
+{
+    <script asp-append-version="true">
+
+        $("#rateYo").rateYo({
+            rating: 0
+        }).on("rateyo.change", function (e, data) {
+            var rating = data.rating;
+            $("#rating").val(Number(rating));
+        });
+    </script>
+}
+

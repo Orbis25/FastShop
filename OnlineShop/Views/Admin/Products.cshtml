@@ -122,14 +122,26 @@
                                     </button>
 
                                     <button class="btn btn-sm btn-dark mb-1" data-toggle="tooltip"
-                                          data-placement="top"
-                                          title="Subir imagen">
+                                            data-placement="top"
+                                            title="Subir imagen">
                                         <i class="fas fa-camera "
                                            data-toggle="modal"
                                            data-target="#exampleModal"
                                            onclick="setIdModal('@item.Id')"
                                            style="cursor:pointer;"></i>
                                     </button>
+
+                                    <span data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="Ver reseñas">
+                                        <button class="btn btn-sm btn-warning mb-1"
+                                                onclick="LoadPartialView('modal-review-body','/review/GetAll?Qyt=8&productId=@item.Id')"
+                                                data-toggle="modal"
+                                                data-target="#review-modal">
+                                            <i class="fas fa-star"></i>
+                                        </button>
+                                    </span>
+
 
                                 </p>
                             </div>
@@ -146,7 +158,7 @@
            DoNotRenderForOnePage = true
        })
         </div>
-
+        <!--Modal upload image-->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -165,6 +177,25 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal Revews-->
+        <div class="modal fade" id="review-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Reseñas</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-review-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>

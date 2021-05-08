@@ -1,11 +1,13 @@
 ﻿using BussinesLayer.Interface.CartItems;
 using BussinesLayer.Interface.Configurations;
+using BussinesLayer.Interface.Countries;
 using BussinesLayer.Interface.Emails;
 using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
 using BussinesLayer.Interface.Products;
 using BussinesLayer.Services.Cart;
 using BussinesLayer.Services.Configurations;
+using BussinesLayer.Services.Countries;
 using BussinesLayer.Services.Emails;
 using BussinesLayer.Services.Emails.Templates;
 using BussinesLayer.Services.ImageServer;
@@ -50,6 +52,9 @@ namespace BussinesLayer.UnitOfWork
         private EmailService _emailService;
         private EmailTemplateService _emailTemplateService;
         private ReviewService _reviewService;
+        private CityService _cityService;
+        private CountryService _countryService;
+
         private readonly UserManager<ApplicationUser> _userManager;
         #endregion
 
@@ -105,5 +110,9 @@ namespace BussinesLayer.UnitOfWork
         public IEmailTemplateService EmailTemplateService => _emailTemplateService ??= new EmailTemplateService(_context);
 
         public IReviewService ReviewService => _reviewService ??= new ReviewService(_context);
+
+        public ICountryService CountryService => _countryService ??= new CountryService(_context);
+
+        public ICityService CityService => _cityService ??= new CityService(_context);
     }
 }
