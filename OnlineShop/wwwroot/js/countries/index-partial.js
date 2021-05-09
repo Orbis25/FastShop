@@ -15,10 +15,12 @@ var getAllCountries = async () => {
         data.forEach(country => {
             select.append(`<option value='${country.value + "," + country.text}'>${country.text + " - " + country.value}</option>`);
         });
-        $(".select-search").selectpicker();
 
     } catch (e) {
         alert(e);
+    } finally {
+        $(".select-search").select2();
+
     }
 }
 

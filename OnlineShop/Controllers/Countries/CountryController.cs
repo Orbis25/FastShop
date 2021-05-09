@@ -18,7 +18,7 @@ namespace OnlineShop.Controllers.Countries
     {
         private IUnitOfWork _services;
         private IWebHostEnvironment _env;
-        public CountryController(IUnitOfWork services , IWebHostEnvironment env)
+        public CountryController(IUnitOfWork services, IWebHostEnvironment env)
         {
             _services = services;
             _env = env;
@@ -51,10 +51,10 @@ namespace OnlineShop.Controllers.Countries
         #region CITY
 
         [HttpGet]
-        public IActionResult GetAllCities(string countryCode)
+        public IActionResult GetAllCities(string countryCode, string search = null)
         {
             if (string.IsNullOrEmpty(countryCode)) return BadRequest("Codigo de pais invalido");
-            var result = _services.CityService.GetCityRepository(_env.WebRootPath, countryCode);
+            var result = _services.CityService.GetCityRepository(_env.WebRootPath, countryCode, search);
             return Ok(result);
         }
 
@@ -63,13 +63,15 @@ namespace OnlineShop.Controllers.Countries
         {
             if (string.IsNullOrEmpty(code)) return BadRequest("Codigo de pais invalido");
             ViewBag.CountryCode = code;
-            var result = await _services.CityService.GetAllPaginated(pagination, x => x.CountryCode == code && (!string.IsNullOrEmpty(name) ? (x.Name.Contains(name) || x.CountryCode.Contains(name)) : true) );
+            var result = await _services.CityService.GetAllPaginated(pagination, x => x.CountryCode == code && (!string.IsNullOrEmpty(name) ? (x.Name.Contains(name) || x.CountryCode.Contains(name)) : true));
             return PartialView("_CityPartial", result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCity([FromBody]AvaibleCity model)
+        public async Task<IActionResult> AddCity([FromBody] AvaibleCity model)
         {
+            var exist = _services.CityService.GetAll().Any(x => x.Name == model.Name);
+            if (exist) return BadRequest("Ya existe esta ciudad");
             var result = await _services.CityService.Add(model);
             if (!result) return BadRequest("Error intente de nuevo mas tarde");
             return Ok(result);

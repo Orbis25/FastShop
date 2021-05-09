@@ -11,6 +11,6 @@ namespace BussinesLayer.Interface.Countries
 {
     public interface ICityService : IBaseRepository<AvaibleCity, int>
     {
-        List<CitiesJson> GetCityRepository(string wwwRootPath, string countryCode);
+        List<CitiesJson> GetCityRepository(string wwwRootPath, string countryCode, string search = null);
     }
 }

@@ -15,7 +15,8 @@
                 <form onsubmit="return false;">
                     <div class="form-group">
                         <label>Ciudad</label>
-                        <select data-live-search="true"
+                        <select style="width: 100%"
+                                data-live-search="true"
                                 id="select-search"
                                 class="form-control form-control-sm select-search">
                             <option>Seleccione la ciudad</option>
@@ -60,5 +61,34 @@
 
 <script src="~/js/countries/city-partial.js" asp-append-version="true"></script>
 <script asp-append-version="true">
-    getAllCountries('@ViewBag.CountryCode');
+    var select = $("#select-search");
+    $(".select-search").select2({
+        ajax: {
+            url: "/country/GetAllCities?countryCode=@ViewBag.CountryCode",
+            dataType: 'json',
+            data: (params) => {
+                var query = {
+                    search: params.term
+                }
+                return query;
+            },
+            minimumInputLength: 3,
+            allowClear:true,
+            delay: 250,
+            cache:true,
+            processResults: function (data) {
+                var list = data.map((city) => {
+                    return {
+                        id: `${city.name + "," + city.country + "," + city.lat + "," + city.lng}`,
+                        text: city.name
+                    }
+                });
+                const result = { results: list }
+
+                return result;
+
+            }
+        }
+    })
+
 </script>

@@ -19,7 +19,7 @@ namespace BussinesLayer.Services.Countries
             _dbContext = dbContext;
         }
 
-        public List<CitiesJson> GetCityRepository(string wwwRootPath, string countryCode)
+        public List<CitiesJson> GetCityRepository(string wwwRootPath, string countryCode, string search = null)
         {
             try
             {
@@ -27,7 +27,9 @@ namespace BussinesLayer.Services.Countries
                 using var r = new StreamReader(path);
                 string json = r.ReadToEnd();
                 var jsonList = JsonConvert.DeserializeObject<List<CitiesJson>>(json);
-                return jsonList.Where(x => x.Country == countryCode).ToList();
+                var result = jsonList.Where(x => x.Country == countryCode).AsQueryable();
+                if (!string.IsNullOrEmpty(search)) result = result.Where(x => x.Name.ToLower().Contains(search));
+                return result.ToList();
             }
             catch (Exception ex)
             {
