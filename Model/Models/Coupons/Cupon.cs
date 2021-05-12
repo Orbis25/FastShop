@@ -25,5 +25,7 @@ namespace Model.Models
         [NotMapped]
         public bool IsValid => StateOfCuppon == StateCuppon.Valid;
 
+        public string FormatedAmount => IsByPercent ? $"{Amount}%" : Amount.ToString("C");
+
     }
 }

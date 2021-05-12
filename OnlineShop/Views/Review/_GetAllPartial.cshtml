@@ -14,7 +14,7 @@
     @if (!Model.Results.Any())
     {
         <div class="col-12 text-center">
-            <img src="~/img/base/not-found.png" height="400" />
+            <img class="img-fluid" src="~/img/base/not-found.png" height="400" />
             <h1>Este item no tiene reseñas</h1>
         </div>
     }
@@ -23,7 +23,7 @@
     {
 
         var src = $@"{_options.Value.BasePath}\{item.User.ProfileImage}";
-        <div class="col-3 text-center mb-2 mt-2">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-3 text-center mb-2 mt-2">
             <div class="card">
                 <div class="card-body text-center">
                     <img src="@src" style="border-radius:40px;" width="100" height="100" />

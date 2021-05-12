@@ -14,6 +14,7 @@ namespace Model.Models
         public string CuponCode { get; set; }
         [Required]
         public double Total { get; set; }
+        public double SubTotal { get; set; }
         [Required]
         [Display(Name = "Dirreción")]
         public string Address { get; set; }

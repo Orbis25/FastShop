@@ -4,36 +4,41 @@
 
 
 
-@if (SignInManager.IsSignedIn(User))
-{
 
-    <a class="nav-link" href="#" title="Manage">
-        Cuenta
-    </a>
-}
-else
-{
-    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Cuenta</a>
-}
 
-<ul class="dropdown-menu">
+<li class="nav-item submenu dropdown">
+
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
-        </li>
 
-
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link btn-block text-sm-left">Salir</button>
-            </form>
-        </li>
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">Cuenta</a>
     }
     else
     {
-
-        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
-        <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registro</a></li>
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Cuenta</a>
     }
-</ul>
+
+    <ul class="dropdown-menu">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item text-center">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
+            </li>
+
+
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link btn-block ">Salir</button>
+                </form>
+            </li>
+        }
+        else
+        {
+
+            <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Registro</a></li>
+        }
+    </ul>
+
+</li>

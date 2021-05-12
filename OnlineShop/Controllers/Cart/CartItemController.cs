@@ -21,11 +21,11 @@ namespace OnlineShop.Controllers.Cart
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string code)
+        public async Task<IActionResult> Index(string cuponCode)
         {
-            if (!string.IsNullOrEmpty(code))
+            if (!string.IsNullOrEmpty(cuponCode))
             {
-                var coupon = await _services.CouponService.GetByCupponCode(code);
+                var coupon = await _services.CouponService.GetByCupponCode(cuponCode);
                 if (coupon != null)
                 {
                     ViewBag.coupon = coupon;

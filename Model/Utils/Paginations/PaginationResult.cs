@@ -9,5 +9,6 @@ namespace DataLayer.Utils.Paginations
         public int Pages { get; set; }
         public int Qyt { get; set; } = 15;
         public IEnumerable<TEntity> Results { get; set; }
+        public bool HasAny => Total > 0;
     }
 }

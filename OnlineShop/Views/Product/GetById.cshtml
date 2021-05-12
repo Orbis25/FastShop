@@ -160,7 +160,7 @@
                         {
                             var img = item.ProductPics.FirstOrDefault() != null ? $@"{_options.Value.BasePath}\{item.ProductPics.FirstOrDefault().Path}" : "/img/default.png";
 
-                            <a asp-action="GetById" asp-route-id="@item.Id" style="cursor:pointer;" class=" zoomeable col-3 mb-5 text-center">
+                            <a asp-action="GetById" asp-route-id="@item.Id" style="cursor:pointer;" class=" zoomeable col-12 col-sm-12 col-md-6 col-lg-3 mb-5 text-center">
                                 <img height="200" width="200" src="@img" alt="">
                                 <h4 class="mt-2">@item.ProductName</h4>
                                 <p class="mt-2">

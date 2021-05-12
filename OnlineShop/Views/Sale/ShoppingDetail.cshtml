@@ -1,5 +1,9 @@
 ﻿@model Sale
 
+@{
+    var coupon = ViewBag.Counpon as Cupon ?? null;
+}
+
 <div class="container">
     <div class="row ">
         <div class="col-12 mt-3">
@@ -12,7 +16,7 @@
             <span>Usuario: <b>@Model.User.FullName.ToUpper()</b></span> <br />
             <span>Fecha: <b>@Model.CreatedAtSrt</b></span> <br />
             <span>Dirreción: <b>@(Model.City ?? ""),@(Model.Country ?? "") @Model.Address</b></span> <br />
-            <a href="#" onclick="window.print()">Pulsar Imprimir <i class="fa fa-print" ></i></a>
+            <a href="#" onclick="window.print()">Pulsar Imprimir <i class="fa fa-print"></i></a>
         </div>
 
         <div class="col-12">
@@ -47,8 +51,27 @@
                             <td></td>
                             <td></td>
                             <td>
-                                Total: <b>@Model.Total.ToString("C")</b>
-                                <br /> @(!string.IsNullOrEmpty(Model.Code) ? $"Cupón aplicado:{Model.Code}" : null)
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p>
+                                        </p>
+                                        <p>
+                                            <b>
+                                                SubTotal: <b>@Model.SubTotal.ToString("C")</b> <br />
+                                            </b>
+                                            <b>Total :@Model.Total.ToString("C") <br /></b>
+                                            @if (coupon != null)
+                                            {
+                                                <b>
+                                                    Descuento de : @coupon.FormatedAmount
+                                                </b>
+                                            }
+                                        </p>
+                                        <br /> <i class="text-muted">
+                                            @(!string.IsNullOrEmpty(Model.Code) ? $"Codigo del Cupón aplicado:{Model.Code}" : null)
+                                        </i>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
 

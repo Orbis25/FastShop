@@ -62,6 +62,10 @@ namespace OnlineShop.Controllers
         {
             var model = await _services.SaleService.GetById(id, x => x.DetailSales);
             if (model == null) return new NotFoundView();
+            if (!string.IsNullOrEmpty(model.CuponCode))
+            {
+                ViewBag.Coupon = await _services.CouponService.GetByCupponCode(model.CuponCode);
+            }
             ViewData["StatusPercent"] = _services.OrderService.OrderStatusPercent(model.Order.StateOrder);
             return View(model);
         }
@@ -91,7 +95,10 @@ namespace OnlineShop.Controllers
         {
             var model = await _services.SaleService.GetById(id, x => x.DetailSales, x => x.User);
             if (model == null) return new NotFoundView();
-            ViewData["StatusPercent"] = _services.OrderService.OrderStatusPercent(model.Order.StateOrder);
+            if (!string.IsNullOrEmpty(model.CuponCode))
+            {
+                ViewBag.Counpon = await _services.CouponService.GetByCupponCode(model.CuponCode);
+            }
             return View(model);
         }
 

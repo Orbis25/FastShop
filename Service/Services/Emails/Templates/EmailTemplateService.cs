@@ -27,7 +27,7 @@ namespace BussinesLayer.Services.Emails.Templates
                 TemplateTypeEnum.AccountConfirmed => "{url}",
                 TemplateTypeEnum.LockedUser => string.Empty,
                 TemplateTypeEnum.PasswordRecovery => "{url}",
-                TemplateTypeEnum.Bill => "{date},{user},{cuppon},{total},{code},{orderCode},{paymentType}",
+                TemplateTypeEnum.Bill => "{subTotal},{date},{user},{cuppon},{total},{code},{orderCode},{paymentType}",
                 _ => string.Empty,
             };
         }

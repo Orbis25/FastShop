@@ -85,7 +85,7 @@
                                         <div>
                                             <form method="get" asp-action="Index">
                                                 <label>¿Tienes un cupón?</label> <br />
-                                                <input name="code" placeholder="CD154X" />
+                                                <input name="cuponCode" placeholder="CD154X" />
                                                 <button class="btn btn-primary btn-sm">Aplicar</button>
                                             </form>
                                         </div>
@@ -110,7 +110,7 @@
             <form method="post" asp-action="Add" asp-controller="Sale">
                 @if (ViewBag.coupon != null)
                 {
-                    <input name="Code" type="hidden" value="@ViewBag.coupon.Amount" />
+                    <input name="CuponCode" type="hidden" value="@ViewBag.coupon.Code" />
                 }
                 <p style="display:none" id="alert-await" class="alert alert-info">Espere un momento...</p>
                 <button id="proccess-sale" onclick="newShop()" class="btn btn-outline-dark btn-sm"> Procesar la compra! </button>

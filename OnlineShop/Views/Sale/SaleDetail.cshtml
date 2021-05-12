@@ -8,6 +8,8 @@
     var bgClass = Model.Order.StateOrder == StateOrder.Canceled ?
                                                 "bg-danger" : Model.Order.StateOrder == StateOrder.Delivered ?
                                                 "bg-success" : string.Empty;
+
+    var coupon = ViewBag.Coupon as Cupon ?? null;
 }
 
 <div class="container">
@@ -22,12 +24,13 @@
                             <b class="text-dark"><label asp-for="PaymentType"> Fecha </label> </b> <span>(@Model.CreatedAtSrt)</span><br />
                             <b class="text-dark"><label asp-for="User.FullName">Cliente</label></b> <span>(@Model.User.FullName)</span><br />
                             <b class="text-dark"><label asp-for="User.UserName"> Correo </label></b> <span>(@Model.User.UserName)</span><br />
-                            <b class="text-dark"><label asp-for="Total">Total de la orden</label></b> <span>(@Model.Total.ToString("C"))</span><br />
                             <b class="text-dark"><label asp-for="Address"> Dirección de envio </label> </b> <span>@(Model.City ?? ""),@(Model.Country ?? "") @Model.Address</span><br />
                             <b class="text-dark"><label asp-for="PaymentType"> Tipo de pago </label> </b> <span>(@Model.PaymentType.GetDisplayName())</span><br />
-                            @if (!string.IsNullOrEmpty(Model.CuponCode))
+                            <b class="text-dark"><label asp-for="SubTotal"></label></b> <span>(@Model.SubTotal.ToString("C"))</span><br />
+                            <b class="text-dark"><label asp-for="Total">Total de la orden</label></b> <span>(@Model.Total.ToString("C"))</span><br />
+                            @if (coupon != null)
                             {
-                                <b class="text-dark"><label asp-for="CuponCode">Cupón</label> <span>(@Model.CuponCode)</span></b>
+                                <b class="text-dark"><label asp-for="CuponCode">Cupón</label> <span>(@coupon.Code)</span> - <span>@coupon.FormatedAmount</span></b>
                             }
 
                         </div>

@@ -61,7 +61,8 @@ namespace Service.Svc
             });
 
             var total = items.Sum(x => (x.Quantity * x.Product.Price));
-            var coupon = await _context.Cupons.FirstOrDefaultAsync(x => x.Code == sale.Code);
+            sale.SubTotal = total;
+            var coupon = await _context.Cupons.FirstOrDefaultAsync(x => x.Code == sale.CuponCode);
 
             if (coupon != null)
             {
@@ -121,12 +122,21 @@ namespace Service.Svc
 
         public async Task<string> GetTemplateEmail(Sale model, string userEmail)
         {
-
             var template = await _context.EmailTemplates.FirstOrDefaultAsync(x => x.Type == TemplateTypeEnum.Bill);
             var html = template.Body;
+            if (!string.IsNullOrEmpty(model.CuponCode))
+            {
+                var coupon = await _context.Cupons.FirstOrDefaultAsync(x => x.Code == model.CuponCode);
+                html = html.Replace("{cuppon}", $"{model.CuponCode} - {coupon.FormatedAmount}");
+            }
+            else
+            {
+                html = html.Replace("{cuppon}", "N/A");
+            }
+
             html = html.Replace("{date}", model.CreatedAtSrt);
             html = html.Replace("{user}", userEmail);
-            html = html.Replace("{cuppon}", !string.IsNullOrEmpty(model.CuponCode) ? model.CuponCode : "N/A");
+            html = html.Replace("{subTotal}", model.SubTotal.ToString("C"));
             html = html.Replace("{total}", model.Total.ToString("C"));
             html = html.Replace("{code}", model.Code);
             html = html.Replace("{orderCode}", model.Order.OrderCode);
@@ -174,7 +184,7 @@ namespace Service.Svc
                 Total = total,
                 Qyt = filters.Qyt,
                 Page = filters.Page,
-                Sales = await result.ToListAsync()
+                Sales = await result.OrderByDescending(x => x.CreatedAt).ToListAsync()
             };
 
         }
