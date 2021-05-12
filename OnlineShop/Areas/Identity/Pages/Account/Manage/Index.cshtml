@@ -53,10 +53,10 @@
                         @if (User.IsInRole(nameof(AuthLevel.User)))
                         {
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="container-tbs" 
-                                   data-toggle="tab" href="#container-tabs" 
-                                   role="tab" aria-controls="home" 
-                                   onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId')" >Historial de compras</a>
+                                <a class="nav-link" id="container-tbs"
+                                   data-toggle="tab" href="#container-tabs"
+                                   role="tab" aria-controls="home"
+                                   onclick="LoadPartialView('container-tabs', '/sale/GetPurchaseHistory?userId=@userId')">Historial de compras</a>
                             </li>
                         }
                     </ul>
@@ -68,49 +68,59 @@
                                 </div>
                                 <div class="col-12 mb-4" id="content">
 
-                                    <form class="mt-4" id="profile-form" method="post">
-                                        <div asp-validation-summary="All" class="text-danger"></div>
-                                        <div class="form-group">
+                                    <form class="mt-4 row" id="profile-form" method="post">
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
                                             <label asp-for="Username">Usuario</label>
-                                            <input asp-for="Username" class="form-control" disabled />
+                                            <input asp-for="Username" class="form-control form-control-sm" disabled />
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
                                             <label asp-for="Input.Email"></label>
-                                            @if (Model.IsEmailConfirmed)
-                                            {
-                                                <div class="input-group">
-                                                    <input asp-for="Input.Email" class="form-control" />
-                                                    <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <input asp-for="Input.Email" class="form-control" />
-                                            }
+
+                                            <div class="input-group">
+                                                <input asp-for="Input.Email" class=" form-control-sm form-control" />
+                                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                            </div>
+
                                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
                                             <label>Nombre completo</label>
-                                            <input asp-for="Input.FullName" class="form-control" />
+                                            <input asp-for="Input.FullName" class="form-control  form-control-sm" />
                                         </div>
 
-                                        <div class="form-group">
-                                            <label asp-for="Input.Address"></label>
-                                            <textarea asp-for="Input.Address" class="form-control"></textarea>
-                                            <span asp-validation-for="Input.Address" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group">
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
                                             <label asp-for="Input.PhoneNumber"></label>
-                                            <input asp-for="Input.PhoneNumber" class="form-control" />
+                                            <input asp-for="Input.PhoneNumber" class="form-control  form-control-sm" />
                                             <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                                         </div>
-                                        <button id="update-profile-button" type="submit" class="btn btn-primary">Actualizar</button>
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                                            <label asp-for="Input.Country"></label>
+                                            <select asp-for="Input.Country" onchange="getAllCity(this.value)" class=" form-control-sm form-control select-search" id="select-country">
+                                            </select>
+                                            <span asp-validation-for="Input.Country" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                                            <label asp-for="Input.City"></label>
+                                            <select asp-for="Input.City" class=" form-control-sm form-control  select-search" id="select-city">
+                                            </select>
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-12 col-sm-12">
+                                            <label asp-for="Input.Address"></label>
+                                            <textarea asp-for="Input.Address" class=" form-control-sm form-control"></textarea>
+                                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group col-12 col-sm-12 col-md-6 col-lg-4">
+                                            <label></label>
+                                            <button id="update-profile-button" type="submit" class="btn btn-primary">Actualizar</button>
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade show" id="container-tabs" role="tabpanel" aria-labelledby="container-tabs">
-                         ...
+                            ...
                         </div>
                     </div>
                 </div>
@@ -120,6 +130,12 @@
 </div>
 <script src="~/js/profile/index.js" asp-append-version="true"></script>
 
+
+
 @section Scripts {
+    <script>
+        getAllCountries('@Model.Input.Country');
+        getAllCity('@Model.Input.Country', '@Model.Input.City');
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }

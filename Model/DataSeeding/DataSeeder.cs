@@ -109,7 +109,9 @@ namespace Model.DataSeeding
                     Address = string.Empty,
                     PhoneNumber = adminValues[nameof(InternalConfiguration.AdminPws)],
                     FullName = adminValues[nameof(InternalConfiguration.Admin)],
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    City = adminValues[nameof(InternalConfiguration.City)],
+                    Country = adminValues[nameof(InternalConfiguration.Country)]
                 };
                 _userManager.CreateAsync(user, adminValues[nameof(InternalConfiguration.AdminPws)]);
                 _context.Add(user);

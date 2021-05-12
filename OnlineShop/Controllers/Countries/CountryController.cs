@@ -24,9 +24,12 @@ namespace OnlineShop.Controllers.Countries
             _env = env;
         }
 
+        #region Country
+
         [HttpGet]
         public async Task<IActionResult> Index(PaginationBase paginationBase, string name)
         {
+            ViewBag.Name = name;
             var result = await _services.CountryService.GetAllPaginated(paginationBase, !string.IsNullOrEmpty(name) ? (x => x.Name.Contains(name) || x.Iso3.Contains(name)) : null);
             return PartialView("_IndexPartial", result);
         }
@@ -48,7 +51,13 @@ namespace OnlineShop.Controllers.Countries
             return Ok(result);
         }
 
-        #region CITY
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAvaibleCountriesJson() => Ok(await _services.CountryService.GetList());
+
+        #endregion
+
+        #region City
 
         [HttpGet]
         public IActionResult GetAllCities(string countryCode, string search = null)
@@ -63,6 +72,7 @@ namespace OnlineShop.Controllers.Countries
         {
             if (string.IsNullOrEmpty(code)) return BadRequest("Codigo de pais invalido");
             ViewBag.CountryCode = code;
+            ViewBag.Name = name;
             var result = await _services.CityService.GetAllPaginated(pagination, x => x.CountryCode == code && (!string.IsNullOrEmpty(name) ? (x.Name.Contains(name) || x.CountryCode.Contains(name)) : true));
             return PartialView("_CityPartial", result);
         }
@@ -85,6 +95,9 @@ namespace OnlineShop.Controllers.Countries
             return Ok(result);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAvaiblesCities(string name) => Ok(await _services.CityService.GetList(x => x.CountryCode.Equals(name)));
         #endregion
     }
 }

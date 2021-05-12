@@ -14,10 +14,9 @@ namespace Model.Models
         public string CuponCode { get; set; }
         [Required]
         public double Total { get; set; }
-        [MaxLength(50,ErrorMessage = "La {0} es demaciada larga.")]
         [Required]
-        [Display(Name = "Descripción")]
-        public string Description { get; set; }
+        [Display(Name = "Dirreción")]
+        public string Address { get; set; }
         [ForeignKey(nameof(ApplicationUserId))]
         [Required]
         public string ApplicationUserId { get; set; }
@@ -33,8 +32,12 @@ namespace Model.Models
         [Required]
         public PaymentType PaymentType { get; set; } = PaymentType.Cash;
 
+        public string Country { get; set; }
+        public string City { get; set; }
+
         [NotMapped]
         public string WithCoupon => CuponCode ?? "N/A";
+
 
     }
 

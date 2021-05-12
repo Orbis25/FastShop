@@ -20,8 +20,10 @@ namespace Model.Models
         [Display(Name = "Estado del cupón")]
         [Required]
         public StateCuppon StateOfCuppon { get; set; }
+        public bool IsByPercent { get; set; } 
 
         [NotMapped]
         public bool IsValid => StateOfCuppon == StateCuppon.Valid;
+
     }
 }

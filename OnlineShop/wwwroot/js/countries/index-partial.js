@@ -47,5 +47,8 @@ var addCountry = async () => {
 };
 
 
-
+var searchCountry = async () => {
+    const input = $('#name').val();
+    await LoadPartialView('tab-container', `/Country/index?name=${input}`);
+};
 

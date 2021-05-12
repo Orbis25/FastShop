@@ -28,6 +28,31 @@
                 </form>
             </div>
         </div>
+    </div> <div class="col-12">
+        <form onsubmit="return false;" method="get">
+            <div class="row justify-content-end">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="form-group">
+                        <label class="label" for="name">Busqueda</label>
+                        @if (ViewBag.Name != null)
+                        {
+                            <input id="name" type="text" name="name" value="@ViewBag.Name" class="form-control form-control-sm mb-2" />
+                        }
+                        else
+                        {
+                            <input id="name" type="text" name="name" value="" class="form-control form-control-sm mb-2" />
+
+                        }
+                        <button type="button" onclick="searchCity('@ViewBag.CountryCode')" class="btn btn-sm btn-primary">Buscar</button>
+                        <button type="button"
+                                onclick="LoadPartialView('tab-container','/Country/GetAvaibleCity?code=@ViewBag.CountryCode')"
+                                class="btn btn-sm btn-danger">
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="col-12">
         <div class="table-responsive animate__animated animate__fadeInLeft">
@@ -55,6 +80,20 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="col-12">
+        @{
+            var param = ViewBag.Name != null ? $"name={ViewBag.Name}&" : string.Empty;
+        }
+        <partial name="_PaginationPartial"
+                 model='new PaginationPartialModel() {
+                    Total = Model.Total,
+                    Qyt = Model.Qyt,
+                    RenderOneInFirstPage = true ,
+                    Url = $"/Country/GetAvaibleCity?{param}code="+ViewBag.CountryCode,
+                    ActualPage = Model.ActualPage,
+                    IdToLoad = "tab-container"
+                    }' />
     </div>
 </div>
 

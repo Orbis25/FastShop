@@ -28,10 +28,17 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _services.CouponService.Add(model))
+                if (model.IsByPercent && model.Amount > 100)
                 {
-                    SendNotification(null, "Agregado Correctamente");
-                    return RedirectToAction("Cupons", "Admin");
+                    ModelState.AddModelError(nameof(Cupon.Amount), "No puede colocar mayor al 100%");
+                }
+                else
+                {
+                    if (await _services.CouponService.Add(model))
+                    {
+                        SendNotification(null, "Agregado Correctamente");
+                        return RedirectToAction("Cupons", "Admin");
+                    }
                 }
                 SendNotification(null, "Ha ocurrido un error al agregar", NotificationEnum.Error);
             }
@@ -53,10 +60,17 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _services.CouponService.Update(model))
+                if (model.IsByPercent && model.Amount > 100)
                 {
-                    SendNotification(null, "Actualizado Correctamente");
-                    return RedirectToAction("Cupons", "Admin");
+                    ModelState.AddModelError(nameof(Cupon.Amount), "No puede colocar mayor al 100%");
+                }
+                else
+                {
+                    if (await _services.CouponService.Update(model))
+                    {
+                        SendNotification(null, "Actualizado Correctamente");
+                        return RedirectToAction("Cupons", "Admin");
+                    }
                 }
                 SendNotification(null, "Ha ocurrido un error al actualizar", NotificationEnum.Error);
             }
@@ -69,9 +83,9 @@ namespace OnlineShop.Controllers
         [Authorize(Roles = nameof(AuthLevel.User))]
         [HttpGet]
         public async Task<IActionResult> GetByCupponCode(string code) => Ok(await _services.CouponService.GetByCupponCode(code));
-   
+
         [HttpPost]
-        public async Task<IActionResult> UpdateState([FromBody]CouponUpdateVM model)
+        public async Task<IActionResult> UpdateState([FromBody] CouponUpdateVM model)
         {
             if (model == null) return BadRequest("Error");
             var result = await _services.CouponService.SetValidOrInvalid(model);

@@ -1,72 +1,87 @@
 ﻿@page
 @model RegisterModel
+<link href="~/lib/select2/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
 
-<section class="login_box_area section-margin">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="login_box_img">
-                    <div class="hover">
-                        <h4>¿Tienes una cuenta?</h4>
-                        <p>Que esperas entra ya!</p>
-                        <a class="button button-account" asp-area="Identity" asp-page="/Account/Login">Login</a>
+<div class="container mt-5">
+    <div class="row">
+        <div class="d-none d-sm-none d-md-block col-lg-4 ">
+            <img src="~/img/base/register_image.svg" class="img-fluid" />
+        </div>
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="container">
+                        <h3 class="mb-3">Crear cuenta</h3>
+                        <form asp-route-returnUrl="@Model.ReturnUrl" class="row" id="register_form" method="post">
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label asp-for="Input.FullName"></label>
+                                <input type="text" class="form-control form-control-sm" id="email" asp-for="Input.FullName" placeholder="ej:Orbis Alonzo..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre completo'">
+                                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 col-12 form-group">
+                                <label>Numero telefonico</label>
+                                <input type="tel"
+                                       class="form-control form-control-sm phone-number"
+                                       asp-for="Input.PhoneNumber"
+                                       placeholder="ej:(809-369....)">
+                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span><br />
+                            </div>
+                            <div class="col-md-6 col-12 form-group">
+                                <label>Correo</label>
+                                <input type="text" autocomplete="off" class="form-control form-control-sm" asp-for="Input.Email" placeholder="ej:orbisalonzo@@....">
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 col-12 form-group">
+                                <label>Contraseña</label>
+                                <input autocomplete="off" class="form-control form-control-sm" asp-for="Input.Password">
+                            </div>
+                            <div class="col-md-6 col-12 form-group">
+                                <label>Repita la Contraseña</label>
+                                <input asp-for="Input.ConfirmPassword" class="form-control form-control-sm" />
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 col-12 form-group">
+                            </div>
+
+                            <div class="col-md-6 col-12 form-group">
+                                <label asp-for="Input.Country"></label>
+                                <select asp-for="Input.Country" onchange="getAllCity(this.value)" class="form-control select-search" id="select-search-country">
+                                    <option selected value="">Seleccione una opción</option>
+                                </select>
+                                <span asp-validation-for="Input.Country" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-12 col-md-6 form-group">
+                                <label asp-for="Input.City"></label>
+                                <select asp-for="Input.City" class="form-control select-search" id="select-search-city">
+                                    <option selected value="">Seleccione una opción</option>
+                                </select>
+                                <span class="text-muted">Si no encuentra una ciudad o pais es porque no hacemos envio a esta.</span><br />
+                                <span asp-validation-for="Input.City" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <label>Dirreción</label>
+                                <textarea class="form-control" asp-for="Input.Address" placeholder="ej:street #14..."></textarea>
+                                <span asp-validation-for="Input.Address" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-12 form-group text-center">
+                                <button type="submit" value="submit" class="btn btn-sm btn-primary btn w-100">Registrarme</button>
+                                <a class="text-dark mt-2" asp-area="Identity" asp-page="/Account/Login"><b>Tengo una cuenta</b></a>
+                            </div>
+                        </form>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="login_form_inner register_form_inner">
-                    <h3>Crear cuenta</h3>
-                    <form asp-route-returnUrl="@Model.ReturnUrl" class="row login_form" id="register_form" method="post">
-                        <div class="col-md-12 form-group">
-                            <label>Nombre completo</label>
-                            <input type="text" class="form-control" id="email" asp-for="Input.FullName" placeholder="ej:Orbis Alonzo..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre completo'">
-                            <span asp-validation-for="Input.FullName" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label class="col-form-label">Numero telefonico</label>
-                            <input type="tel"
-                                   class="form-control phone-number"
-                                   asp-for="Input.PhoneNumber"
-                                   placeholder="ej:(809369....)">
-                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span><br />
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label>Pais</label>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label>Dirreción</label>
-                            <textarea class="form-control" id="email" asp-for="Input.Address" placeholder="ej:street #14..."></textarea>
-                            <span asp-validation-for="Input.Address" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label>Correo</label>
-                            <input type="text" class="form-control" id="email" asp-for="Input.Email" placeholder="ej:orbisalonzo@@....">
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label>Contraseña</label>
-                            <input class="form-control" asp-for="Input.Password">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label>Repita la Contraseña</label>
-                            <input asp-for="Input.ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div asp-validation-summary="All" class="text-center text-danger"></div>
-
-                        </div>
-
-                        <div class="col-md-12 form-group">
-                            <button type="submit" value="submit" class="button button-register w-100">Registrarme</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
+<script src="~/lib/select2/js/select2.min.js" asp-append-version="true"></script>
+<script src="~/lib/axios/axios.min.js" asp-append-version="true"></script>
 <partial name="_ValidationScriptsPartial" />
 
 <script src="~/js/Areas/Identity/Pages/Account/register.js" asp-append-version="true"></script>

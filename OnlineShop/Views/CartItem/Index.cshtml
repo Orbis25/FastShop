@@ -34,10 +34,8 @@
                                 <td>@item.Product.Price.ToString("C")</td>
                                 <td>
                                     <input type="hidden" id="max-value-product" value="@item.MaxQuantity" />
-                                    <input 
-                                           disabled
-                                           value="@item.Quantity"
-                                           />
+                                    <input disabled
+                                           value="@item.Quantity" />
                                     <span class="text-danger" style="display:none;" id="@spanId">Pulse el boton (<i class="fa fa-edit"></i>) para actualizar</span>
                                 </td>
                                 <td class="money">@total.ToString("C")</td>
@@ -52,17 +50,29 @@
                             <td></td>
                             <td></td>
                             <td>
+
                                 @{ if (ViewBag.coupon != null)
                                     {
-                                        allTotal -= (double)ViewBag.coupon;
+                                        var cp = ViewBag.coupon as Cupon;
+
+                                        if (cp.IsByPercent)
+                                        {
+
+                                            allTotal = (allTotal * cp.Amount) / 100;
+                                        }
+                                        else
+                                        {
+                                            allTotal -= (double)cp.Amount;
+                                        }
                                     }
                                 }
                                 Total : <b class="">@(allTotal.ToString("C"))</b>
                                 @{
                                     if (ViewBag.coupon != null)
                                     {
+                                        var cp = ViewBag.coupon as Cupon;
                                         <p>
-                                            Cupón Aplicado: <b>@ViewBag.coupon</b>
+                                            Cupón Aplicado: <b>@(!cp.IsByPercent ? cp.Amount.ToString("C") : cp.Amount + "%")</b>
                                         </p>
                                     }
                                 }
@@ -100,7 +110,7 @@
             <form method="post" asp-action="Add" asp-controller="Sale">
                 @if (ViewBag.coupon != null)
                 {
-                    <input name="Code" value="@ViewBag.coupon" />
+                    <input name="Code" type="hidden" value="@ViewBag.coupon.Amount" />
                 }
                 <p style="display:none" id="alert-await" class="alert alert-info">Espere un momento...</p>
                 <button id="proccess-sale" onclick="newShop()" class="btn btn-outline-dark btn-sm"> Procesar la compra! </button>

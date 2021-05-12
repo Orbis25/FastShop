@@ -16,8 +16,15 @@ namespace Model.Models
         [MaxLength(100, ErrorMessage = "La {0} es demaciada largo.")]
         [Display(Name = "Dirreción")]
         public string Address { get; set; }
-        [Display(Name = "Ventas")]
+        [Display(Name = "Imagen")]
         public string ProfileImage { get; set; }
+        [Display(Name = "Pais")]
+        [Required(ErrorMessage = "El {0} es requerido")]
+        public string Country { get; set; }
+        [Display(Name = "Ciudad")]
+        [Required(ErrorMessage = "La {0} es requerida")]
+        public string City { get; set; }
+
         public ICollection<Sale> Sales { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
         public ICollection<Review> Reviews { get; set; }

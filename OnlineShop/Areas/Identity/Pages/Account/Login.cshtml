@@ -1,31 +1,28 @@
 ﻿@page
 @model LoginModel
-<!--================Login Box Area =================-->
-<section class="login_box_area section-margin">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="login_box_img">
-                    <div class="hover">
-                        <h4>¿Nuevo en el sitio?</h4>
-                        <p>Si eres nuevo en el sitio pulsa el siguiente boton para crear tu cuenta ya!</p>
-                        <a class="button button-account" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Crear cuenta</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="login_form_inner">
-                    <h3>Login</h3>
-                    <div asp-validation-summary="All" class="text-danger"></div>
+<div class="container mt-5">
+    <div class="row justify-content-around">
+        @*<div class="hover">
+                <h4>¿Nuevo en el sitio?</h4>
+                <p>Si eres nuevo en el sitio pulsa el siguiente boton para crear tu cuenta ya!</p>
+                <a class="button button-account" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Crear cuenta</a>
+            </div>*@
 
-                    <form class="row login_form" method="post" id="account">
+        <div class="d-none d-sm-none d-md-block col-lg-6 ">
+            <img src="~/img/base/register_image.svg" class="img-fluid" />
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="">Login</h3>
+                    <form class="row" method="post" id="account">
 
                         <div class="col-md-12 form-group">
-                            <input class="form-control" asp-for="Input.Email" placeholder="Correo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Correo'">
+                            <input class="form-control form-control-sm" asp-for="Input.Email" placeholder="Correo" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Correo'">
                             <span class="text-danger" asp-validation-for="Input.Email"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input class="form-control" asp-for="Input.Password" placeholder="Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
+                            <input class="form-control form-control-sm" asp-for="Input.Password" placeholder="Contraseña" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
                             <span class="text-danger" asp-validation-for="Input.Password"></span>
                         </div>
                         <div class="col-md-12 form-group">
@@ -34,10 +31,13 @@
                                 <label for="f-option2">Mantenerme logueado?</label>
                             </div>
                         </div>
-                        <div class="col-md-12 form-group">
-                            <button type="submit" value="submit" class="button button-login w-100">Entrar</button>
-                            <p>
+                        <div class="col-md-12 text-center form-group">
+                            <button type="submit" value="submit" class=" mb-2 btn-sm btn btn-primary w-100">Entrar</button>
+                            <p class="mb-2">
                                 <a style="cursor:pointer;" id="forgot-password" onclick="findMypass()">¿Olvide mi contraseña?</a>
+                            </p>
+                            <p>
+                                <a class="text-dark" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"><b>¿No tienes cuenta?, Crear ahora</b></a>
                             </p>
                         </div>
                     </form>
@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 <script src="~/js/site.js" asp-append-version="true"></script>
 
 @section Scripts {

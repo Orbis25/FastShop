@@ -8,9 +8,14 @@
         Layout = "/Areas/Identity/Pages/_Layout.cshtml";
     }
 }
-
+<link href="~/lib/select2/css/select2.min.css" asp-append-version="true" rel="stylesheet" />
 <div class="row">
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/axios/axios.min.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/js/select2.min.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/js/i18n/es.min.js" asp-append-version="true"></script>
     <div class="col">
+
         @RenderBody()
     </div>
 </div>

@@ -60,7 +60,7 @@
                         <thead>
                             <tr>
                                 <th>Codigo</th>
-                                <th>Monto</th>
+                                <th>Monto / Porciento</th>
                                 <th>Descripción</th>
                                 <th>¿Es valido?</th>
                                 <th>Acciones</th>
@@ -72,7 +72,7 @@
                             {
                                 <tr>
                                     <td>@item.Code</td>
-                                    <td>@item.Amount.ToString("C")</td>
+                                    <td>@(item.IsByPercent ? item.Amount + "%" : item.Amount.ToString("C"))</td>
                                     <td>@item.Concept</td>
                                     <td>
 
@@ -94,13 +94,13 @@
                                         }
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary mb-1"
+                                        <a class="btn btn-sm btn-primary mb-1"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="Editar"
                                                 asp-action="Update" asp-controller="Cuppon" asp-route-Id="@item.Id">
                                             <i class="fas fa-pencil-alt" style="cursor:pointer;"></i>
-                                        </button>
+                                        </a>
 
 
                                         <button class="btn btn-sm btn-danger mb-1"

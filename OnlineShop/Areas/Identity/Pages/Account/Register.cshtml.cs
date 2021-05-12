@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using BussinesLayer.Interface.Emails;
-using BussinesLayer.UnitOfWork;
+﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -16,6 +9,8 @@ using Microsoft.Extensions.Options;
 using Model.Models;
 using Model.Settings;
 using Service.Interface;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Areas.Identity.Pages.Account
 {
@@ -53,36 +48,45 @@ namespace OnlineShop.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
             [EmailAddress]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 
 
-            [Required]
+            [Required(ErrorMessage = "La campo {0} es requerida")]
             [Display(Name = "Dirreccion")]
             public string Address { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
             [Display(Name = "Numero")]
             [Phone]
             public string PhoneNumber { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
             [Display(Name = "Nombre completo")]
             public string FullName { get; set; }
 
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
+            [StringLength(100, ErrorMessage = "El {0} es invalido, ingrese una {0} mayor a 5 caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Repetir contraseña")]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
+            [Compare("Password", ErrorMessage = "El campo contraseña y el campo {0} no son identicos")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Pais")]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
+            public string Country { get; set; }
+            [Display(Name = "Ciudad")]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
+            public string City { get; set; }
+
         }
 
         public void OnGet(string returnUrl = null)
@@ -95,7 +99,16 @@ namespace OnlineShop.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Address = Input.Address, PhoneNumber = Input.PhoneNumber, FullName = Input.FullName };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Address = Input.Address,
+                    PhoneNumber = Input.PhoneNumber,
+                    FullName = Input.FullName,
+                    Country = Input.Country,
+                    City = Input.City
+                };
                 var template = await _services.AccountService.GetEmailTemplateToCreateAccount(user.Id);
                 var emailSended = await _services.EmailService.Send(new() { Body = template, Subject = $"{_internalOptions.AppName} Account", To = user.Email });
 

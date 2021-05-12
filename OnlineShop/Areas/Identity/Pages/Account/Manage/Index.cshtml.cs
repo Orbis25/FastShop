@@ -55,6 +55,13 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
             [Required(ErrorMessage = "El {0} es requerido")]
             public string FullName { get; set; }
             public string Img { get; set; }
+
+            [Display(Name = "Pais")]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
+            public string Country { get; set; }
+            [Display(Name = "Ciudad")]
+            [Required(ErrorMessage = "El campo {0} es requerido")]
+            public string City { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -78,7 +85,9 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 Address = account.Address,
                 FullName = user.FullName,
-                Img = user.ProfileImage
+                Img = user.ProfileImage,
+                Country = user.Country,
+                City = user.City
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -129,6 +138,8 @@ namespace OnlineShop.Areas.Identity.Pages.Account.Manage
             else
             {
                 user.FullName = Input.FullName;
+                user.Country = Input.Country;
+                user.City = Input.City;
                 var resultUpdate = await _services.UserService.Update(user);
                 if (!resultUpdate) StatusMessage = "Ha ocurido un error, Intente de nuevo";
                 StatusMessage = "Perfil Actualizado";

@@ -20,7 +20,7 @@
                         <div class="col-12 col-md-3">
                             <div class="form-group">
                                 <label asp-for="Amount" class="control-label">Monto</label>
-                                <input asp-for="Amount" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control" />
+                                <input asp-for="Amount" type="number" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control" />
                                 <span asp-validation-for="Amount" class="text-danger"></span>
                             </div>
                         </div>
@@ -28,6 +28,13 @@
                             <div class="form-group">
                                 <label asp-for="Concept" class="control-label">Descripción</label>
                                 <textarea asp-for="Concept" class="form-control"></textarea>
+                                <span asp-validation-for="Concept" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <div class="form-group">
+                                <label asp-for="IsByPercent" class="control-label">¿El monto a debitar es un porciento?</label>
+                                <input type="checkbox" asp-for="IsByPercent" />
                                 <span asp-validation-for="Concept" class="text-danger"></span>
                             </div>
                         </div>
@@ -46,3 +53,5 @@
     </div>
 </div>
 
+<partial name="_NotificationPartial" />
+<partial name="_ValidationScriptsPartial" />

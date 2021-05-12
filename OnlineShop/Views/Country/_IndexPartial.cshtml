@@ -9,14 +9,13 @@
     <div class="col-12 mb-2">
         <h3>Ubicaciones Permitidas</h3>
     </div>
-    <div class="col-12 col-md-4 mb-2">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-2">
         <div class="card">
             <div class="card-body">
                 <form onsubmit="return false;">
                     <div class="form-group">
                         <label>Pais</label>
-                        <select 
-                                style="width: 100%"
+                        <select style="width: 100%"
                                 data-live-search="true"
                                 id="select-search"
                                 class="form-control form-control-sm select-search">
@@ -29,6 +28,28 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div class="col-12">
+        <form onsubmit="return false;" method="get">
+            <div class="row justify-content-end">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                    <div class="form-group">
+                        <label class="label" for="name">Busqueda</label>
+                        @if (ViewBag.Name != null)
+                        {
+                            <input id="name" type="text" name="name" value="@ViewBag.Name" class="form-control form-control-sm mb-2" />
+                        }
+                        else
+                        {
+                            <input id="name" type="text" name="name" value="" class="form-control form-control-sm mb-2" />
+
+                        }
+                        <button type="button" onclick="searchCountry()" class="btn btn-sm btn-primary">Buscar</button>
+                        <button type="button" onclick="LoadPartialView('tab-container','/Country/Index')" class="btn btn-sm btn-danger">Limpiar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="col-12">
         <div class="table-responsive animate__animated animate__fadeInLeft">
@@ -47,10 +68,10 @@
                             <td>@item.Name</td>
                             <td>@item.Iso3</td>
                             <td>
-                                <button onclick="sweetRemove('/Country/Remove?id=@item.Id','tab-container','/Country/Index')" class="btn btn-sm btn-danger">
+                                <button onclick="sweetRemove('/Country/Remove?id=@item.Id','tab-container','/Country/Index')" class="mb-1 btn btn-sm btn-danger">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                                <button class="btn btn-sm btn-dark" onclick="LoadPartialView('tab-container', '/Country/GetAvaibleCity?code=@item.Iso3')">
+                                <button class="btn btn-sm btn-dark mb-1" onclick="LoadPartialView('tab-container', '/Country/GetAvaibleCity?code=@item.Iso3')">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </button>
                             </td>
@@ -60,6 +81,20 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="col-12">
+        @{
+            var param = ViewBag.Name != null ? "&name=" + ViewBag.Name : string.Empty;
+        }
+        <partial name="_PaginationPartial"
+                 model='new PaginationPartialModel() {
+                    Total = Model.Total,
+                    Qyt = Model.Qyt,
+                    RenderOneInFirstPage = true ,
+                    Url = $"/Country/index?Qyt=10{param}",
+                    ActualPage = Model.ActualPage,
+                    IdToLoad = "tab-container"
+                    }' />
     </div>
 </div>
 

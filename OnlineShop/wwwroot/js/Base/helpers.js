@@ -20,7 +20,7 @@ var LoadPartialView = async (contentId, url) => {
             content.append(await result.text());
         } else if (result.status === 400) {
             content.append(`<p>${await result.text()}</p>`);
-        }
+        } else { console.log(result) }
     } catch (e) {
         content.empty();
         content.append(`Error al cargar la información, intente de nuevo mas tarde`);
@@ -32,7 +32,7 @@ var LoadPartialView = async (contentId, url) => {
  * Convert form to json
  * @param {Event} event evento del formulario
  */
-var FormToJson = async (event,url) => {
+var FormToJson = async (event, url) => {
     event.preventDefault();
     const data = new FormData(event.target)
     const values = Object.fromEntries(data.entries());

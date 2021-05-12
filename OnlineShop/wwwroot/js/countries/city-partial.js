@@ -22,4 +22,11 @@ var addCity = async () => {
 };
 
 
+var searchCity = async (code) => {
+    const input = $('#name').val();
+    await LoadPartialView('tab-container', `/Country/GetAvaibleCity?code=${code}&name=${input}`);
+};
+
+
+
 

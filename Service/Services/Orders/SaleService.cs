@@ -63,7 +63,17 @@ namespace Service.Svc
             var total = items.Sum(x => (x.Quantity * x.Product.Price));
             var coupon = await _context.Cupons.FirstOrDefaultAsync(x => x.Code == sale.Code);
 
-            if (coupon != null) total -= coupon.Amount;
+            if (coupon != null)
+            {
+                if (coupon.IsByPercent)
+                {
+                    total = (total * coupon.Amount) / 100;
+                }
+                else
+                {
+                    total -= coupon.Amount;
+                }
+            }
 
             sale.Total = total;
             var result = await Add(sale);
@@ -187,6 +197,6 @@ namespace Service.Svc
             return result.Any(x => x.ApplicationUserId == userId && x.DetailSales.Any(x => x.ProductId == productId));
         }
 
-       
+
     }
 }

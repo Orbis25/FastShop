@@ -38,7 +38,9 @@ namespace OnlineShop.Controllers
                 SendNotification("este usuario necesita tener una dirrección valida", null, NotificationEnum.Error);
                 return RedirectToAction("Index", "CartItem");
             }
-            model.Description = user.Address;
+            model.Address = user.Address;
+            model.Country = user.Country;
+            model.City = user.City;
             model.ApplicationUserId = GetLoggedIdUser();
             var result = await _services.SaleService.CreateSale(cartItems.ToList(), model, User.Identity.Name);
             if (result == null)

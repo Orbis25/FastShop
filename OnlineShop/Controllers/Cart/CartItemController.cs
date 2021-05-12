@@ -28,7 +28,7 @@ namespace OnlineShop.Controllers.Cart
                 var coupon = await _services.CouponService.GetByCupponCode(code);
                 if (coupon != null)
                 {
-                    ViewBag.coupon = coupon.Amount;
+                    ViewBag.coupon = coupon;
                 }
             }
             var result = await _services.CartItemService.GetList(x => x.UserId == GetLoggedIdUser(), x => x.Product);

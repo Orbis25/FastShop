@@ -23,7 +23,7 @@
                             <b class="text-dark"><label asp-for="User.FullName">Cliente</label></b> <span>(@Model.User.FullName)</span><br />
                             <b class="text-dark"><label asp-for="User.UserName"> Correo </label></b> <span>(@Model.User.UserName)</span><br />
                             <b class="text-dark"><label asp-for="Total">Total de la orden</label></b> <span>(@Model.Total.ToString("C"))</span><br />
-                            <b class="text-dark"><label asp-for="Description"> Dirección de envio </label> </b> <span>(@Model.Description)</span><br />
+                            <b class="text-dark"><label asp-for="Address"> Dirección de envio </label> </b> <span>@(Model.City ?? ""),@(Model.Country ?? "") @Model.Address</span><br />
                             <b class="text-dark"><label asp-for="PaymentType"> Tipo de pago </label> </b> <span>(@Model.PaymentType.GetDisplayName())</span><br />
                             @if (!string.IsNullOrEmpty(Model.CuponCode))
                             {
@@ -91,8 +91,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>Mensaje</label>
-                                            <textArea class="form-control" asp-for="Description"></textArea>
-                                            <span asp-validation-for="Description"></span><br />
+                                            <textArea class="form-control" asp-for="Address"></textArea>
+                                            <span asp-validation-for="Address"></span><br />
                                             <button id="btnSubmit" class="btn btn-sm btn-primary">Actualizar</button>
                                             <button class="btn btn-dark btn-sm" type="button" onclick="toPrint('#content')">Imprimir</button>
                                             <button class="btn btn-dark btn-sm" onclick="sendOrderEmail('@Model.Id')" type="button">Enviar por correo</button>
