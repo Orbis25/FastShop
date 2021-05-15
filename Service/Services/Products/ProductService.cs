@@ -1,6 +1,7 @@
 ﻿using BussinesLayer.Repository;
 using DataLayer.Enums.Products;
 using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Base;
 using DataLayer.ViewModels.Products;
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
@@ -112,5 +113,6 @@ namespace Service.Svc
                 Rating = !x.Reviews.Any() ? 0 : Math.Round(x.Reviews.Average(x => x.Rating),2)
             }).Take(take).ToListAsync();
         }
+
     }
 }

@@ -8,6 +8,7 @@ using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Controllers.Base;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -59,5 +60,16 @@ namespace OnlineShop.Controllers
         {
             return View(await _services.SaleService.GetSales(filters));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> MetricsDashboard()
+        {
+            ViewBag.Clients = await _services.AccountService.Count();
+            ViewBag.Products = _services.ProductService.GetAll().Count().ToString("N0");
+            ViewBag.SalesAmount = _services.SaleService.GetAll().Sum(x => x.Total).ToString("C");
+            ViewBag.Reviews = _services.ReviewService.GetAll().Count().ToString("N0");
+            return PartialView("_MetricsDashboardPartial");
+        }
+
     }
 }

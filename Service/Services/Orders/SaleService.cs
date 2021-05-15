@@ -3,6 +3,7 @@ using Commons.Helpers;
 using DataLayer.Enums.Base;
 using DataLayer.Models.Cart;
 using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Base;
 using DataLayer.ViewModels.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -207,11 +208,23 @@ namespace Service.Svc
         public async Task<IEnumerable<SaleByMothVM>> GetSalesByMothSummary()
         {
             var sales = GetAll(x => x.CreatedAt.Year == DateTime.Now.Year);
-            var result = await sales.GroupBy(x => new { Moth = (x.CreatedAt.Month) })
+            var result = await sales.GroupBy(x => new { x.CreatedAt.Month })
                 .Select(s => new SaleByMothVM()
                 {
-                    Label = DateHelper.GetSpanishMonthName(s.Key.Moth),
+                    Label = DateHelper.GetSpanishMonthName(s.Key.Month),
                     Data = s.Count()
+                }).ToListAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<StadisticsVM>> GetStadistics()
+        {
+            var sales = GetAll(x => x.CreatedAt.Year == DateTime.Now.Year);
+            var result = await sales.GroupBy(x => new { x.CreatedAt.Month })
+                .Select(s => new StadisticsVM()
+                {
+                    Label = DateHelper.GetSpanishMonthName(s.Key.Month),
+                    Data = (decimal)s.Sum(x => x.Total)
                 }).ToListAsync();
             return result;
         }

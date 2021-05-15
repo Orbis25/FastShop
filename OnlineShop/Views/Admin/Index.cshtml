@@ -4,14 +4,36 @@
 
 
 <div class="row">
-    <div class=" mb-3 col-12">
+    <div class=" mb-2 col-12">
         <div class="card">
             <div class="card-body">
                 <h1 class="text-center">Bienvenido</h1>
             </div>
         </div>
     </div>
+    <div class="col-12 mb-2" id="metrics-dashboard">
+        <div class="card">
+            <div class="card-body text-center">
+                <div>
+                    <img src="~/img/base/loading.gif" alt="loading.gif" />
+                    <h4>Cargando...</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-body text-center" id="sales-amount">
+                <div class="loading-sales-amount">
+                    <img src="~/img/base/loading.gif" alt="loading.gif" />
+                    <h4>Cargando...</h4>
+                </div>
+                <canvas style="display:none;" id="sales-amount-graphic" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 mb-2">
         <div class="card">
             <div class="card-body text-center">
                 <div class="loading-sales">
@@ -22,16 +44,17 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 mb-2">
         <div class="card">
             <div class="card-body text-center" id="top-products">
-                <div  class="loading-products">
+                <div class="loading-products">
                     <img src="~/img/base/loading.gif" alt="loading.gif" />
                     <h4>Cargando...</h4>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <script asp-append-version="true" src="~/js/admin/index.js"></script>

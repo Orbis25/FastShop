@@ -1,5 +1,6 @@
 ﻿using DataLayer.Models.Cart;
 using DataLayer.Utils.Paginations;
+using DataLayer.ViewModels.Base;
 using DataLayer.ViewModels.Orders;
 using Model.Models;
 using System;
@@ -16,5 +17,6 @@ namespace Service.Interface
         Task<PaginationResult<Sale>> GetPurcharseHistory(PaginationBase pagination, string userId);
         Task<bool> CantReview(Guid productId, string userId);
         Task<IEnumerable<SaleByMothVM>> GetSalesByMothSummary();
+        Task<IEnumerable<StadisticsVM>> GetStadistics();
     }
 }

@@ -89,5 +89,7 @@ namespace Service.Svc
             html = template.Body.Replace("{url}", $"{_internalOptions.BaseUrl}{_options.UrlRecovery}{currencyStamUser}");
             return html;
         }
+
+        public async Task<int> Count() => await _context.ApplicationUsers.CountAsync();
     }
 }

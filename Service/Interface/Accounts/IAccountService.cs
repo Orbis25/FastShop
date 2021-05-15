@@ -12,6 +12,7 @@ namespace Service.Interface
         Task<bool> ChangePassword(string code, string newPassword);
         Task<string> GetEmailTemplateToCreateAccount(string userId);
         Task<string> GetEmailTemplateToRecoveryAccount(string currencyStamUser);
+        Task<int> Count();
 
     }
 }

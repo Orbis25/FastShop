@@ -1,12 +1,11 @@
 ﻿@using Microsoft.Extensions.Options;
-@inject IOptions<Model.Settings.InternalConfiguration> options
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>FastShop</title>
+    <title>De to' Store</title>
     <link rel="icon" href="~/img/favicon.ico" type="image/png">
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" rel="stylesheet" />
     <link rel="stylesheet" asp-append-version="true" href="~/lib/font-awesome/css/all.min.css">
@@ -22,7 +21,11 @@
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
-                    <h1 class="navbar-brand logo_h" style="cursor:pointer;"><a asp-action="Index" asp-controller="Home"><i class="fas fa-fire text-primary w-25" style="font-size:30px;"></i> <span class="text-dark">@options.Value.AppName</span></a></h1>
+                    <h1 class="navbar-brand logo_h" style="cursor:pointer;">
+                        <a asp-action="Index" asp-controller="Home">
+                            <img src="/img/logo.png" width="140" alt="logo.png" />
+                        </a>
+                    </h1>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
@@ -92,7 +95,7 @@
             <div class="container">
                 <div class="row d-flex">
                     <p class="col-lg-12 footer-text text-center">
-                        Copyright © @options.Value.AppName @DateTime.Now.ToShortDateString()
+                        Copyright © De to' Store @DateTime.Now.ToShortDateString()
                     </p>
                 </div>
             </div>

@@ -1,4 +1,5 @@
-﻿using DataLayer.ViewModels.Products;
+﻿using DataLayer.ViewModels.Base;
+using DataLayer.ViewModels.Products;
 using Model.Models;
 using System;
 using System.Collections.Generic;

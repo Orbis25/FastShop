@@ -128,5 +128,11 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> GetSalesByMothSummary()
             => Ok(await _services.SaleService.GetSalesByMothSummary());
 
+        [HttpGet]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
+        public async Task<ActionResult> GetStadisticAmount()
+        {
+            return Ok(await _services.SaleService.GetStadistics());
+        }
     }
 }
