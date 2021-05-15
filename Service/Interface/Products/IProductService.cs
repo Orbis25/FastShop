@@ -14,5 +14,6 @@ namespace Service.Interface
         Task<ProductFilterVM> GetAllPaginateProducts(ProductFilterVM filters);
         Task<bool> RemoveProductPic(int id);
         Task<IEnumerable<Product>> GetSimilarItems(Guid id,int categoryId);
+        Task<IEnumerable<ProductTopVM>> GetTopProduct(int take = 5);
     }
 }

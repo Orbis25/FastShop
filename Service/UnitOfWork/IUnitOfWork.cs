@@ -13,7 +13,6 @@ namespace BussinesLayer.UnitOfWork
     {
         IAccountService AccountService { get; }
         IUserService UserService { get; }
-        IAdminService AdminService { get; }
         ICategoryService CategoryService { get; }
         ICouponService CouponService { get; }
         IOffertService OffertService { get; }

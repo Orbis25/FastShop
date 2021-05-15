@@ -161,8 +161,8 @@ namespace OnlineShop.Controllers
             ViewBag.Rating = _services.ReviewService.GetAverage(id);
 
             var model = await _services.ProductService.GetById(id, x => x.Category, x => x.ProductPics);
-            ViewBag.SimilarProducts = await _services.ProductService.GetSimilarItems(id,model.CategoryId);
-            
+            ViewBag.SimilarProducts = await _services.ProductService.GetSimilarItems(id, model.CategoryId);
+
             if (model != null) return View(model);
             return new NotFoundView();
         }
@@ -176,6 +176,14 @@ namespace OnlineShop.Controllers
                 _services.ImageServerService.RemoveFile(_env.WebRootPath, model.Path);
             }
             return RedirectToAction(nameof(Edit), nameof(Product), new { Id = model.ProductId });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTopProducts(int take = 5)
+        {
+            var results = await _services.ProductService.GetTopProduct(take);
+            return PartialView("_TopProductPartial", results);
         }
     }
 }

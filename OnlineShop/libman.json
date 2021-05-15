@@ -132,6 +132,13 @@
         "css/select2.min.css",
         "js/i18n/es.min.js"
       ]
+    },
+    {
+      "library": "Chart.js@3.2.0",
+      "destination": "wwwroot/lib/Chart.js/",
+      "files": [
+        "chart.min.js"
+      ]
     }
   ]
 }

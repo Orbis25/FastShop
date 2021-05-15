@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ProductTopVM>
+
+@inject IOptions<ImageServerOption> _options;
+
+    <h2 class="mb-2">TOP 5 PRODUCTOS</h2>
+<div class="list-group">
+    @foreach (var item in Model)
+    {
+        var img = string.IsNullOrEmpty(item.ProductPic) ? "/img/default.png" : @_options.Value.BasePath + "\\" + item.ProductPic;
+        <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.Id"
+           class="list-group-item list-group-item-action">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                    <img width="60" height="60" style="border-radius:100px" src="@img" alt="@item.Id" />
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                    <b>@item.ProductName</b>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                    <span id="@item.Id"></span>
+                </div>
+            </div>
+        </a>
+
+        <script>
+            $("#@item.Id").rateYo({
+                readOnly: true,
+                rating: Number('@item.Rating'),
+                starWidth: "20px"
+            });
+        </script>
+    }
+</div>

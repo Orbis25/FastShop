@@ -1,7 +1,5 @@
 ﻿using BussinesLayer.UnitOfWork;
-using Commons.Helpers;
 using DataLayer.Enums.Base;
-using DataLayer.Models.Categories;
 using DataLayer.Utils.Paginations;
 using DataLayer.ViewModels.Accounts;
 using DataLayer.ViewModels.Coupon;
@@ -9,9 +7,7 @@ using DataLayer.ViewModels.Orders;
 using DataLayer.ViewModels.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Model.Enums;
 using OnlineShop.Controllers.Base;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
@@ -27,7 +23,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index() => View(_services.AdminService.GetAllCountServices());
+        public IActionResult Index() => View();
 
         [HttpGet]
         public async Task<IActionResult> Users(UserFilterVM pagination) => View(await _services.UserService.GetAllPaginated(pagination));

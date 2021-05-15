@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Model.DataSeeding;
 using Model.Settings;
+using Newtonsoft.Json;
 using OnlineShop.ExtensionMethods;
 
 namespace OnlineShop
@@ -23,7 +24,10 @@ namespace OnlineShop
             services.AddConnection(Configuration);
             services.AddIdentityExtension();
             services.Services();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddSession();
         }

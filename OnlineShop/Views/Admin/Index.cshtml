@@ -1,20 +1,37 @@
-﻿@model IEnumerable<Model.ViewModels.DashboardVM>
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 class="text-center">Bienvenido</h1>
 
 <div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-4 mb-5">
-            <div class="card">
-                <div class="text-center" style="font-size:50px;"><i class="@item.Icon"></i></div>
-                <div class="card-body text-center">
-                    <b> @item.Name @item.Quantity </b> <br />
+    <div class=" mb-3 col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="text-center">Bienvenido</h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="loading-sales">
+                    <img src="~/img/base/loading.gif" alt="loading.gif" />
+                    <h4>Cargando...</h4>
+                </div>
+                <canvas style="display:none;" id="sales-graphic" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        <div class="card">
+            <div class="card-body text-center" id="top-products">
+                <div  class="loading-products">
+                    <img src="~/img/base/loading.gif" alt="loading.gif" />
+                    <h4>Cargando...</h4>
                 </div>
             </div>
         </div>
-    }
+    </div>
 </div>
+
+<script asp-append-version="true" src="~/js/admin/index.js"></script>

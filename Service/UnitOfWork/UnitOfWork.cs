@@ -39,7 +39,6 @@ namespace BussinesLayer.UnitOfWork
         #region Services
         private AccountService _accountService;
         private UserService _userService;
-        private AdminService _adminService;
         private CategoryService _categoryService;
         private CouponService _couponService;
         private OffertService _offertService;
@@ -85,7 +84,6 @@ namespace BussinesLayer.UnitOfWork
 
         public IUserService UserService => _userService ??= new UserService(_context);
 
-        public IAdminService AdminService => _adminService ??= new AdminService(_context);
 
         public ICategoryService CategoryService => _categoryService ??= new CategoryService(_context);
 

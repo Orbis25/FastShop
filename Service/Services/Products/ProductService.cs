@@ -90,7 +90,7 @@ namespace Service.Svc
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<Product>> GetSimilarItems(Guid id,int categoryId)
+        public async Task<IEnumerable<Product>> GetSimilarItems(Guid id, int categoryId)
         {
             var result = await _context.Products.Include(x => x.ProductPics)
                         .Where(x => x.CategoryId == categoryId && x.Id != id)
@@ -98,6 +98,19 @@ namespace Service.Svc
                         .Take(8)
                         .ToListAsync();
             return result;
+        }
+
+        public async Task<IEnumerable<ProductTopVM>> GetTopProduct(int take = 5)
+        {
+            var products = GetAll(null, x => x.Reviews, x => x.ProductPics);
+            products = products.OrderByDescending(x => x.Reviews.Average(x => x.Rating));
+            return await products.Select(x => new ProductTopVM
+            {
+                ProductName = x.ProductName,
+                Id = x.Id,
+                ProductPic = !x.ProductPics.Any() ? null : x.ProductPics.FirstOrDefault().Path,
+                Rating = !x.Reviews.Any() ? 0 : Math.Round(x.Reviews.Average(x => x.Rating),2)
+            }).Take(take).ToListAsync();
         }
     }
 }

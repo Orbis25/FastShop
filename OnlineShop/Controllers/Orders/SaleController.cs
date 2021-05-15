@@ -121,5 +121,12 @@ namespace OnlineShop.Controllers
             var result = await _services.SaleService.GetPurcharseHistory(pagination, userId);
             return PartialView("_PurchaseHistoryPartial", result);
         }
+
+
+        [HttpGet]
+        [Authorize(Roles = nameof(AuthLevel.Admin))]
+        public async Task<IActionResult> GetSalesByMothSummary()
+            => Ok(await _services.SaleService.GetSalesByMothSummary());
+
     }
 }

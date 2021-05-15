@@ -22,14 +22,14 @@
     <ul class="dropdown-menu">
         @if (SignInManager.IsSignedIn(User))
         {
-            <li class="nav-item text-center">
+            <li class="nav-item">
                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Perfil</a>
             </li>
 
 
             <li class="nav-item">
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button type="submit" class="nav-link btn btn-link btn-block ">Salir</button>
+                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button class="nav-link w-100 text-left btn">Salir</button>
                 </form>
             </li>
         }

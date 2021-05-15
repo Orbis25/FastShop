@@ -12,11 +12,8 @@ using OnlineShop.Data;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Service.Svc
@@ -207,6 +204,16 @@ namespace Service.Svc
             return result.Any(x => x.ApplicationUserId == userId && x.DetailSales.Any(x => x.ProductId == productId));
         }
 
-
+        public async Task<IEnumerable<SaleByMothVM>> GetSalesByMothSummary()
+        {
+            var sales = GetAll(x => x.CreatedAt.Year == DateTime.Now.Year);
+            var result = await sales.GroupBy(x => new { Moth = (x.CreatedAt.Month) })
+                .Select(s => new SaleByMothVM()
+                {
+                    Label = DateHelper.GetSpanishMonthName(s.Key.Moth),
+                    Data = s.Count()
+                }).ToListAsync();
+            return result;
+        }
     }
 }
