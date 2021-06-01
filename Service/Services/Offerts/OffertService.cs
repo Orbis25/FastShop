@@ -4,11 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using OnlineShop.Data;
 using Service.Interface;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Svc
@@ -34,9 +30,15 @@ namespace Service.Svc
 
         public async Task<Offert> GetActiveOffert() => await _context.Offerts.Include(x => x.ImageOfferts).FirstOrDefaultAsync(x => x.State != Model.Enums.State.Deleted);
 
-
         public async Task<Offert> GetById(int id) => await _context.Offerts.Include(x => x.ImageOfferts).SingleOrDefaultAsync(x => x.Id == id && x.State != Model.Enums.State.Deleted);
 
+        public async  Task<bool> RemoveImage(int id)
+        {
+            var image = await _context.ImageOfferts.FindAsync(id);
+            if (image == null) return false;
+            _context.Remove(image);
+            return await _context.SaveChangesAsync() > 0;
+        }
 
         public async Task<bool> UploadImg(ImageOffert model)
         {

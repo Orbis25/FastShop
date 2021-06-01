@@ -1,52 +1,85 @@
 ﻿@model Model.Models.Offert
 
-@{
-    ViewData["Title"] = "Update";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
+@{ ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
 
-<h3>Actualizar Oferta</h3>
-<hr />
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-12">
-                <form asp-action="Update" asp-controller="Offert">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label asp-for="Concept" class="control-label">Concepto</label>
-                                <input asp-for="Concept" class="form-control fo" />
-                                <span asp-validation-for="Concept" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
+@inject IOptions<ImageServerOption> _options;
 
-                            <div class="form-group">
-                                <label asp-for="Duration" class="control-label">Duracción</label>
-                                <input asp-for="Duration" class="form-control" />
-                                <span asp-validation-for="Duration" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label asp-for="Description" class="control-label">Descripcción</label>
-                                <textarea asp-for="Description" class="form-control"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
+<div class="row">
+    <div class="col-12 mb-2">
+        <h3>Actualizar Oferta</h3>
+        <hr />
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form asp-action="Update" asp-controller="Offert">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Concept" class="control-label">Concepto</label>
+                                        <input asp-for="Concept" class="form-control fo" />
+                                        <span asp-validation-for="Concept" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
 
-                            <div class="form-group">
-                                <input type="submit" value="Actualizar" class="btn btn-primary" />
-                                <a asp-controller="Admin" asp-action="Offerts" class="btn btn-dark">Volver</a>
+                                    <div class="form-group">
+                                        <label asp-for="Duration" class="control-label">Duracción</label>
+                                        <input asp-for="Duration" class="form-control" />
+                                        <span asp-validation-for="Duration" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="Description" class="control-label">Descripcción</label>
+                                        <textarea asp-for="Description" class="form-control"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+
+                                    <div class="form-group">
+                                        <input type="submit" value="Actualizar" class="btn btn-primary" />
+                                        <a asp-controller="Admin" asp-action="Offerts" class="btn btn-dark">Volver</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @if (Model.ImageOfferts.Any())
+                {
+                     <h3>Imagenes</h3>
+                }
+                <div class="row text-center">
+                    @foreach (var item in Model.ImageOfferts)
+                    {
+                        var path = @_options.Value.BasePath + "//" + item.ImagePath;
+                        <div class="col-12 col-md-2">
+                            <img id="@item.Id" class="img-fluid mb-2" src="@path"
+                                 style="cursor:pointer;width:100%;" onclick="showImageInViewver('@item.Id')" />
+                            <form asp-action="RemovePic" class="text-center" asp-controller="Offert">
+                                <input type="hidden" name="Id" value="@item.Id" />
+                                <input type="hidden" name="EntityId" value="@Model.Id" />
+                                <input type="hidden" name="Path" value="@item.ImagePath" />
+                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar imagen"
+                                        class="btn btn-sm btn-danger ">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                         </div>
+                         
+                     }
+                </div>
             </div>
         </div>
     </div>
 </div>
-

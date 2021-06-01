@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.ViewModels.Base.ImageServer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +49,7 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> Delete(int id) => Ok(await _services.OffertService.SoftRemove(id));
 
         [HttpGet]
-        public async Task<IActionResult> Update(int id) => View(await _services.OffertService.GetById(id));
+        public async Task<IActionResult> Update(int id) => View(await _services.OffertService.GetById(id, x => x.ImageOfferts));
 
         [HttpPost]
         public async Task<IActionResult> Update(Offert model)
@@ -63,10 +64,9 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> UploadPic(ImageOffert model)
         {
-            string file = await _services.ImageServerService.UploadImage(model.Img, _env.WebRootPath,nameof(Offert));
+            string file = await _services.ImageServerService.UploadImage(model.Img, _env.WebRootPath, nameof(Offert));
             SendNotification(null, "Intente de nuevo mas tarde", NotificationEnum.Error);
             if (!string.IsNullOrEmpty(file))
             {
@@ -87,5 +87,14 @@ namespace OnlineShop.Controllers
             return RedirectToAction("Offerts", "Admin");
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> RemovePic(ImageRemoveVM<int, int> model)
+        {
+            var result = await _services.OffertService.RemoveImage(model.Id);
+            if (!result) SendNotification("Lo sentimos", "ha ocurrido un error", NotificationEnum.Error);
+            _services.ImageServerService.RemoveFile(_env.WebRootPath, model.Path);
+            return RedirectToAction(nameof(Update), "Offert", new { Id = model.EntityId });
+        }
     }
 }

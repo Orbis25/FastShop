@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Data;
 
 namespace OnlineShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210530200846_AdditionalFIelds")]
+    partial class AdditionalFIelds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,9 +74,6 @@ namespace OnlineShop.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsRequired")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -281,44 +280,6 @@ namespace OnlineShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailTemplates");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Products.ProductDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AdditionalFieldId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AditionalFieldId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AditionalFieldId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductDetail");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Products.Review", b =>
@@ -929,23 +890,6 @@ namespace OnlineShop.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Products.ProductDetail", b =>
-                {
-                    b.HasOne("DataLayer.Models.Categories.AditionalField", "AditionalField")
-                        .WithMany()
-                        .HasForeignKey("AditionalFieldId");
-
-                    b.HasOne("Model.Models.Product", "Product")
-                        .WithMany("ProductDetails")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AditionalField");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("DataLayer.Models.Products.Review", b =>
                 {
                     b.HasOne("Model.Models.Product", "Product")
@@ -1110,8 +1054,6 @@ namespace OnlineShop.Data.Migrations
             modelBuilder.Entity("Model.Models.Product", b =>
                 {
                     b.Navigation("CartItems");
-
-                    b.Navigation("ProductDetails");
 
                     b.Navigation("ProductPics");
 

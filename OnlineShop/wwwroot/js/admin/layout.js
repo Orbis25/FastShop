@@ -71,8 +71,8 @@ $(document).ready(async () => {
 const getImageProfile = async () => {
     const img = $("#profile-img");
     const result = await axios.get("/account/getImageProfile");
-    if (result.data !== null) {
+    if (result.data !== null && result.data !== "") {
         img[0].src = `/uploads/${result.data}`;
-    }
+    };
 };
 

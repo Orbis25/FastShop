@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.UnitOfWork;
 using DataLayer.Enums.Base;
+using DataLayer.ViewModels.Base.ImageServer;
 using DataLayer.ViewModels.Products;
 using DataLayer.ViewModels.Products.ProductPics;
 using Microsoft.AspNetCore.Authorization;
@@ -168,14 +169,12 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveImage(ProductPicRemoveVM model)
+        public async Task<IActionResult> RemoveImage(ImageRemoveVM<int,Guid> model)
         {
             var result = await _services.ProductService.RemoveProductPic(model.Id);
-            if (result)
-            {
-                _services.ImageServerService.RemoveFile(_env.WebRootPath, model.Path);
-            }
-            return RedirectToAction(nameof(Edit), nameof(Product), new { Id = model.ProductId });
+            if (!result) SendNotification("Lo sentimos", "ha ocurrido un error", NotificationEnum.Error);
+            _services.ImageServerService.RemoveFile(_env.WebRootPath, model.Path);
+            return RedirectToAction(nameof(Edit), nameof(Product), new { Id = model.EntityId });
         }
 
         [AllowAnonymous]

@@ -12,5 +12,6 @@ namespace Service.Interface
         Task<bool> UploadImg(ImageOffert model);
         Task<Offert> GetActiveOffert();
         Task<PaginationResult<Offert>> filter(PaginationBase pagination, string q);
+        Task<bool> RemoveImage(int id);
     }
 }

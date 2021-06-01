@@ -49,12 +49,21 @@ namespace BussinesLayer.Services.ImageServer
             return false;
         }
 
-        public void RemoveFile(string webRootPath, string path)
+        public bool RemoveFile(string webRootPath, string path)
         {
             if (!string.IsNullOrEmpty(path))
             {
-                File.Delete($@"{webRootPath}{_options.BasePath}\\{path}");
+                try
+                {
+                    File.Delete($@"{webRootPath}{_options.BasePath}\\{path}");
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message ?? ex.InnerException.Message);
+                }
             }
+            return false;
         }
 
         public async Task<string> UploadImage(IFormFile file, string path, string folder, string lastFile = null)

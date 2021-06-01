@@ -32,7 +32,7 @@ var LoadPartialView = async (contentId, url) => {
  * Convert form to json
  * @param {Event} event evento del formulario
  */
-var FormToJson = async (event, url) => {
+var FormToJson = (event) => {
     event.preventDefault();
     const data = new FormData(event.target)
     const values = Object.fromEntries(data.entries());

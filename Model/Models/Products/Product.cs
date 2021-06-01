@@ -43,11 +43,13 @@ namespace Model.Models
 
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        [MinLength(100,ErrorMessage = "Ingrese un minimo de 100 caracteres")]
-        public string Description { get; set; }        
+        [MinLength(100, ErrorMessage = "Ingrese un minimo de 100 caracteres")]
+        public string Description { get; set; }
         public ICollection<ProductPic> ProductPics { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
         public ICollection<Review> Reviews { get; set; }
+
+        public ICollection<ProductDetail> ProductDetails { get; set; }
 
 
         /// <summary>

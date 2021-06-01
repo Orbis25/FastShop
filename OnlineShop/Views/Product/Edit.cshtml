@@ -124,7 +124,7 @@
                             <form id="form-'@item.Id'" asp-action="RemoveImage" asp-controller="Product">
                                 <input type="hidden" name="Id" value="@item.Id" />
                                 <input type="hidden" name="Path" value="@item.Path" />
-                                <input type="hidden" name="ProductId" value="@Model.Id" />
+                                <input type="hidden" name="EntityId" value="@Model.Id" />
                                 <button type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar imagen"
                                         class="btn btn-sm btn-danger ">
                                     <i class="fa fa-trash"></i>

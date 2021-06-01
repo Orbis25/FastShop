@@ -1,6 +1,6 @@
 ﻿using DataLayer.Models.Base;
 using Model.Models;
-using System.Collections.Generic;
+ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataLayer.Models.Categories
@@ -13,5 +13,6 @@ namespace DataLayer.Models.Categories
         public string Name { get; set; }
         [Display(Name = "Productos")]
         public ICollection<Product> Products { get; set; }
+        public ICollection<AditionalField>  AditionalFields { get; set; }
     }
 }
