@@ -39,6 +39,25 @@ namespace OnlineShop.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id) => View(await _services.CategoryService.GetById(id, x => x.AditionalFields));
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Category model)
+        {
+            if (!ModelState.IsValid) return View(model);
+            var result = await _services.CategoryService.Update(model);
+            if (!result)
+            {
+                SendNotification("ha ocurrido un error", null, NotificationEnum.Error);
+                return View(model);
+            }
+            SendNotification("Actualizado correctamente.");
+            return RedirectToAction("Categories", "Admin");
+        }
+
+ 
+    
         [HttpPost]
         public async Task<IActionResult> Remove([FromRoute] int id)
         {

@@ -49,13 +49,12 @@
                                     <td>@item.Name</td>
                                     <td>@item.CreatedAtSrt</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary mb-1">
+                                        <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-primary mb-1">
                                             <i class="fas fa-edit"
-                                               onclick="edit('@item.Id')"
                                                data-toggle="tooltip"
                                                data-placement="top"
                                                title="Editar"></i>
-                                        </button>
+                                        </a>
                                         <button class="btn btn-sm btn-danger mb-1">
                                             <i class="fas fa-trash"
                                                onclick="sweetRemove('/category/remove/@item.Id')"
@@ -82,5 +81,4 @@
     </div>
 </div>
 
-<script src="~/js/admin/categories.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />

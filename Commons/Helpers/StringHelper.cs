@@ -21,5 +21,6 @@ namespace Commons.Helpers
 
         public static string ToBase64String(this string value) => Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
         public static string GetFromBase64(this string value) => Encoding.UTF8.GetString(Convert.FromBase64String(value));
+
     }
 }

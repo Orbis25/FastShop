@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Services.Categories
 {
-    public class AditionalFieldService : BaseRepository<AditionalField, ApplicationDbContext, int>, IAditionalFieldService
+    public class AdditionalFieldService : BaseRepository<AdditionalField, ApplicationDbContext, int>, IAdditionalFieldService
     {
-        public AditionalFieldService(ApplicationDbContext context) : base(context)
+        public AdditionalFieldService(ApplicationDbContext context) : base(context)
         {
         }
     }

@@ -21,7 +21,8 @@ const addField = () => {
         name: result.Name,
         type: result.Type,
         description: result.Description,
-        isRequired: !!result.IsRequired
+        isRequired: !!result.IsRequired,
+        selectionable: !!result.Selectionable
     }
     const filter = fields.filter(x => x.name === result.Name);
     if (filter.length) {
@@ -36,6 +37,7 @@ const addField = () => {
                         <td>${data.name}</td>
                         <td>${data.description}</td>
                         <td>${data.isRequired ? 'Si' : 'No'}</td>
+                        <td>${data.selectionable ? 'Si' : 'No'}</td>
                         <td>${getFieldTypesString(data.type)}</td>
                         <td><button type="button" class='btn btn-sm btn-danger' onClick='removeField("${data.name}")'><i class="fa fa-trash"></i></button></td>
                     </tr>`);

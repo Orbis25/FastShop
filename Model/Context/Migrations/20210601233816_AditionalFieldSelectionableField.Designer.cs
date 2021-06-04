@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Data;
 
 namespace OnlineShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210601233816_AditionalFieldSelectionableField")]
+    partial class AditionalFieldSelectionableField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +58,7 @@ namespace OnlineShop.Data.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Categories.AdditionalField", b =>
+            modelBuilder.Entity("DataLayer.Models.Categories.AditionalField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -296,6 +298,9 @@ namespace OnlineShop.Data.Migrations
                     b.Property<int>("AdditionalFieldId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AditionalFieldId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -314,7 +319,7 @@ namespace OnlineShop.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdditionalFieldId");
+                    b.HasIndex("AditionalFieldId");
 
                     b.HasIndex("ProductId");
 
@@ -907,7 +912,7 @@ namespace OnlineShop.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.Categories.AdditionalField", b =>
+            modelBuilder.Entity("DataLayer.Models.Categories.AditionalField", b =>
                 {
                     b.HasOne("DataLayer.Models.Categories.Category", "Category")
                         .WithMany("AditionalFields")
@@ -931,11 +936,9 @@ namespace OnlineShop.Data.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Products.ProductDetail", b =>
                 {
-                    b.HasOne("DataLayer.Models.Categories.AdditionalField", "AdditionalField")
-                        .WithMany("ProductDetail")
-                        .HasForeignKey("AdditionalFieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DataLayer.Models.Categories.AditionalField", "AditionalField")
+                        .WithMany()
+                        .HasForeignKey("AditionalFieldId");
 
                     b.HasOne("Model.Models.Product", "Product")
                         .WithMany("ProductDetails")
@@ -943,7 +946,7 @@ namespace OnlineShop.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AdditionalField");
+                    b.Navigation("AditionalField");
 
                     b.Navigation("Product");
                 });
@@ -1083,11 +1086,6 @@ namespace OnlineShop.Data.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Categories.AdditionalField", b =>
-                {
-                    b.Navigation("ProductDetail");
                 });
 
             modelBuilder.Entity("DataLayer.Models.Categories.Category", b =>

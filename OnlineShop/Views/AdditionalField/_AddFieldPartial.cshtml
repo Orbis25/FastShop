@@ -1,0 +1,47 @@
+﻿@model AdditionalField
+
+@{
+    Layout = null;
+}
+
+<form asp-action="AddField" method="post" asp-controller="AdditionalField">
+    <div class="row">
+        <div class="col-12 mb-2">
+            <label>Nombre</label>
+            <input type="text" required asp-for="Name" class="form-control form-control-sm" />
+            <input type="hidden" name="CategoryId" value="@ViewBag.CategoryId" class="form-control form-control-sm" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="col-12 mb-2">
+            <label>¿Es Requerido?</label>
+            <input type="checkbox" asp-for="IsRequired"
+                   data-size="small" />
+        </div>
+        <div class="col-12 mb-2">
+            <label>
+                ¿Es Seleccionable? <span data-toggle="tooltip"
+                                         data-placement="bottom"
+                                         title="Indica que este campo, es seleccionable para el usuario">
+                    <i class="fa fa-info-circle text-danger"></i>
+                </span>
+            </label>
+            <input type="checkbox" asp-for="Selectionable" />
+        </div>
+        <div class="col-12 mb-2">
+            <label>Tipo</label>
+            <select name="Type" class="form-control form-control-sm" asp-items="@Html.GetEnumSelectList<AditionalFieldEnum>()">
+            </select>
+        </div>
+        <div class="col-12 mb-2">
+            <label>Descripción</label>
+            <textarea asp-for="Description" required class="form-control form-control-sm"></textarea>
+            <span class="text-danger" asp-validation-for="Description"></span>
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-sm btn-success">
+                Agregar
+            </button>
+        </div>
+    </div>
+</form>

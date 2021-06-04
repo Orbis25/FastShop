@@ -55,7 +55,7 @@ namespace BussinesLayer.UnitOfWork
         private ReviewService _reviewService;
         private CityService _cityService;
         private CountryService _countryService;
-        private AditionalFieldService _additionalFieldService;
+        private AdditionalFieldService _additionalFieldService;
         private ProductDetailService _productDetailService;
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -118,6 +118,6 @@ namespace BussinesLayer.UnitOfWork
         public ICityService CityService => _cityService ??= new CityService(_context);
 
         public IProductDetailService ProductDetailService => _productDetailService ??= new ProductDetailService(_context);
-        public IAditionalFieldService AditionalFieldService => _additionalFieldService ??= new AditionalFieldService(_context);
+        public IAdditionalFieldService AdditionalFieldService => _additionalFieldService ??= new AdditionalFieldService(_context);
     }
 }

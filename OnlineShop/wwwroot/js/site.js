@@ -182,7 +182,7 @@ $(document).ready(async function () {
 
     $('.input-date-now').datepicker({
         format: "dd/mm/yyyy",
-        maxDate: new Date(),
+        endDate: new Date(),
         languaje:"es"
     })
 

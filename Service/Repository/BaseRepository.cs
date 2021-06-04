@@ -95,6 +95,8 @@ namespace BussinesLayer.Repository
            => await GetAll(null, includes).FirstOrDefaultAsync(x => x.Id.Equals(id));
 
         public async Task<bool> Exist(TIdentifier id) => await _context.Set<TEntity>().AnyAsync(x => x.Id.Equals(id));
+        public async Task<bool> Exist(Expression<Func<TEntity,bool>> expression) => await _context.Set<TEntity>().AnyAsync(expression);
+
 
         public virtual async Task<PaginationResult<TEntity>> CreatePagination(PaginationBase pagination,IQueryable<TEntity> result,
              Expression<Func<TEntity, bool>> relationsShipFilter = null)

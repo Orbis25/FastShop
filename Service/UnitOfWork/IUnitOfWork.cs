@@ -30,7 +30,7 @@ namespace BussinesLayer.UnitOfWork
         ICityService CityService { get; }
 
         IProductDetailService ProductDetailService { get; }
-        IAditionalFieldService AditionalFieldService { get; }
+        IAdditionalFieldService AdditionalFieldService { get; }
 
     }
 }

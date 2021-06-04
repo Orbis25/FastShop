@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Interface.Categories
 {
-    public interface IAditionalFieldService : IBaseRepository<AditionalField, int>
+    public interface IAdditionalFieldService : IBaseRepository<AdditionalField, int>
     {
     }
 }

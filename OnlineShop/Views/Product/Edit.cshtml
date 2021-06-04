@@ -1,9 +1,7 @@
 ﻿@model Product
 @inject IOptions<ImageServerOption> _options;
-@{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
+@{ ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; }
 
 
 <h1>Actualizar Producto</h1>
@@ -71,7 +69,7 @@
                         <div class="col-12  col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="CategoryId">Categoria</label>
-                                <select class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
+                                <select onchange="getAdditionalsFieldsByCategoryId(this.value,'@Model.Id')" class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
                                     <option selected>SELECCIONA UNA CATEGORIA</option>
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -80,7 +78,7 @@
                         <div class="col-12  col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label>Rating</label>
-                                 <div id="rating"></div>
+                                <div id="rating"></div>
                             </div>
                         </div>
                         <div class="col-12  col-md-6 col-lg-6">
@@ -93,8 +91,8 @@
                         </div>
                         <div class="col-12  mt-4">
                             <div class="form-group">
-                                <input type="submit" value="Actualizar" class="btn btn-primary" />
-                                <button type="button"
+                                <button type="submit" class="btn btn-primary" id="update-btn" >Actualizar</button>
+                                 <button type="button"
                                         class="btn btn-dark"
                                         data-toggle="modal"
                                         data-target="#exampleModal"
@@ -109,6 +107,21 @@
             </div>
         </div>
     </div>
+    <div class="col-12 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="">
+                    <h4 class="text-center">Campos adicionales</h4>
+                    <hr />
+                </div>
+                <div class="row" id="container-additional-field">
+
+                   
+
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-body">
@@ -117,22 +130,21 @@
                 <div class="row">
                     @foreach (var item in Model.ProductPics)
                     {
-                        <div class="col-6 col-sm-6 col-md-3 text-center">
-                            <img id="@item.Id" style="cursor:pointer;width:100%;" onclick="showImageInViewver('@item.Id')"
-                                 class="mb-2 img-fluid" src="@($"{_options.Value.BasePath}/{item.Path}")" />
+        <div class="col-6 col-sm-6 col-md-3 text-center">
+            <img id="@item.Id" style="cursor:pointer;width:100%;" onclick="showImageInViewver('@item.Id')"
+                 class="mb-2 img-fluid" src="@($"{_options.Value.BasePath}/{item.Path}")" />
 
-                            <form id="form-'@item.Id'" asp-action="RemoveImage" asp-controller="Product">
-                                <input type="hidden" name="Id" value="@item.Id" />
-                                <input type="hidden" name="Path" value="@item.Path" />
-                                <input type="hidden" name="EntityId" value="@Model.Id" />
-                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar imagen"
-                                        class="btn btn-sm btn-danger ">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form>
+            <form id="form-'@item.Id'" asp-action="RemoveImage" asp-controller="Product">
+                <input type="hidden" name="Id" value="@item.Id" />
+                <input type="hidden" name="Path" value="@item.Path" />
+                <input type="hidden" name="EntityId" value="@Model.Id" />
+                <button type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar imagen"
+                        class="btn btn-sm btn-danger ">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
 
-                        </div>
-                    }
+        </div>}
                 </div>
             </div>
         </div>
@@ -163,6 +175,7 @@
         </div>
     </div>
 </div>
+<script src="~/js/product/edit.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />
 
 <script>
@@ -170,6 +183,10 @@
         readOnly: true,
         rating: Number('@ViewBag.Rating')
     });
+
+    onload = async () => {
+        await getAdditionalsFieldsByCategoryId('@Model.CategoryId','@Model.Id')
+    }
 </script>
 
 

@@ -97,14 +97,14 @@ namespace OnlineShop.Controllers
             var exist = await _services.ProductService.Exist(product.Id);
             if (!exist) return new NotFoundView();
 
-            var categories = await _services.CategoryService.GetList();
-            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
-
             if (!ModelState.IsValid) return View(product);
 
             var result = await _services.ProductService.Update(product);
             if (!result)
             {
+                var categories = await _services.CategoryService.GetList();
+                ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+
                 SendNotification("Error", "Ha ocurrido un error, intente de nuevo mas tarde", NotificationEnum.Error);
                 return View(product);
             }
