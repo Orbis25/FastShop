@@ -23,7 +23,7 @@ namespace OnlineShop.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Category model)
+        public async Task<IActionResult> Create(Category model)
         {
             if (!ModelState.IsValid) return View(model);
             var exist = await _services.CategoryService.GetList(x => x.Name == model.Name);
@@ -40,7 +40,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id) => View(await _services.CategoryService.GetById(id, x => x.AditionalFields));
+        public async Task<IActionResult> Edit(int id) => View(await _services.CategoryService.GetById(id));
 
         [HttpPost]
         public async Task<IActionResult> Edit(Category model)

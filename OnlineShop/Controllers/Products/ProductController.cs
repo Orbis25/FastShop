@@ -94,19 +94,20 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Product product)
         {
-            var exist = await _services.ProductService.Exist(product.Id);
-            if (!exist) return new NotFoundView();
+            var filterResult = await _services.ProductService.GetById(product.Id,true, x=> x.ProductPics);
+            if (filterResult == null) return new NotFoundView();
+            var categories = await _services.CategoryService.GetList();
+            ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            ViewBag.Rating = _services.ReviewService.GetAverage(product.Id);
 
-            if (!ModelState.IsValid) return View(product);
-
+            if (!ModelState.IsValid) return View(filterResult);
+ 
             var result = await _services.ProductService.Update(product);
             if (!result)
             {
-                var categories = await _services.CategoryService.GetList();
-                ViewBag.Categories = categories.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
-
+      
                 SendNotification("Error", "Ha ocurrido un error, intente de nuevo mas tarde", NotificationEnum.Error);
-                return View(product);
+                return View(filterResult);
             }
 
             SendNotification("Producto actualizado");
@@ -169,7 +170,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveImage(ImageRemoveVM<int,Guid> model)
+        public async Task<IActionResult> RemoveImage(ImageRemoveVM<int, Guid> model)
         {
             var result = await _services.ProductService.RemoveProductPic(model.Id);
             if (!result) SendNotification("Lo sentimos", "ha ocurrido un error", NotificationEnum.Error);
@@ -184,5 +185,6 @@ namespace OnlineShop.Controllers
             var results = await _services.ProductService.GetTopProduct(take);
             return PartialView("_TopProductPartial", results);
         }
+
     }
 }

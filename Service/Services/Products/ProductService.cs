@@ -1,5 +1,6 @@
 ﻿using BussinesLayer.Repository;
 using DataLayer.Enums.Products;
+using DataLayer.Models.Categories;
 using DataLayer.Utils.Paginations;
 using DataLayer.ViewModels.Base;
 using DataLayer.ViewModels.Products;

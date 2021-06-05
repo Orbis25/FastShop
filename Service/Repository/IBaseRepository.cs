@@ -15,7 +15,9 @@ namespace Service.Interface
         Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>> filters = null, params Expression<Func<TEntity, object>>[] includes);
         IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filters = null, params Expression<Func<TEntity, object>>[] includes);
         Task<PaginationResult<TEntity>> GetAllPaginated(PaginationBase pagination,Expression<Func<TEntity, bool>> filters = null, Expression<Func<TEntity, bool>> relationsShipFilter = null, params Expression<Func<TEntity, object>>[] includes);
+        Task<TEntity> GetById(TIdentifier id, bool asNotTraking = false, params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity> GetById(TIdentifier id, params Expression<Func<TEntity, object>>[] includes);
+
         Task<bool> Update(TEntity model);
         Task<bool> SoftRemove(TIdentifier id);
         Task<bool> Exist(TIdentifier id);

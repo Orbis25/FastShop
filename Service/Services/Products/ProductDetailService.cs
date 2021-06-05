@@ -21,13 +21,13 @@ namespace BussinesLayer.Services.Products
 
         public override async Task<bool> Add(ProductDetail model)
         {
-            var result = GetAll(x => x.ProductId == model.ProductId && x.AdditionalFieldId == model.AdditionalFieldId);
-            if (result.Any())
-            {
-                var _model = await result.FirstOrDefaultAsync();
-                _model.Value = model.Value;
-                return await base.Update(_model);
-            }
+            //var result = GetAll(x => x.ProductId == model.ProductId && x.AdditionalFieldId == model.AdditionalFieldId);
+            //if (result.Any())
+            //{
+            //    var _model = await result.FirstOrDefaultAsync();
+            //    _model.Value = model.Value;
+            //    return await base.Update(_model);
+            //}
             return await base.Add(model);
         }
     }

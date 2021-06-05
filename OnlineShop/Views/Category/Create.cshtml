@@ -16,7 +16,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form onsubmit="submitForm()">
+                <form asp-action="Create" asp-controller="Category">
                     <div class="row">
                         <div class="col-12 col-md-6">
                             <div class="form-group">
@@ -26,23 +26,7 @@
                             </div>
 
                         </div>
-                        <div class="col-12" style="display:none;" id="table-container">
-                            <label>Campos</label>
-                            <table class="table table-sm table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">¿Es requerido?</th>
-                                        <th scope="col">¿Es seleccionable?</th>
-                                        <th scope="col">Tipo</th>
-                                        <th scope="col">Eliminar</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="fields-body">
-                                </tbody>
-                            </table>
-                        </div>
+               
                         <div class="col-12 col-md-12">
 
                             <div class="form-group">
@@ -51,11 +35,7 @@
                                 <span data-toggle="tooltip"
                                       data-placement="bottom"
                                       title="Permite agregar campos para los productos en las diferentes categorias por ejempo: *size* es un campo de la categoria ropa">
-                                    <button type="button"
-                                            data-toggle="modal" data-target="#exampleModal"
-                                            class="btn btn-warning btn-sm">
-                                        Agregar campo
-                                    </button>
+ 
                                 </span>
 
                             </div>
@@ -65,67 +45,7 @@
             </div>
         </div>
     </div>
-    <div class="col">
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Campos</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form onsubmit="addField()">
-                            <div class="row">
-                                <div class="col-12 mb-2">
-                                    <label>Nombre</label>
-                                    <input type="text" required name="Name" class="form-control form-control-sm" />
-                                </div>
-                                <div class="col-12 mb-2">
-                                    <label>Requerido</label>
-                                    <input type="checkbox" data-toggle="toggle" name="IsRequired"
-                                           data-on="Si" data-off="No"
-                                           id="toggle"
-                                           data-size="small" />
-                                </div>
-                                <div class="col-12 mb-2">
-                                    <label>
-                                        ¿Es Seleccionable? <span data-toggle="tooltip"
-                                                                 data-placement="bottom"
-                                                                 title="Indica que este campo, es seleccionable para el usuario">
-                                            <i class="fa fa-info-circle text-danger"></i>
-                                        </span>
-                                    </label>
-                                    <input type="checkbox" data-toggle="toggle" name="Selectionable"
-                                           data-on="Si" data-off="No"
-                                           id="toggle"
-                                           data-size="small" />
-                                </div>
-                                <div class="col-12 mb-2">
-                                    <label>Tipo</label>
-                                    <select name="Type" class="form-control form-control-sm" asp-items="@Html.GetEnumSelectList<AditionalFieldEnum>()">
-                                    </select>
-                                </div>
-                                <div class="col-12 mb-2">
-                                    <label>Descripción</label>
-                                    <textarea name="Description" required class="form-control form-control-sm"></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        Agregar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 <script src="~/js/categories/create.js" asp-append-version="true"></script>

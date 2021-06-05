@@ -19,18 +19,9 @@ namespace OnlineShop.Controllers.Products
             _services = services;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody]ProductDetail model)
-        {
-            if (!ModelState.IsValid) return BadRequest("Algunos valores son incorrectos");
-            var result = await _services.ProductDetailService.Add(model);
-            if (!result) return BadRequest("Ha ocurrido un error intente de nuevo mas tarde");
-            return Ok(result);
-        }
-           
-        public IActionResult Index()
-        {
-            return View();
-        }
+        [HttpGet]
+        public IActionResult Create() => PartialView("_CreatePartial");
+        
+
     }
 }

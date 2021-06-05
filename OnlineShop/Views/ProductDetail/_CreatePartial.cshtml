@@ -1,0 +1,76 @@
+﻿
+@model ProductDetail
+
+
+<div class="row">
+    <div class="col-12">
+        <form onsubmit="addField()">
+            <div class="row">
+                <div class="col-12 mb-2">
+                    <label>Nombre</label>
+                    <input type="text" required name="Name" class="form-control form-control-sm" />
+                </div>
+                <div class="col-12 mb-2">
+                    <label>Tipo</label>
+                    <select name="Type" onchange="handleChangeType(this.value)" asp-items="@Html.GetEnumSelectList<ProductDetailTypeEnum>()" class="form-control form-control-sm">
+                    </select>
+                </div>
+                <div class="col-12 mb-2">
+                    <label>Valor</label>
+                    <input type="text" required name="Value" id="field-value" class="form-control form-control-sm" />
+                </div>
+                <div class="col-12 mb-2">
+                    <label>Descripción</label>
+                    <textarea name="Description" required class="form-control form-control-sm"></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-sm btn-success">
+                        Agregar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var handleChangeType = (value) => {
+        const result = getInputType(value);
+        const input = $("#field-value");
+        input.val("");
+        if (Number(value) === TYPE_DEFINITION_INPUT.DATE) {
+            input.attr('type', 'text');
+            input.addClass("input-date");
+            $(".input-date").datepicker({
+                languaje: "es",
+                format: "dd/mm/yyyy",
+                autoClose: true
+            });
+        } else {
+            $('.input-date').datepicker('remove');
+            input.removeClass("input-date");
+            input.attr("type", result);
+        }
+
+        if (Number(value) === TYPE_DEFINITION_INPUT.CHECKBOX) {
+            input.attr("data-toggle", "toggle");
+            input.removeClass("form-control");
+            input.removeClass("form-control-sm");
+            input.attr("type", result);
+            input.removeAttr("required");
+            $('#field-value').bootstrapToggle({
+                on: "Si",
+                off: "No",
+                size:"mini"
+            });
+        } else {
+            input.addClass("form-control");
+            input.addClass("form-control-sm");
+            input.removeAttr("data-toggle");
+            input.attr("required","required");
+            $('#field-value').bootstrapToggle('destroy')
+            input.attr("type", result);
+        }
+    }
+</script>

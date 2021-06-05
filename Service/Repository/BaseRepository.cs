@@ -94,6 +94,16 @@ namespace BussinesLayer.Repository
         public virtual async Task<TEntity> GetById(TIdentifier id, params Expression<Func<TEntity, object>>[] includes)
            => await GetAll(null, includes).FirstOrDefaultAsync(x => x.Id.Equals(id));
 
+        public virtual async Task<TEntity> GetById(TIdentifier id, bool asNotTraking = false, params Expression<Func<TEntity, object>>[] includes)
+        {
+            if (asNotTraking)
+            {
+                return await GetAll(null, includes).AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
+            }
+            return await GetAll(null, includes).FirstOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+
         public async Task<bool> Exist(TIdentifier id) => await _context.Set<TEntity>().AnyAsync(x => x.Id.Equals(id));
         public async Task<bool> Exist(Expression<Func<TEntity,bool>> expression) => await _context.Set<TEntity>().AnyAsync(expression);
 

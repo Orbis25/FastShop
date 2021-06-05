@@ -55,7 +55,8 @@ namespace OnlineShop.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<AvaibleCountry> AvaibleCountries { get; set; }
         public DbSet<AvaibleCity> AvaibleCities { get; set; }
-        public DbSet<AdditionalField> AditionalFields { get; set; }
+
+        public DbSet<ProductDetail> ProductDetail { get; set; }
 
     }
 }

@@ -70,3 +70,9 @@ const TYPE_DEFINITION_INPUT = {
     CHECKBOX: 2,
     DATE:3
 }
+
+
+/**
+ * @param value // "true" | "false"
+ */
+const fromBooleanString = (value) => String(value).toLowerCase() === "true";

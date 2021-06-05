@@ -1,5 +1,4 @@
 ﻿using BussinesLayer.Interface.CartItems;
-using BussinesLayer.Interface.Categories;
 using BussinesLayer.Interface.Configurations;
 using BussinesLayer.Interface.Countries;
 using BussinesLayer.Interface.Emails;
@@ -30,7 +29,6 @@ namespace BussinesLayer.UnitOfWork
         ICityService CityService { get; }
 
         IProductDetailService ProductDetailService { get; }
-        IAdditionalFieldService AdditionalFieldService { get; }
 
     }
 }

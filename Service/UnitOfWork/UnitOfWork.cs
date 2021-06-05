@@ -1,5 +1,4 @@
 ﻿using BussinesLayer.Interface.CartItems;
-using BussinesLayer.Interface.Categories;
 using BussinesLayer.Interface.Configurations;
 using BussinesLayer.Interface.Countries;
 using BussinesLayer.Interface.Emails;
@@ -7,7 +6,6 @@ using BussinesLayer.Interface.Emails.Templates;
 using BussinesLayer.Interface.ImageServer;
 using BussinesLayer.Interface.Products;
 using BussinesLayer.Services.Cart;
-using BussinesLayer.Services.Categories;
 using BussinesLayer.Services.Configurations;
 using BussinesLayer.Services.Countries;
 using BussinesLayer.Services.Emails;
@@ -23,11 +21,6 @@ using OnlineShop.Data;
 using Service.Interface;
 using Service.svc;
 using Service.Svc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BussinesLayer.UnitOfWork
 {
@@ -55,7 +48,6 @@ namespace BussinesLayer.UnitOfWork
         private ReviewService _reviewService;
         private CityService _cityService;
         private CountryService _countryService;
-        private AdditionalFieldService _additionalFieldService;
         private ProductDetailService _productDetailService;
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -118,6 +110,5 @@ namespace BussinesLayer.UnitOfWork
         public ICityService CityService => _cityService ??= new CityService(_context);
 
         public IProductDetailService ProductDetailService => _productDetailService ??= new ProductDetailService(_context);
-        public IAdditionalFieldService AdditionalFieldService => _additionalFieldService ??= new AdditionalFieldService(_context);
     }
 }

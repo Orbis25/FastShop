@@ -25,8 +25,8 @@ namespace BussinesLayer.Services.Products
 
         public decimal GetAverage(Guid productId)
         {
-            var total = _dbContext.Reviews.Where(x => x.ProductId == productId).Sum(x => x.Rating);
-            var count = _dbContext.Reviews.Count(x => x.ProductId == productId);
+            var total = _dbContext.Reviews.Where(x => x.ProductId == productId).AsNoTracking().Sum(x => x.Rating);
+            var count = _dbContext.Reviews.AsNoTracking().Count(x => x.ProductId == productId);
             if (count == 0) return 0;
             return Math.Round((total / count), 2);
         }

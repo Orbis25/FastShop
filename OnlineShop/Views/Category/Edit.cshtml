@@ -9,7 +9,7 @@
     <div class="col-12 mb-3">
         <div class="card">
             <div class="card-body">
-                <h1>Nueva categoria</h1>
+                <h1>Editar categoria</h1>
             </div>
         </div>
     </div>
@@ -26,83 +26,16 @@
                             </div>
 
                         </div>
-                        <div class="col-12" id="table-container">
-                            <label>Campos</label>
-                            <table class="table table-sm table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">¿Es requerido?</th>
-                                        <th scope="col">¿Es seleccionable?</th>
-                                        <th scope="col">Tipo</th>
-                                        <th scope="col">Eliminar</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="fields-body">
-                                    @if (Model != null && Model.AditionalFields != null)
-                                    {
-                                        @foreach (var item in Model.AditionalFields)
-                                        {
-                                            <tr>
-                                                <td>@item.Name</td>
-                                                <td>@item.Description</td>
-                                                <td>@item.IsRequiredStr</td>
-                                                <td>@item.SelectionableStr</td>
-                                                <td>@item.Type.GetDisplayName()</td>
-                                                <td>
-                                                    <div>
-                                                        <form method="get" id="@item.Id" asp-action="RemoveField" asp-controller="AditionalField">
-                                                            <input type="hidden" name="id" value="@item.Id" />
-                                                            <input type="hidden" name="categoryId" value="@Model.Id" />
-                                                            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                 
                         <div class="col-12 col-md-12">
 
                             <div class="form-group">
                                 <button class="btn btn-primary btn-sm">Actualizar</button>
                                 <a class="btn btn-dark btn-sm" asp-action="Categories" asp-controller="Admin">Cancelar</a>
-                                <span data-toggle="tooltip"
-                                      data-placement="bottom"
-                                      title="Permite agregar campos para los productos en las diferentes categorias por ejempo: *size* es un campo de la categoria ropa">
-                                    <button type="button"
-                                            data-toggle="modal"
-                                            data-target="#exampleModal"
-                                            onclick="LoadPartialView('modal-body','/AditionalField/AddField?categoryId=@Model.Id')"
-                                            class="btn btn-warning btn-sm">
-                                        Agregar campo
-                                    </button>
-                                </span>
-
                             </div>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Campos</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="modal-body">
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>

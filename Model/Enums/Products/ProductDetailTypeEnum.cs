@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataLayer.Enums.Categories
+namespace DataLayer.Enums.Products
 {
-    public enum AditionalFieldEnum
+    public enum ProductDetailTypeEnum
     {
         [Display(Name = "Texto")]
         Text,

@@ -1,17 +1,14 @@
 ﻿@model Product
 
-@{
-    ViewData["Title"] = "Create";
+@{ ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    var categories = ViewBag.Categories as IEnumerable<SelectListItem>;
-}
+    var categories = ViewBag.Categories as IEnumerable<SelectListItem>; }
 
 @if (!categories.Any())
 {
-    <div class="alert alert-danger" role="alert">
-        Necesitas tener registrada alguna categoria para crear un producto <a asp-action="Create" asp-controller="Category"><i>¿Crear nueva categoria?</i></a>
-    </div>
-}
+<div class="alert alert-danger" role="alert">
+    Necesitas tener registrada alguna categoria para crear un producto <a asp-action="Create" asp-controller="Category"><i>¿Crear nueva categoria?</i></a>
+</div>}
 
 <h1>Nuevo Producto</h1>
 <hr />
@@ -70,7 +67,7 @@
                         <div class="col-12  col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="CategoryId">Categoria</label>
-                                <select class="form-control mb-3" asp-for="CategoryId" asp-items="categories">
+                                <select class="form-control mb-3" onchange="getAdditionalsFieldsByCategoryId(this.value)" asp-for="CategoryId" asp-items="categories">
                                     <option selected>SELECCIONA UNA CATEGORIA</option>
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -85,22 +82,67 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>
+
+                        <div class="col-12">
+                            <label>
+                                Campos <button data-toggle="modal"
+                                               data-target="#exampleModal"
+                                               type="button"
+                                               class="btn btn-sm btn-warning"
+                                               onclick="LoadPartialView('form-field-container','/ProductDetail/Create')">
+                                    <i class="fa fa-plus-circle"></i>
+                                </button>
+                            </label>
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fields-body">
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div class="col-12 mt-4">
                             <div class="form-group">
                                 @if (categories.Any())
                                 {
-                                    <button type="submit" class="btn btn-primary">Crear</button>
-                                }
+                    <button type="submit" class="btn btn-primary">Crear</button>}
                                 <a asp-action="Products" asp-controller="Admin" class="btn btn-dark">Volver</a>
                             </div>
                         </div>
                     </div>
+
                 </form>
 
 
             </div>
         </div>
     </div>
-</div>
+    <div class="col-12">
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nuevo campo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="form-field-container">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/product/create.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />

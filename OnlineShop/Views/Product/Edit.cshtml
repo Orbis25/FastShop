@@ -21,6 +21,7 @@
                                 <label asp-for="ProductName" class="control-label"></label>
                                 <input asp-for="ProductName" class="form-control" />
                                 <span asp-validation-for="ProductName" class="text-danger"></span>
+                                <input type="hidden" name="Id" value="@Model.Id" />
                             </div>
                         </div>
                         <div class="col-12  col-md-4 col-lg-3">
@@ -91,8 +92,8 @@
                         </div>
                         <div class="col-12  mt-4">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary" id="update-btn" >Actualizar</button>
-                                 <button type="button"
+                                <button type="submit" class="btn btn-primary" id="update-btn">Actualizar</button>
+                                <button type="button"
                                         class="btn btn-dark"
                                         data-toggle="modal"
                                         data-target="#exampleModal"
@@ -107,27 +108,13 @@
             </div>
         </div>
     </div>
-    <div class="col-12 mb-2">
-        <div class="card">
-            <div class="card-body">
-                <div class="">
-                    <h4 class="text-center">Campos adicionales</h4>
-                    <hr />
-                </div>
-                <div class="row" id="container-additional-field">
-
-                   
-
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="col-12 mb-4">
         <div class="card">
             <div class="card-body">
                 <h4 class="text-center mb-2">Galeria de Imagenes</h4>
-                <hr />
+                    <hr />
                 <div class="row">
+
                     @foreach (var item in Model.ProductPics)
                     {
         <div class="col-6 col-sm-6 col-md-3 text-center">

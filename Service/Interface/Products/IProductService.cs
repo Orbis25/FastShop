@@ -1,4 +1,5 @@
-﻿using DataLayer.ViewModels.Base;
+﻿using DataLayer.Models.Categories;
+using DataLayer.ViewModels.Base;
 using DataLayer.ViewModels.Products;
 using Model.Models;
 using System;
@@ -14,7 +15,7 @@ namespace Service.Interface
         Task<List<Product>> GetHomeProducts(int take = 8);
         Task<ProductFilterVM> GetAllPaginateProducts(ProductFilterVM filters);
         Task<bool> RemoveProductPic(int id);
-        Task<IEnumerable<Product>> GetSimilarItems(Guid id,int categoryId);
+        Task<IEnumerable<Product>> GetSimilarItems(Guid id, int categoryId);
         Task<IEnumerable<ProductTopVM>> GetTopProduct(int take = 5);
     }
 }
