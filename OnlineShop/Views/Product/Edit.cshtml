@@ -7,7 +7,6 @@
 <h1>Actualizar Producto</h1>
 <hr />
 
-
 <div class="row">
     <div class="col-12 mb-2">
         <div class="card">
@@ -21,7 +20,7 @@
                                 <label asp-for="ProductName" class="control-label"></label>
                                 <input asp-for="ProductName" class="form-control" />
                                 <span asp-validation-for="ProductName" class="text-danger"></span>
-                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <input type="hidden" name="Id" id="product-id" value="@Model.Id" />
                             </div>
                         </div>
                         <div class="col-12  col-md-4 col-lg-3">
@@ -70,7 +69,7 @@
                         <div class="col-12  col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="CategoryId">Categoria</label>
-                                <select onchange="getAdditionalsFieldsByCategoryId(this.value,'@Model.Id')" class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
+                                <select class="form-control mb-3" asp-for="CategoryId" asp-items="ViewBag.Categories ">
                                     <option selected>SELECCIONA UNA CATEGORIA</option>
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -112,7 +111,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="text-center mb-2">Galeria de Imagenes</h4>
-                    <hr />
+                <hr />
                 <div class="row">
 
                     @foreach (var item in Model.ProductPics)
@@ -133,6 +132,64 @@
 
         </div>}
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mb-4">
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nuevo campo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="form-field-container">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="text-center">Detalle del producto</h5>
+                <hr />
+                <label>
+                    Campos <button data-toggle="modal"
+                                   data-target="#exampleModal"
+                                   type="button"
+                                   class="btn btn-sm btn-warning"
+                                   onclick="LoadPartialView('form-field-container','/ProductDetail/Create')">
+                        <i class="fa fa-plus-circle"></i>
+                    </button>
+                </label>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fields-body">
+                        @foreach (var item in Model.ProductDetails)
+                        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>@item.Description</td>
+                <td>@item.GetValue()</td>
+                <td><button class="btn btn-danger" onclick="sweetRemove(`/productDetail/delete/@item.Id`)"><span class="fa fa-trash"></span></button></td>
+            </tr>
+}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -171,9 +228,6 @@
         rating: Number('@ViewBag.Rating')
     });
 
-    onload = async () => {
-        await getAdditionalsFieldsByCategoryId('@Model.CategoryId','@Model.Id')
-    }
 </script>
 
 

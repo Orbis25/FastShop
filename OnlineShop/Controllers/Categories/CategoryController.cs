@@ -4,7 +4,6 @@ using DataLayer.Models.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Controllers.Base;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,14 +28,18 @@ namespace OnlineShop.Controllers
             var exist = await _services.CategoryService.GetList(x => x.Name == model.Name);
             if (exist.Any())
             {
-                return BadRequest("Ya existe una categoria con ese nombre");
+                SendNotification(default, "Ya existe una categoria con ese nombre", NotificationEnum.Warning);
+                return View(model);
             }
             var result = await _services.CategoryService.Add(model);
             if (result == false)
             {
-                return BadRequest("Ha ocurrido un error, intente de nuevo mas tarde.");
+                SendNotification(default, "Ha ocurrido un error, intente de nuevo mas tarde.", NotificationEnum.Error);
+                return View(model);
             }
-            return Ok(result);
+
+            SendNotification("Creado exitosamente");
+            return RedirectToAction("Categories", "Admin");
         }
 
         [HttpGet]
@@ -56,8 +59,6 @@ namespace OnlineShop.Controllers
             return RedirectToAction("Categories", "Admin");
         }
 
- 
-    
         [HttpPost]
         public async Task<IActionResult> Remove([FromRoute] int id)
         {

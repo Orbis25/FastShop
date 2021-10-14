@@ -16,7 +16,7 @@
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <form asp-action="Create">
+                <form asp-action="Create" onsubmit="submitForm(event)" >
                     <div class="row">
                         <div class="col-12  col-md-4 col-lg-3">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -67,8 +67,9 @@
                         <div class="col-12  col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="CategoryId">Categoria</label>
-                                <select class="form-control mb-3" onchange="getAdditionalsFieldsByCategoryId(this.value)" asp-for="CategoryId" asp-items="categories">
-                                    <option selected>SELECCIONA UNA CATEGORIA</option>
+                                <select class="form-control mb-3" 
+                                      required asp-for="CategoryId" asp-items="categories">
+                                    <option value="">SELECCIONA UNA CATEGORIA</option>
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
@@ -144,5 +145,7 @@
         </div>
     </div>
 </div>
+
 <script src="~/js/product/create.js" asp-append-version="true"></script>
 <partial name="_NotificationPartial" />
+<partial name="_ValidationScriptsPartial" />

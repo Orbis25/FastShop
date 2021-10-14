@@ -21,7 +21,7 @@ const addField = () => {
     if (event.target[2].type === "checkbox") {
         data.Value = String(event.target[2].checked);
     }
- 
+
 
     const data = {
         name: result.Name,
@@ -52,10 +52,22 @@ const removeField = (name) => {
 };
 
 
-const submitForm = async () => {
+const submitForm = async (e) => {
+    e.preventDefault();
+    console.log();
+    const data = new FormData(e.target);
+    const values = Object.fromEntries(data.entries());
+
+    if (!$("form").valid())
+        return;
 
     try {
-        const response = await axios.post("/product/create");
+        values.ProductDetails = fields;
+
+        const response = await axios.post("/product/create", values);
+        if (response.status === 200)
+            history.back();
+
     } catch (e) {
         Swal.fire("Lo sentimos", e.response.data, "error");
         console.log(e)

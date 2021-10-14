@@ -1,0 +1,28 @@
+﻿@model IReadOnlyCollection<ProductDetail>
+
+<div class="row mt-2">
+    <div class="col">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>@item.Description</td>
+                        <td>@item.GetValue()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

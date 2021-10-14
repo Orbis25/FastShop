@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model.Enums;
 using Model.Models;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineShop.Data
@@ -23,6 +24,8 @@ namespace OnlineShop.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Product>()
@@ -34,7 +37,11 @@ namespace OnlineShop.Data
             modelBuilder.Entity<Cupon>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Sale>().HasQueryFilter(x => x.State != State.Deleted);
             modelBuilder.Entity<Offert>().HasQueryFilter(x => x.State != State.Deleted);
+
+          
         }
+
+
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Cupon> Cupons { get; set; }

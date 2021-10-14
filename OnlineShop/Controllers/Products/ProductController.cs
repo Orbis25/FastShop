@@ -49,7 +49,7 @@ namespace OnlineShop.Controllers
 
         [Authorize(Roles = nameof(AuthLevel.Admin))]
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create([FromBody]Product product)
         {
 
             var categories = await _services.CategoryService.GetList();
@@ -59,10 +59,8 @@ namespace OnlineShop.Controllers
             var result = await _services.ProductService.Add(product);
             if (!result)
             {
-                SendNotification("Error", "Ha ocurrido un error, intente de nuevo mas tarde", NotificationEnum.Error);
-                return View(product);
+                return BadRequest("Ha ocurrido un error, intente de nuevo mas tarde");
             }
-            SendNotification("Producto agregado");
             return RedirectToAction("Products", "Admin");
 
         }
@@ -82,7 +80,7 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var product = await _services.ProductService.GetById(id, x => x.ProductPics);
+            var product = await _services.ProductService.GetById(id, x => x.ProductPics, x => x.ProductDetails);
             if (product == null) return new NotFoundView();
             ViewBag.Rating = _services.ReviewService.GetAverage(id);
             var categories = await _services.CategoryService.GetList();

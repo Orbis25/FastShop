@@ -1,14 +1,14 @@
 ﻿
 //url countries
 var API_URL = {
-    GET_ALL: "https://restcountries.eu/rest/v2/all"
+    GET_ALL: "https://restcountries.com/v3.1/all"
 };
 
 var getAllCountries = async () => {
     try {
         const result = await axios.get(API_URL.GET_ALL);
         const data = (result.data.map((x) => {
-            return { value: x.alpha2Code, text: x.name }
+            return { value: x.cca2, text: x.name.official }
         }));
 
         const select = $("#select-search");

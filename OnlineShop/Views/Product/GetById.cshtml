@@ -137,12 +137,20 @@
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Productos Similares</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" 
+                    <a class="nav-link"
                        id="profile-tab"
-                       data-toggle="tab" 
+                       data-toggle="tab"
                        href="#tab-container"
                        onclick="LoadPartialView('tab-container','/review/GetAll?Qyt=8&productId=@Model.Id')"
                        role="tab" aria-controls="profile" aria-selected="false">Reseñas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       id="profile-tab"
+                       data-toggle="tab"
+                       href="#tab-container"
+                       onclick="LoadPartialView('tab-container','/productDetail/GetAll?id=@Model.Id')"
+                       role="tab" aria-controls="profile" aria-selected="false">Detalles</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">

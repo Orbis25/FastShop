@@ -8,8 +8,8 @@ namespace DataLayer.Models.Base
     public abstract class BaseModel<T> where T : IEquatable<T>
     {
         public virtual T Id { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public State State { get; set; }
         [Display(Name = "Fecha de creación")]
         [NotMapped]

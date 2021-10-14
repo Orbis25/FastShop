@@ -27,5 +27,20 @@ namespace DataLayer.Models.Products
         public string BooleanFormatedStr => Value == "true" ? "Si" : "No";
         [NotMapped]
         public string CheckboxValueFormat => Value == "true" ? "checked" : string.Empty;
+
+        public string GetValue()
+        {
+           Value = this.Type switch
+           {
+               ProductDetailTypeEnum.Text => Value,
+               ProductDetailTypeEnum.Numeric => Value,
+               ProductDetailTypeEnum.Boolean => BooleanFormatedStr,
+               ProductDetailTypeEnum.DateStr => CheckboxValueFormat,
+               _ => Value
+           };
+
+            return Value;
+        }
+
     }
 }

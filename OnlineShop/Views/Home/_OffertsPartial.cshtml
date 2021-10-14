@@ -1,9 +1,7 @@
 ﻿@model Model.Models.Offert
 
 @inject IOptions<ImageServerOption> _options;
-@{
-    var image = Model == null || !Model.ImageOfferts.Any() ? "/img/default.png" : $@"{_options.Value.BasePath}/" + Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImagePath;
-}
+@{ var image = Model == null || !Model.ImageOfferts.Any() ? "/img/default.png" : $@"{_options.Value.BasePath}/" + Model.ImageOfferts.OrderBy(x => Guid.NewGuid()).FirstOrDefault()?.ImagePath; }
 
 
 <div class="container">
@@ -18,7 +16,9 @@
             <h1>@Model?.Concept</h1>
             <p>
                 @Model?.Description <span>
-                    <b>Valida hasta : @Model?.Duration</b>
+                    @if (Model != null)
+                    {
+        <b>Valida hasta : @Model?.Duration</b>}
                 </span>
             </p>
         </div>

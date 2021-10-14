@@ -38,6 +38,7 @@ namespace Model.Models
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Cantidad")]
         public int Quantity { get; set; }
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 

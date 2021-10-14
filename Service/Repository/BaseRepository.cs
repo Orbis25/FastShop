@@ -38,6 +38,7 @@ namespace BussinesLayer.Repository
 
         public virtual async Task<bool> Add(TEntity model)
         {
+            model.CreatedAt = DateTime.Now;
             _context.Set<TEntity>().Add(model);
             return await CommitAsync();
         }
@@ -52,7 +53,7 @@ namespace BussinesLayer.Repository
 
         public virtual async Task<bool> Update(TEntity model)
         {
-
+            model.UpdatedAt = DateTime.Now;
             if (!await Exist(model.Id)) return false;
             _context.Set<TEntity>().Update(model);
             return await CommitAsync();
